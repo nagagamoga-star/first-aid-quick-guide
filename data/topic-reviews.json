@@ -692,14 +692,20 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Naga Gamoga (project owner)",
           "note": "Owner override recorded for PR #9. Status unchanged: clinical review still required."
+        },
+        {
+          "date": "2026-11-16",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Naga Gamoga (project owner)",
+          "note": "Owner override renewed for PR #10 (previous override f8a20ba6990ccc50 for PR #9). Status unchanged: clinical review still required."
         }
       ],
       "ownerOverride": {
         "by": "Naga Gamoga (project owner)",
         "at": "2026-11-16",
-        "reason": "Owner decision: the Commons diagrams are clearer and more realistic than the unreviewed drawings they replace (live since PR #7). Published before clinical review; F40, F41 and F42 remain open for the reviewer.",
-        "scope": "PR #9: Commons diagrams for compress, recovery, backblows, aed, puffer, on top of the PR #7 drawings",
-        "contentHash": "f8a20ba6990ccc50"
+        "reason": "Owner decision: replace the two most confusing drawings (head tilt, nosebleed) with Commons diagrams, show text only for four unclear drawings with no replacement (infant back blows, infant chest thrusts, keep still, hand position), and keep drawing labels inside the picture. Published before clinical review; F40, F41 and F42 remain open.",
+        "scope": "PR #10, on top of PR #9",
+        "contentHash": "0e9cdefe670ec9d0"
       }
     }
   ]

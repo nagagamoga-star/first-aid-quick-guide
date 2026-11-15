@@ -571,6 +571,7 @@ body.palette-open{overflow:hidden}
 .dg figcaption{padding:8px 4px 0;font-size:14px;line-height:1.35;color:var(--ink)}
 .dg-credit{display:block;color:var(--muted);font-size:12.5px}
 .dg-review{display:block;margin-top:2px;color:var(--muted);font-size:12.5px;font-style:italic}
+.illust:has(.pic-hidden){display:none}
 .dg-fallback{display:none}
 .dg.dg-off .dg-zoom,.dg.dg-off figcaption{display:none}
 .dg.dg-off .dg-fallback{display:block}

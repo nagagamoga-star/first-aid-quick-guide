@@ -9,7 +9,10 @@
    for white paper), opens full screen when tapped, and falls back to the
    drawing if the file can't load (for example offline before it was saved). */
 var Media = (function(){
-  var items = (typeof MEDIA !== 'undefined' && MEDIA.items) || [];
+  var all = (typeof MEDIA !== 'undefined' && MEDIA.items) || [];
+  var items = all.filter(function(it){ return it.decision === 'accepted'; });
+  var hidden = {}, hiddenSlot = {};
+  all.forEach(function(it){ if (it.decision === 'hidden'){ (it.keys || []).forEach(function(k){ hidden[k] = 1; }); (it.slots || []).forEach(function(s){ hiddenSlot[s] = 1; }); } });
   var byKey = {}, bySlot = {}, byId = {};
   items.forEach(function(it){
     byId[it.id] = it;
@@ -34,6 +37,8 @@ var Media = (function(){
 
   Illustrate.use(function(s){
     if (s.step === 'icon') return '';
+    // A drawing judged unclear with no suitable replacement: show no picture.
+    if (hiddenSlot[s.id] || hidden[s.key]) return '<span class="pic-hidden" hidden></span>';
     var it = bySlot[s.id] || byKey[s.key];
     if (!it) return '';
     var fallback = (typeof ART !== 'undefined' && ART.svg) ? ART.svg(s.spec) : '';
