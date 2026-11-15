@@ -511,6 +511,18 @@
       "proposal": "Reviewer to approve or reject each diagram for the steps listed in docs/clinical-review/commons-review.html. A rejected diagram is removed by setting its decision to 'rejected' in data/media.json; the drawing returns.",
       "status": "open",
       "basis": "judgement"
+    },
+    {
+      "id": "F43",
+      "topic": "illustrations",
+      "item": "all step pictures (src/art2.js)",
+      "severity": "MEDIUM",
+      "type": "not-in-source",
+      "source": null,
+      "finding": "On 16 November 2026 the step pictures were redrawn in one house style (src/art2.js), following the owner-approved CPR pilot: unbranded teal responder with gloves, neutral casualty, red only for force, direction and the key spot. 70 of 102 steps use a new scene; the other 32 are symbol steps (phone, timer, danger and similar) keep their drawings. The Commons diagrams and the text-only steps were retired so all pictures share one style. Words on the pictures come from the old drawings or the step text. Drawn by an AI; not clinically reviewed.",
+      "proposal": "Reviewer to approve or mark each picture in docs/clinical-review/art2-review.html. A rejected scene can be removed from src/art2.js, and the step falls back to its art.js drawing.",
+      "status": "open",
+      "basis": "judgement"
     }
   ],
   "basis": {

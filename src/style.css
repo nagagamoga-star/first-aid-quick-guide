@@ -605,3 +605,8 @@ body.palette-open{overflow:hidden}
   .dock.compact .call.e{font-size:18px;min-height:46px}
   .dock.compact .net{display:none}
 }
+
+/* House-style scenes (src/art2.js) carry their own light panel, drawn for both
+   themes; keep their rounded rectangle whatever shape the slot had before. */
+.illust:has(.art2){border-radius:16px;overflow:hidden;background:none;line-height:0}
+.illust .art2{display:block;width:100%;height:auto}

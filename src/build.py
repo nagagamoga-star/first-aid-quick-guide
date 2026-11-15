@@ -16,7 +16,7 @@ import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC)
-SCRIPTS = ['art.js', 'illustrate.js', 'media.js', 'viewer.js', 'topics.js', 'flow.js', 'marks.js', 'app.js', 'pwa.js']  # order matters
+SCRIPTS = ['art.js', 'illustrate.js', 'media.js', 'art2.js', 'viewer.js', 'topics.js', 'flow.js', 'marks.js', 'app.js', 'pwa.js']  # order matters
 FONTS = sorted(f for f in os.listdir(os.path.join(ROOT, 'fonts')) if f.endswith('.woff2')) if os.path.isdir(os.path.join(ROOT, 'fonts')) else []
 # Precached as one unit (CORE). './' and 'index.html' are the app page.
 PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'favicon.svg',

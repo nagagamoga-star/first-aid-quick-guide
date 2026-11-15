@@ -653,7 +653,8 @@
       "openFindings": [
         "F40",
         "F41",
-        "F42"
+        "F42",
+        "F43"
       ],
       "review": {
         "reviewer": null,
@@ -704,6 +705,12 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Naga Gamoga (project owner)",
           "note": "Owner override renewed for PR #12 (previous 0e9cdefe670ec9d0). Status unchanged."
+        },
+        {
+          "date": "2026-11-16",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "House-style illustrations PR",
+          "note": "Step pictures redrawn in one style (F43). Awaiting owner decision and qualified review."
         }
       ],
       "ownerOverride": {
