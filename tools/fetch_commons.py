@@ -52,7 +52,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     problems = []
     for it in man['items']:
-        if it['decision'] == 'rejected':
+        if it['decision'] in ('rejected', 'hidden') or not it.get('commons'):
             continue
         q = urllib.parse.urlencode({'action': 'query', 'format': 'json', 'titles': it['commons'], 'prop': 'imageinfo',
                                     'iiprop': 'url|size|mime|extmetadata', 'iiextmetadatalanguage': 'en'})

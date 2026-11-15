@@ -698,14 +698,20 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Naga Gamoga (project owner)",
           "note": "Owner override renewed for PR #10 (previous override f8a20ba6990ccc50 for PR #9). Status unchanged: clinical review still required."
+        },
+        {
+          "date": "2026-11-16",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Naga Gamoga (project owner)",
+          "note": "Owner override renewed for PR #12 (previous 0e9cdefe670ec9d0). Status unchanged."
         }
       ],
       "ownerOverride": {
         "by": "Naga Gamoga (project owner)",
         "at": "2026-11-16",
-        "reason": "Owner decision: replace the two most confusing drawings (head tilt, nosebleed) with Commons diagrams, show text only for four unclear drawings with no replacement (infant back blows, infant chest thrusts, keep still, hand position), and keep drawing labels inside the picture. Published before clinical review; F40, F41 and F42 remain open.",
-        "scope": "PR #10, on top of PR #9",
-        "contentHash": "0e9cdefe670ec9d0"
+        "reason": "Owner decision: add the Commons adrenaline injection-site diagram. Published before clinical review; F01, F40, F41 and F42 remain open.",
+        "scope": "PR #12 (adrenaline injection site), on top of PRs #9 and #10",
+        "contentHash": "356a7f81cc905fdb"
       }
     }
   ]
