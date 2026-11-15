@@ -270,6 +270,73 @@
       "alt": "",
       "caption": "",
       "anzcor": ""
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "airway-blausen",
+      "keys": [
+        "airway"
+      ],
+      "commons": "File:CPR Adult Airway.png",
+      "alt": "Illustration: one hand on the forehead tilts the head back while fingertips under the chin lift it, opening the airway.",
+      "caption": "Head tilt and chin lift",
+      "anzcor": "ANZCOR 4: head tilt and chin lift for adults; hand on forehead, fingertips under the bony part of the chin."
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "airway-line",
+      "keys": [],
+      "commons": "File:Head-tilt-chin-lift-maneuver.jpg",
+      "alt": "Drawing: head tilt and chin lift.",
+      "caption": "Head tilt and chin lift",
+      "anzcor": "ANZCOR 4."
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "nosebleed",
+      "keys": [
+        "nose"
+      ],
+      "commons": "File:BleedingNose.jpg",
+      "alt": "Drawing: a person sitting, leaning forward, pinching the soft part of the nose.",
+      "caption": "Nosebleed: lean forward and pinch",
+      "anzcor": "ANZCOR 9.1.1: sit, lean forward, pinch the soft part of the nose for at least 10 minutes."
     }
   ],
   "gaps": [
