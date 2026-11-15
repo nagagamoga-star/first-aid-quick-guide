@@ -16,7 +16,7 @@ import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC)
-SCRIPTS = ['art.js', 'viewer.js', 'topics.js', 'flow.js', 'app.js', 'pwa.js']  # order matters
+SCRIPTS = ['art.js', 'illustrate.js', 'viewer.js', 'topics.js', 'flow.js', 'marks.js', 'app.js', 'pwa.js']  # order matters
 FONTS = sorted(f for f in os.listdir(os.path.join(ROOT, 'fonts')) if f.endswith('.woff2')) if os.path.isdir(os.path.join(ROOT, 'fonts')) else []
 # Precached as one unit (CORE). './' and 'index.html' are the app page.
 PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'favicon.svg',
@@ -29,7 +29,7 @@ def fail(msg): errors.append(msg)
 def read(*p): return open(os.path.join(*p), encoding='utf-8').read()
 
 # 1. required files
-required = [os.path.join('src', f) for f in ['shell.html', 'style.css', 'sw.js'] + SCRIPTS] + ['data/clinical-sources.json', 'data/topic-reviews.json', 'data/source-findings.json']
+required = [os.path.join('src', f) for f in ['shell.html', 'style.css', 'sw.js', 'noscript.mjs'] + SCRIPTS] + ['data/clinical-sources.json', 'data/topic-reviews.json', 'data/source-findings.json']
 required += [p for p in PRECACHE + LAZY if p not in ('./', 'index.html')]
 for rel in required:
     if not os.path.isfile(os.path.join(ROOT, rel)): fail(f'missing file: {rel}')
@@ -63,6 +63,15 @@ if errors: print('\n'.join('FAIL ' + e for e in errors)); sys.exit(1)
 shell = read(SRC, 'shell.html')
 for marker in ('/*CSS*/', '/*JS*/'):
     if shell.count(marker) != 1: fail(f'shell.html must contain {marker} exactly once')
+if shell.count('<!--NOJS-->') != 1: fail('shell.html must contain <!--NOJS--> exactly once')
+if node:
+    r = subprocess.run([node, os.path.join(SRC, 'noscript.mjs')], capture_output=True, text=True)
+    if r.returncode: fail('no-JavaScript guide failed:\n' + (r.stderr or r.stdout).strip())
+    else:
+        nos = r.stdout
+        if nos.count('class="nojs-topic"') != 16 or '<noscript>' not in nos: fail('no-JavaScript guide did not include all 16 topics')
+        shell = shell.replace('<!--NOJS-->', nos)
+if '<!--NOJS-->' in shell: fail('no-JavaScript guide was not inserted')
 if errors: print('\n'.join('FAIL ' + e for e in errors)); sys.exit(1)
 # Review status for display (from data/topic-reviews.json). Display only: the register itself is the record.
 rev = json.loads(read(ROOT, 'data', 'topic-reviews.json'))
