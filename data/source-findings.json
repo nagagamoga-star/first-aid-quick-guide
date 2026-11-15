@@ -507,7 +507,7 @@
       "severity": "MEDIUM",
       "type": "not-in-source",
       "source": null,
-      "finding": "Five Wikimedia Commons diagrams now replace the drawings in 17 steps (CPR compressions in 8 topics, recovery position, adult back blows, AED pads, puffer with spacer). Wikimedia Commons is not peer reviewed. Each was checked visually by an AI against the ANZCOR step only. Three other candidates were rejected (hand position mid-sternum, airway cross-section without hands, infant compressions with head tilted back). Licences verified through the Commons API; all five are CC BY-SA 3.0 or 4.0.",
+      "finding": "Five Wikimedia Commons diagrams now replace the drawings in 17 steps (CPR compressions in 8 topics, recovery position, adult back blows, AED pads, puffer with spacer). Wikimedia Commons is not peer reviewed. Each was checked visually by an AI against the ANZCOR step only. Three other candidates were rejected (hand position mid-sternum, airway cross-section without hands, infant compressions with head tilted back). Licences verified through the Commons API; all five are CC BY-SA 3.0 or 4.0. Update 2026-11-16 (PR #10): head tilt and nosebleed diagrams added; four unclear drawings (infant, twofinger, still, handpos) replaced by text only.",
       "proposal": "Reviewer to approve or reject each diagram for the steps listed in docs/clinical-review/commons-review.html. A rejected diagram is removed by setting its decision to 'rejected' in data/media.json; the drawing returns.",
       "status": "open",
       "basis": "judgement"

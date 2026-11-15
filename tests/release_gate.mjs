@@ -53,7 +53,7 @@ function contentHashes(read) {
   let media = '';
   try {
     const m = JSON.parse(read('data/media.json'));
-    media = JSON.stringify(m.items.filter(i => i.decision === 'accepted').map(i => [i.id, i.keys, i.slots, i.file, i.sha256, i.alt, i.caption]));
+    media = JSON.stringify(m.items.filter(i => i.decision === 'accepted' || i.decision === 'hidden').map(i => [i.id, i.decision, i.keys, i.slots, i.file, i.sha256, i.alt, i.caption]));
   } catch { /* no manifest at this ref */ }
   content['illustrations'] = read('src/art.js') + (media && media !== '[]' ? '|' + media : '');
   return Object.fromEntries(Object.entries(content).map(([k, v]) => [k, sha(v)]));

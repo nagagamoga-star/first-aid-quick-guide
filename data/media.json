@@ -343,6 +343,24 @@
       "anzcor": "ANZCOR 9.1.1: sit, lean forward, pinch the soft part of the nose for at least 10 minutes.",
       "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
       "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "hide-unclear",
+      "keys": [
+        "infant",
+        "twofinger",
+        "still",
+        "handpos"
+      ],
+      "slots": [],
+      "commons": null,
+      "decision": "hidden",
+      "decisionNote": "These drawings don't make sense without the step text (infant back blows, infant chest thrusts, 'keep still' shown as a crossed-out person, hand position seen from above), and Commons has no suitable replacement. The steps show text only; the step text already says everything. Owner decision 2026-11-16.",
+      "alt": "",
+      "caption": "",
+      "anzcor": "",
+      "checkedBy": "Owner decision",
+      "checkedAt": "2026-11-16"
     }
   ],
   "gaps": [

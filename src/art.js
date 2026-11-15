@@ -15,8 +15,20 @@
    - bitewrap: firm bandage over the bite first, before the rest of the limb.
    Labels are the same strings the previous file drew. */
 var ART = (function(){
+  // Labels must stay inside the 240-wide picture. Estimate the width, move the
+  // label in from the edge if it would run off, and squeeze it only if it is
+  // wider than the picture. The words never change.
   function T(x, y, s, txt, cls, anchor){
-    return '<text class="' + (cls || 'tx') + '" x="' + x + '" y="' + y + '" font-size="' + s + '" text-anchor="' + (anchor || 'middle') + '">' + txt + '</text>';
+    anchor = anchor || 'middle';
+    var len = String(txt).replace(/&[a-z#0-9]+;/gi, 'x').length, w = s * 0.6 * len, fit = '';
+    var M = 6, MAXW = 240 - 2 * M;
+    if (w > MAXW){ fit = ' textLength="' + MAXW + '" lengthAdjust="spacingAndGlyphs"'; x = anchor === 'middle' ? 120 : anchor === 'start' ? M : 240 - M; }
+    else {
+      var left = anchor === 'middle' ? x - w / 2 : anchor === 'start' ? x : x - w;
+      if (left < M) x += M - left;
+      else if (left + w > 240 - M) x -= left + w - (240 - M);
+    }
+    return '<text class="' + (cls || 'tx') + '" x="' + Math.round(x) + '" y="' + y + '" font-size="' + s + '" text-anchor="' + anchor + '"' + fit + '>' + txt + '</text>';
   }
   function n(v){ return Math.round(v * 10) / 10; }
   function arrow(x1, y1, x2, y2){
@@ -68,8 +80,8 @@ var ART = (function(){
         '<path class="rsl" stroke-width="8" d="M118 48L78 96M118 48L96 100"/>' +
         '<ellipse class="sk" cx="74" cy="100" rx="10" ry="6"/>' +
         '<ellipse class="sk" cx="98" cy="104" rx="10" ry="6"/>' +
-        '<rect class="bub" x="138" y="16" width="96" height="32" rx="10"/>' +
-        T(186, 37, 12, 'Can you hear me?');
+        '<rect class="bub" x="126" y="12" width="110" height="32" rx="10"/>' +
+        T(181, 33, 11.5, 'Can you hear me?');
     },
     airway: function(){
       /* Profile. Palm on the forehead, fingertips under the chin, head tilted back. */
@@ -235,7 +247,7 @@ var ART = (function(){
         '<rect class="sp" x="16" y="86" width="24" height="20" rx="4"/>' +
         '<rect class="calmf" x="164" y="36" width="22" height="52" rx="6"/>' +
         '<path class="ln" stroke-width="4" d="M154 92H186V118H156"/>' +
-        T(96, 40, 14, '1 puff, then 4 breaths') +
+        T(96, 24, 14, '1 puff, then 4 breaths') +
         T(120, 150, 24, '× 4', 'txa');
     },
     timer: function(l){
