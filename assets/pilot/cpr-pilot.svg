@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" role="img" aria-labelledby="t d">
+  <title id="t">Chest compressions</title>
+  <desc id="d">A responder in a teal uniform kneels beside a person lying on their back, shoulders straight above the hands, arms straight, gloved hands interlocked on the lower half of the breastbone. A red arrow shows the push straight down. Labels: one third of chest depth, 100 to 120 compressions a minute.</desc>
+  <defs>
+    <linearGradient id="uni" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0F766E"/><stop offset="1" stop-color="#0B5F59"/></linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B4BEC9"/><stop offset="1" stop-color="#8C98A6"/></linearGradient>
+    <linearGradient id="glove" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34D399"/><stop offset="1" stop-color="#0D9488"/></linearGradient>
+    <marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#D61F3A"/></marker>
+  </defs>
+
+  <!-- panel -->
+  <rect width="360" height="240" rx="18" fill="#F5F7F7"/>
+  <!-- floor and contact shadow -->
+  <rect x="0" y="203" width="360" height="37" rx="0" fill="#E6EBEC"/>
+  <path d="M0 203H360" stroke="#CBD3D6" stroke-width="2"/>
+  <ellipse cx="190" cy="204" rx="150" ry="5" fill="#0B1F2A" opacity=".10"/>
+
+  <!-- RESPONDER (behind the casualty) -->
+  <!-- thigh and lower leg, kneeling; mostly hidden by the casualty -->
+  <path d="M188 128C198 138 202 152 203 168H173C172 156 170 146 168 136Z" fill="#0B5F59"/>
+  <!-- torso: hips under shoulders, shoulders over hands -->
+  <path d="M146 64C160 58 176 62 182 76L190 132C176 142 156 142 150 132L138 84C136 74 139 67 146 64Z" fill="url(#uni)"/>
+  <path d="M152 68C158 78 160 92 160 108" stroke="#14A38B" stroke-width="2" fill="none" opacity=".7"/>
+  <!-- collar and head, looking down at the chest -->
+  <path d="M146 64C150 60 158 58 164 60" stroke="#0A4F4A" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <circle cx="150" cy="44" r="15" fill="#B9825C"/>
+  <path d="M136 40C137 30 146 25 155 27C163 28 166 35 165 41C159 37 147 35 136 40Z" fill="#3A2A22"/>
+  <path d="M136 46L132 50L137 51" fill="#B9825C" stroke="#8E6142" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M139 43C141 42 143 42 145 43" stroke="#3A2A22" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M138 54C140 56 143 57 146 56" stroke="#8E6142" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- far arm (slightly behind) -->
+  <path d="M158 72L156 140" stroke="#0B5F59" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- CASUALTY lying on their back, head to the left -->
+  <!-- legs -->
+  <path d="M222 168C250 166 300 170 336 176L338 196C300 198 250 199 222 198Z" fill="#4B5866"/>
+  <path d="M332 176C340 166 348 160 352 164C355 168 350 180 342 192Z" fill="#D9B08C"/>
+  <!-- torso: chest rises, back flat on the floor -->
+  <path d="M84 176C92 160 108 152 128 150C152 148 176 150 196 156C212 160 222 164 228 168L228 198H84Z" fill="url(#shirt)"/>
+  <!-- ribcage and breastbone, faint, under the shirt -->
+  <g fill="none" stroke="#5E6B78" stroke-linecap="round" opacity=".28">
+    <path d="M112 196C108 182 112 164 118 154" stroke-width="2"/>
+    <path d="M126 196C122 180 126 162 132 152" stroke-width="2"/>
+    <path d="M140 196C137 180 140 162 146 151" stroke-width="2"/>
+    <path d="M154 196C152 181 155 164 162 152" stroke-width="2"/>
+    <path d="M168 196C167 183 170 168 178 154" stroke-width="2"/>
+    <path d="M182 196C182 186 186 172 192 157" stroke-width="2"/>
+  </g>
+  <!-- breastbone along the front of the chest; lower half marked -->
+  <path d="M110 154C120 151 130 150 140 149" stroke="#5E6B78" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+  <path d="M140 149C152 148 164 149 176 151" stroke="#D61F3A" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- near arm along the body -->
+  <path d="M96 182C130 190 170 192 200 192" stroke="#9AA6B3" stroke-width="11" stroke-linecap="round" fill="none"/>
+  <ellipse cx="206" cy="192" rx="8" ry="5.5" fill="#D9B08C"/>
+  <!-- neck and head: on their back, face up, chin slightly lifted -->
+  <path d="M74 172C80 166 88 166 94 170L94 192H74Z" fill="#D9B08C"/>
+  <path d="M36 182C34 168 44 158 56 156L60 150C62 147 66 147 67 150L70 156C76 157 80 162 82 168C86 170 87 175 84 178C82 190 72 198 58 198C46 198 38 192 36 182Z" fill="#D9B08C"/>
+  <path d="M38 188C34 176 38 164 48 158C44 168 44 180 50 194Z" fill="#5A4636"/>
+  <path d="M56 165C59 163 63 163 66 165" stroke="#5A4636" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <ellipse cx="54" cy="182" rx="5" ry="6.5" fill="#C99A75"/>
+  <path d="M74 172C77 171 80 171 82 172" stroke="#B48766" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+
+  <!-- RESPONDER near arm and hands, in front of the casualty -->
+  <path d="M152 72L150 130" stroke="#0A4F4A" stroke-width="16" stroke-linecap="round"/>
+  <path d="M152 72L150 130" stroke="#15948A" stroke-width="12" stroke-linecap="round"/>
+  <path d="M149 76L148 126" stroke="#2BB3A6" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+  <path d="M150 128L150 138" stroke="#10B981" stroke-width="12" stroke-linecap="round"/>
+  <!-- interlocked gloved hands: heel of the lower hand on the breastbone -->
+  <path d="M136 147C138 140 146 136 156 137C164 138 169 142 169 148C160 151 146 151 136 147Z" fill="url(#glove)"/>
+  <path d="M140 140C146 136 154 135 162 137" stroke="#0B7A70" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M146 139V146M152 138V146M158 139V146" stroke="#0B7A70" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- FORCE: straight down through straight arms -->
+  <path d="M120 66V126" stroke="#D61F3A" stroke-width="6" stroke-linecap="round" marker-end="url(#ah)"/>
+  <!-- depth: one third of the chest -->
+  <g stroke="#1F2937" stroke-width="2.2" stroke-linecap="round">
+    <path d="M186 152V167M181 152H191M181 167H191"/>
+    <path d="M186 167V198" stroke-dasharray="3 4" opacity=".45"/>
+    <path d="M192 159L222 128" stroke-width="1.6"/>
+  </g>
+
+  <!-- LABELS -->
+  <g font-family="Inter, 'Segoe UI', system-ui, sans-serif" font-weight="700">
+    <rect x="218" y="106" width="124" height="28" rx="14" fill="#1F2937"/>
+    <text x="280" y="125" font-size="12.5" fill="#fff" text-anchor="middle">⅓ of chest depth</text>
+    <rect x="178" y="18" width="172" height="30" rx="15" fill="#D61F3A"/>
+    <text x="264" y="38" font-size="12.5" fill="#fff" text-anchor="middle">100–120 compressions/min</text>
+    <text x="16" y="226" font-size="11" fill="#334155" font-weight="600">Lower half of breastbone</text>
+    <path d="M158 156C150 182 132 206 112 214" stroke="#D61F3A" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+  </g>
+</svg>
