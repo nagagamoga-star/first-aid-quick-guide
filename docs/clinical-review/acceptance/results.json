@@ -1,0 +1,194 @@
+[
+ {
+  "area": "core",
+  "test": "Home loads with 000 and 13 11 26 bar",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "000 link targets tel:000",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "Carousel next/previous",
+  "result": "PASS",
+  "detail": "2 / 16"
+ },
+ {
+  "area": "core",
+  "test": "Search filters topics",
+  "result": "PASS",
+  "detail": "['Jellyfish and marine stings']"
+ },
+ {
+  "area": "core",
+  "test": "All 16 topics open and step to the last card",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "List view shows all steps",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "Refresh on a topic URL reopens that topic",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "Question flow reaches CPR, and Previous question works",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "CPR beat counts compressions",
+  "result": "PASS",
+  "detail": "4"
+ },
+ {
+  "area": "core",
+  "test": "3D view loads",
+  "result": "PASS",
+  "detail": "Drag to turn, pinch or scroll to zoom."
+ },
+ {
+  "area": "core",
+  "test": "Review status shows on topics and the question flow",
+  "result": "PASS",
+  "detail": "Review status: Not yet reviewed by a qualified first aid trainer or clinician."
+ },
+ {
+  "area": "core",
+  "test": "Reduced motion gives a flat carousel",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Manifest loads with standalone display and scoped start URL",
+  "result": "PASS",
+  "detail": "{\"start_url\": \"./\", \"scope\": \"./\", \"display\": \"standalone\"}"
+ },
+ {
+  "area": "pwa",
+  "test": "Service worker controls the page, scoped to /first-aid-quick-guide/",
+  "result": "PASS",
+  "detail": "http://127.0.0.1:8790/first-aid-quick-guide/sw.js"
+ },
+ {
+  "area": "pwa",
+  "test": "Opens with no network (airplane mode)",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Offline indicator shows",
+  "result": "PASS",
+  "detail": "Offline: using the saved copy"
+ },
+ {
+  "area": "pwa",
+  "test": "Fonts load offline (self-hosted)",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Search works offline",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "All 16 topics and illustrations work offline",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Question flow works offline",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "CPR beat works offline",
+  "result": "PASS",
+  "detail": "3"
+ },
+ {
+  "area": "pwa",
+  "test": "3D view works offline after first use",
+  "result": "PASS",
+  "detail": "Drag to turn, pinch or scroll to zoom."
+ },
+ {
+  "area": "pwa",
+  "test": "Deep link to a topic opens offline in a new tab",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "URL with query string falls back to the cached page offline",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Offline indicator clears when back online",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Failed 3D load leaves first aid steps working",
+  "result": "PASS",
+  "detail": "Could not load the body model. Check your connection and try again. The steps above cover everything you need."
+ },
+ {
+  "area": "pwa",
+  "test": "New version shows the \"Reload\" bar instead of switching mid-use",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "pwa",
+  "test": "Tapping Reload activates the new version and deletes the old cache",
+  "result": "PASS",
+  "detail": "before=['fa-core-01582f52fe8d'] after=['fa-core-t01582f52fe8d']"
+ },
+ {
+  "area": "pwa",
+  "test": "Interrupted install: page still works, nothing half-saved, next visit installs",
+  "result": "PASS",
+  "detail": "caches during failure=[]"
+ },
+ {
+  "area": "pwa",
+  "test": "Cleared cache: still loads online, re-saves itself, then works offline again",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "core",
+  "test": "No JavaScript errors",
+  "result": "PASS",
+  "detail": ""
+ },
+ {
+  "area": "info",
+  "test": "External hosts requested (blocked in test)",
+  "result": "PASS",
+  "detail": "none"
+ }
+]

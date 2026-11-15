@@ -1,0 +1,50 @@
+name: Clinical release gate
+
+on:
+  pull_request:
+    branches:
+      - main
+      - pwa-offline
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-gate:
+    name: release-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Built site matches source
+        # GitHub Pages serves index.html and sw.js, not src/. If either was edited
+        # by hand, or not rebuilt after a src change, the gate below would be
+        # checking text that is not what users see.
+        run: |
+          python3 src/build.py
+          git diff --exit-code -- index.html sw.js || { echo "::error::index.html or sw.js does not match src/. Run python3 src/build.py and commit the result."; exit 1; }
+
+      - name: Clinical publication gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            # Manual run: is the whole guide cleared for clinical publication?
+            node tests/release_gate.mjs
+          else
+            # Pull request: every topic, flow node, caption or drawing whose content
+            # or approval record changed must be approved and match its approved hash.
+            # Unchanged items don't need approval yet, so technical work and single
+            # reviewed fixes can merge while the rest of the review is pending.
+            node tests/release_gate.mjs --changed-since "$BASE_SHA"
+          fi

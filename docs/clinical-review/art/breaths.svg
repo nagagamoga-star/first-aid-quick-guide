@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><style>svg{
+  --ink:#20242b;
+  --muted:#68727d;
+  --paper:#f3f4f4;
+  --card:#ffffff;
+  --line:rgba(24,37,54,.11);
+  --alarm:#c4122f;
+  --alarm-ink:#ffffff;
+  --warn:#86610f;
+  --warn-bg:#f7f0dc;
+  --calm:#2b7a70;
+  --calm-bg:#e5f3f0;
+  --chip:#e9ecef;
+  --slate:#263b48;
+  --stage:#f2f3f3;
+  --select:#6bd9c7;
+  
+  --skin:#c9a68a; --skin-d:#ab886c; --pt:#536875; --res:#3a9c8f; --water:#527c9f; --ice:#b0c8ce;
+  --amber:#d8b565; --wood:#b8916b; --sand:#e2d9ba; --sting:#8f6aa6; --leaf:#879f7c; --bandage:#f4f1e8; --act:#c05245;
+  
+  
+  }.gr{stroke:var(--line);stroke-width:4;fill:none;stroke-linecap:round}
+.sk{fill:var(--skin)}
+.skd{fill:var(--skin-d)}
+.skl{stroke:var(--skin);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pt{fill:var(--pt)}
+.ptl{stroke:var(--pt);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rsl{stroke:var(--res);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ln{stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.dash{stroke:var(--ink);fill:none;stroke-width:2.5;stroke-dasharray:5 5;opacity:.6}
+.ar{stroke:var(--act);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.arf{fill:var(--act)}
+.ink{fill:var(--ink)}
+.wh{fill:var(--card)}
+.wh-l{stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round}
+.bub,.pad,.sp,.bottle{fill:var(--card);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.band{fill:var(--bandage);stroke:var(--ink);stroke-width:2}
+.bandl{stroke:var(--ink);stroke-width:1.5;opacity:.4;fill:none}
+.board{fill:var(--wood)}
+.trunk{fill:var(--wood)}
+.ice{fill:var(--ice);stroke:var(--water);stroke-width:2}
+.wt{fill:var(--water)}
+.wtl{stroke:var(--water);fill:none;stroke-width:3;stroke-linecap:round}
+.calmf{fill:var(--water)}
+.pen{fill:var(--amber);stroke:var(--ink);stroke-width:2}
+.sting{stroke:var(--sting);stroke-width:4;fill:none;stroke-linecap:round}
+.sand{fill:var(--sand)}
+.sun{fill:var(--amber)}
+.sunl{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
+.leaf{fill:var(--leaf)}
+.honey{fill:var(--amber)}
+.burn{fill:var(--act);opacity:.4}
+.film{fill:var(--water);fill-opacity:.15;stroke:var(--water);stroke-width:2.5;stroke-dasharray:7 5}
+.pillow{fill:var(--water);opacity:.5}
+.blanket{fill:var(--leaf);opacity:.7}
+.ringc{fill:var(--amber);stroke:var(--ink);stroke-width:1.5}
+.cl{fill:var(--calm-bg);stroke:var(--calm);stroke-width:4}
+.tx{fill:var(--ink);font-family:var(--font-display);font-weight:700}
+.txa{fill:var(--act);font-family:var(--font-display);font-weight:700}</style><path class="gr" d="M14 140H226"/><path class="rsl" stroke-width="22" d="M68 82L128 64L156 98"/><circle class="sk" cx="52" cy="90" r="13"/><circle class="sk" cx="46" cy="114" r="14"/><rect class="pt" x="60" y="102" width="86" height="26" rx="13"/><path class="ptl" stroke-width="12" d="M146 110L214 112M146 121L214 126"/><path class="skl" stroke-width="8" d="M84 127L134 131"/><path class="wtl" d="M38 94q-6-4-2-10M30 98q-8-6-2-14"/><path class="ar" d="M104 96V70M96 78L104 68L112 78"/><text class="tx" x="132" y="26" font-size="14" text-anchor="middle">2 breaths, 1 second each</text></svg>

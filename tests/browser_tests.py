@@ -103,6 +103,15 @@ with sync_playwright() as p:
         if args.shots and area == 'core': pg.locator('#v3d').screenshot(path=os.path.join(args.shots, '3d.png'))
     safe('core', '3d', t_3d)
 
+    def t_review():
+        pg.goto(BASE + '#anaphylaxis'); pg.wait_for_timeout(200)
+        a = pg.inner_text('#topic .rstatus') if pg.locator('#topic .rstatus').count() else ''
+        pg.goto(BASE + '#help'); pg.wait_for_timeout(200)
+        b2 = pg.inner_text('#help .rstatus') if pg.locator('#help .rstatus').count() else ''
+        rec('core', 'Review status shows on topics and the question flow', 'Not yet reviewed' in a and 'Not yet reviewed' in b2, a)
+        if args.shots: pg.goto(BASE + '#anaphylaxis'); pg.wait_for_timeout(200); pg.locator('#topic .src').scroll_into_view_if_needed(); pg.screenshot(path=os.path.join(args.shots, 'review-status.png'))
+    safe('core', 'review', t_review)
+
     def t_reduce():
         p2 = ctx.new_page(); p2.emulate_media(reduced_motion='reduce'); p2.goto(BASE); p2.wait_for_timeout(300)
         rec('core', 'Reduced motion gives a flat carousel', 'flat' in p2.eval_on_selector('#stage', 'e => e.className')); p2.close()

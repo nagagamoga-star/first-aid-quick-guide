@@ -27,7 +27,7 @@
 /* Palette and type follow Human Atlas (cool clinical neutrals, slate primary, anatomy system colours, teal selection); emergency red stays for 000 and life-threatening items. */
 :root{
   --ink:#20242b;
-  --muted:#68727d;
+  --muted:#5b6570; /* was #68727d: 4.44:1 on paper, below AA; now 5.4:1 */
   --paper:#f3f4f4;
   --card:#ffffff;
   --line:rgba(24,37,54,.11);
@@ -47,24 +47,48 @@
   --font-display:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --font-body:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   color-scheme:light;
+  /* Depth system. Light comes from above: a bright top edge (--hl) and a soft
+     shadow below. Three heights: resting (card), raised (key), floating. */
+  --ease-spring:cubic-bezier(.22,1,.36,1);
+  --hl:inset 0 1px 0 rgba(255,255,255,.95);
+  --shadow-card:0 1px 2px rgba(16,28,38,.06),0 4px 14px rgba(16,28,38,.08);
+  --shadow-key:0 1px 0 rgba(16,28,38,.22),0 3px 8px rgba(16,28,38,.12);
+  --shadow-floating:0 2px 6px rgba(16,28,38,.10),0 18px 40px rgba(16,28,38,.20);
+  --shadow-pressed:inset 0 2px 5px rgba(16,28,38,.20);
+  --well:inset 0 2px 5px rgba(16,28,38,.10),inset 0 0 0 1px var(--line);
+  --bezel:#dfe3e6;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
-    --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
+    --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
     --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
     --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
     --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
     color-scheme:dark;
+    --hl:inset 0 1px 0 rgba(255,255,255,.08);
+    --shadow-card:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.30);
+    --shadow-key:0 1px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
+    --shadow-floating:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.55);
+    --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.5);
+    --well:inset 0 2px 6px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);
+    --bezel:#0c1216;
   }
 }
 :root[data-theme="dark"]{
   --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
-  --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
+  --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
   --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
   --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
   --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
   color-scheme:dark;
+  --hl:inset 0 1px 0 rgba(255,255,255,.08);
+  --shadow-card:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.30);
+  --shadow-key:0 1px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
+  --shadow-floating:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.55);
+  --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.5);
+  --well:inset 0 2px 6px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);
+  --bezel:#0c1216;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -308,6 +332,183 @@ footer ul{margin:0;padding-left:20px}
 .offline-info .saved{color:var(--calm);font-weight:700}
 .offline-info button{justify-self:start;border:0;border-radius:12px;padding:12px 18px;background:var(--slate);color:#fff;font-weight:700;cursor:pointer;min-height:44px}
 
+/* Clinical review status */
+.rstatus{font-size:14px;border-left:4px solid var(--amber);background:var(--warn-bg);color:var(--ink);border-radius:8px;padding:8px 12px}
+.rstatus.ok{border-left-color:var(--calm);background:var(--calm-bg)}
+
+/* ==========================================================================
+   Tactile spatial layer
+   Depth is drawn with light, not decoration: every raised surface has a bright
+   top edge (--hl) and a shadow below; pressing moves it 2px down and swaps the
+   drop shadow for an inset one, so it reads as pushed in. Critical text always
+   sits on an opaque surface. Motion only runs when the user hasn't asked for
+   reduced motion; the flat layout and instant states stay for everyone else.
+   ========================================================================== */
+
+/* Emergency bar: a floating dock. 94% opaque with a blur behind, so scrolled
+   content only tints it faintly; white text stays at 8.8:1 or better.
+   Fully opaque where blur isn't supported or reduced transparency is asked for. */
+.bar{background:var(--slate);box-shadow:inset 0 -1px 0 rgba(255,255,255,.07),0 6px 18px rgba(10,20,28,.22);border-bottom:0}
+@supports ((backdrop-filter:blur(12px)) or (-webkit-backdrop-filter:blur(12px))){
+  .bar{background:color-mix(in srgb,var(--slate) 94%,transparent);-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3)}
+}
+@media (prefers-reduced-transparency:reduce){ .bar{background:var(--slate);-webkit-backdrop-filter:none;backdrop-filter:none} }
+
+/* Call buttons as physical keys: highlight on the top edge, a darker 3px base
+   below (the key's side), and a drop shadow. :active sinks the key onto its base. */
+.call{min-height:48px;align-items:center;position:relative}
+.call.e{background:#d11a37;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 3px 0 #8e0f23,0 6px 14px rgba(0,0,0,.35)}
+.call.p{border:0;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(242,245,246,.85),inset 0 2px 0 rgba(255,255,255,.12),0 3px 0 rgba(0,0,0,.35)}
+.call:active{transform:translateY(2px)}
+.call.e:active{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 #8e0f23,0 2px 6px rgba(0,0,0,.35)}
+.call.p:active{box-shadow:inset 0 0 0 2px rgba(242,245,246,.85),0 1px 0 rgba(0,0,0,.35)}
+.call:focus-visible{outline:3px solid var(--select);outline-offset:3px}
+
+/* Generic key: shared by buttons that should feel pressable. */
+.round,.openbtn,.pbtn,.fgo,.v3d-load,.beat button,.offline-info button,.updbar button{box-shadow:var(--hl),var(--shadow-key)}
+.round:active,.openbtn:active,.pbtn:active:not(:disabled),.fgo:active,.v3d-load:active,.beat button:active,.offline-info button:active,.updbar button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.round{border:0;background:var(--card);box-shadow:var(--hl),0 0 0 2px var(--ink),var(--shadow-key)}
+.round:active{box-shadow:0 0 0 2px var(--ink),var(--shadow-pressed)}
+.openbtn,.v3d-load{box-shadow:inset 0 1px 0 rgba(255,255,255,.14),var(--shadow-key)}
+.pbtn.next,.fgo,.beat button{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),var(--shadow-key)}
+.pbtn:disabled{box-shadow:none}
+
+/* Coverflow deck. The ring keeps preserve-3d so each card's translateZ places it
+   in one shared 3D space; app.js sets each card's transform. The active card is
+   pushed 40px towards the viewer and floats; the others sit back, turned and
+   dimmed. On a mouse, app.js tilts the active card up to about 5 degrees towards
+   the pointer (--rx, --ry); on touch it leans with your drag (--dx, --ry) before
+   the swipe completes. The transition gives both a damped, springy follow. */
+.stage{height:374px}
+.tcard{top:20px;box-shadow:var(--hl),var(--shadow-card);transition:transform .55s var(--ease-spring),opacity .4s,box-shadow .4s}
+.tcard[aria-current="true"]{box-shadow:var(--hl),var(--shadow-floating),0 0 0 3px var(--select)}
+.stage.dragging .tcard[aria-current="true"],.stage.tilting .tcard[aria-current="true"]{transition:transform .12s ease-out,opacity .4s,box-shadow .4s}
+.stage.flat .tcard{box-shadow:var(--hl),var(--shadow-card)}
+.stage.flat .tcard:active{transform:translateY(2px) !important;box-shadow:var(--shadow-pressed)}
+
+/* Topic index: the search box is a recessed well; the focus ring lifts out of it.
+   Chips are small keys that rise on hover and sink when pressed. */
+.index{box-shadow:var(--hl),var(--shadow-card)}
+.index input{border:0;background:var(--paper);box-shadow:var(--well);padding:12px 14px;min-height:48px}
+.index input:focus{outline:none;box-shadow:var(--well),0 0 0 3px var(--select),0 6px 16px rgba(16,28,38,.12)}
+.chips a{border:0;background:var(--card);box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key);padding:9px 15px;min-height:40px;display:inline-flex;align-items:center}
+.chips a.crit{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 60%,#000),0 3px 8px rgba(16,28,38,.14)}
+.chips a:hover{border:0}
+.chips a:active{transform:translateY(2px);box-shadow:0 0 0 1px var(--line),var(--shadow-pressed)}
+
+/* Step cards: each step is a raised instruction tile with a keycap badge. */
+.player{box-shadow:var(--hl),var(--shadow-card)}
+.pnum{display:inline-block;background:var(--alarm);color:var(--alarm-ink);border-radius:8px;padding:4px 10px;font-size:14px;margin-bottom:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 55%,#000)}
+.pcard .art{box-shadow:var(--well)}
+.list .li{box-shadow:var(--hl),var(--shadow-card)}
+.list .li .art{box-shadow:var(--well)}
+.list .n{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 6px;margin-right:10px;border-radius:8px;vertical-align:1px;
+  background:var(--alarm);color:var(--alarm-ink);font-size:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 55%,#000)}
+/* Step dots: 24px targets (WCAG 2.5.8) with the visible dot drawn inside. */
+.dots{gap:2px}
+.dots button{width:24px;height:24px;background:none;display:grid;place-items:center}
+.dots button::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--line);box-shadow:inset 0 1px 2px rgba(16,28,38,.25)}
+.dots button[aria-current="true"]{transform:none;background:none}
+.dots button[aria-current="true"]::before{background:var(--slate);transform:scale(1.25);box-shadow:none}
+.prog{box-shadow:inset 0 1px 2px rgba(16,28,38,.2)}
+.gchips button{border:0;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key)}
+.gchips button[aria-pressed="true"]{box-shadow:var(--shadow-pressed);transform:translateY(1px)}
+.age,.beat,.fcard,.offline-info{box-shadow:var(--hl),var(--shadow-card)}
+.fbtn{border:0;box-shadow:var(--hl),0 0 0 2px var(--line),var(--shadow-key)}
+.fbtn:hover{box-shadow:var(--hl),0 0 0 2px var(--slate),var(--shadow-key)}
+.fbtn.alarm{box-shadow:var(--hl),0 0 0 2px color-mix(in srgb,var(--alarm) 45%,var(--line)),var(--shadow-key)}
+.fbtn:active{transform:translateY(2px);box-shadow:0 0 0 2px var(--line),var(--shadow-pressed)}
+.askcta{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),var(--shadow-key)}
+.askcta:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+
+/* 3D anatomy: the model sits in a recessed viewport. A 6px bezel frames it,
+   and an inner shadow makes the screen look set into the card. The view
+   buttons are pills that stay pressed in for the current view. */
+.v3d{box-shadow:var(--hl),var(--shadow-card)}
+.v3d-stage{border:6px solid var(--bezel);box-shadow:inset 0 3px 10px rgba(16,28,38,.22),inset 0 0 0 1px rgba(16,28,38,.12)}
+.v3d-tools button{border:0;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key);min-height:40px;padding:8px 16px}
+.v3d-tools button[aria-pressed="true"]{background:var(--slate);color:#fff;box-shadow:var(--shadow-pressed);transform:translateY(1px)}
+.v3d-tools button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+
+/* Narrow screens: dots get their own row so each keeps a 24px target. */
+@media (max-width:620px){
+  .pctl{grid-template-columns:1fr 1fr;row-gap:8px}
+  .pctl .dots{grid-column:1/-1;order:-1}
+  .pctl .pbtn.next{justify-self:end}
+  .pctl .pbtn:not(.next){justify-self:start}
+}
+
+/* Motion: springy transitions only when motion is welcome. */
+@media (prefers-reduced-motion:no-preference){
+  .call,.round,.openbtn,.pbtn,.fgo,.v3d-load,.beat button,.chips a,.fbtn,.askcta,.gchips button,.v3d-tools button,.offline-info button{transition:transform .18s var(--ease-spring),box-shadow .18s var(--ease-spring)}
+  @media (hover:hover){
+    .chips a:hover,.fbtn:hover,.v3d-tools button:hover:not([aria-pressed="true"]){transform:translateY(-2px)}
+    .chips a:hover{box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-floating)}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .tcard,.prog span{transition:none}
+}
+/* Windows high contrast: shadows vanish there, so keep real borders. */
+@media (forced-colors:active){
+  .call,.chips a,.fbtn,.round,.pbtn,.v3d-tools button,.index input,.tcard{border:2px solid CanvasText}
+}
+
+/* ==========================================================================
+   Illustration lighting (2.5D)
+   The drawings themselves are unchanged (src/art.js, reviewed content). This
+   only changes how their fills are painted: each filled shape gets a gradient
+   lit from the upper left, so heads read as spheres and bodies, bandages,
+   water and signs read as solid objects. Gradients are defined once in a
+   hidden <svg> that app.js adds to the page (#fa-g-*), and every fill keeps
+   its flat colour as a fallback. Strokes (limbs, arrows, outlines) stay flat:
+   a bounding-box gradient on a straight line has no height and would vanish.
+   ========================================================================== */
+:root{
+  --skin-hi:#dec8b6; --skin-lo:#a98b74; --skin-d-hi:#cbb5a4; --skin-d-lo:#90725b; --pt-hi:#94a1a9; --pt-lo:#465762;
+  --water-hi:#94aec3; --water-lo:#456886; --ice-hi:#cedde1; --ice-lo:#94a8ad; --wood-hi:#d3bba3; --wood-lo:#9b7a5a;
+  --bandage-hi:#ffffff; --bandage-lo:#d9d5cb; --act-hi:#cf6a5e; --act-lo:#a1453a; --amber-hi:#e7d1a0; --amber-lo:#b59855;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f; --pt-hi:#a7b7c3; --pt-lo:#6f7f8b;
+    --water-hi:#98b7d3; --water-lo:#607f9a; --ice-hi:#8fb0ba; --ice-lo:#577881; --wood-hi:#d3b79b; --wood-lo:#9b7f63;
+    --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-hi:#e8d197; --amber-lo:#b0995f;
+  }
+}
+:root[data-theme="dark"]{
+  --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f; --pt-hi:#a7b7c3; --pt-lo:#6f7f8b;
+  --water-hi:#98b7d3; --water-lo:#607f9a; --ice-hi:#8fb0ba; --ice-lo:#577881; --wood-hi:#d3b79b; --wood-lo:#9b7f63;
+  --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-hi:#e8d197; --amber-lo:#b0995f;
+}
+.art .sk{fill:url(#fa-g-skin) var(--skin)}
+.art .skd{fill:url(#fa-g-skind) var(--skin-d)}
+.art .pt{fill:url(#fa-g-pt) var(--pt)}
+.art .wt,.art .calmf{fill:url(#fa-g-water) var(--water)}
+.art .ice{fill:url(#fa-g-ice) var(--ice)}
+.art .board,.art .trunk{fill:url(#fa-g-wood) var(--wood)}
+.art .band{fill:url(#fa-g-band) var(--bandage)}
+.art .arf{fill:url(#fa-g-act) var(--act)}
+.art .pen,.art .honey,.art .sun{fill:url(#fa-g-amber) var(--amber)}
+/* The ground line becomes a soft contact shadow under the figures. */
+.art .gr{stroke:color-mix(in srgb,var(--ink) 10%,transparent);stroke-width:5}
+@media (forced-colors:active){ .art *{fill-opacity:1} }
+
+/* 3D colour key: a swatch per colour in the model, so the view still makes
+   sense on a small screen where the highlight is only a few pixels wide.
+   Swatches use the model's own colours; names come from BodyParts3D parts. */
+.v3d-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;line-height:1.3}
+.v3d-legend li{display:flex;align-items:center;gap:8px}
+.v3d-legend b{font-weight:700}
+.v3d-legend small{color:var(--muted);font-size:13px}
+.v3d-legend .sw{flex:none;width:16px;height:16px;border-radius:5px;background:var(--sw);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 1px rgba(16,28,38,.25)}
+.v3d-legend .hi .sw{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--select)}
+.v3d-legend .ctx .sw{opacity:.7}
+.v3d-legend .mk .sw{background:none;border-radius:50%;box-shadow:inset 0 0 0 3px var(--sw)}
+.v3d-legend .skin .sw{background:none;box-shadow:inset 0 0 0 2px var(--sw)}
+@media (max-width:420px){ .v3d-legend{flex-direction:column;gap:6px} }
+
 </style>
 </head>
 <body>
@@ -353,6 +554,7 @@ footer ul{margin:0;padding-left:20px}
         <h2>About this guide</h2>
         <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
         <p>The 3D body views use anatomy from <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, © The Database Center for Life Science, licensed under CC Attribution 4.0 International, simplified from the Human Atlas viewer. The explanations beside them are general anatomy, not part of the ANZCOR guidelines.</p>
+        <p>Each topic shows its review status: whether a qualified first aid trainer or clinician has reviewed it, and when. Until then, check anything you're unsure of with a first aid course or the source guideline.</p>
         <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
         <section class="offline-info" aria-labelledby="offH">
           <h3 id="offH">Use it without signal</h3>
@@ -840,6 +1042,22 @@ var Anatomy = (function(){
       controls.update(); renderer.render(scene, camera);
     })();
     status.textContent = 'Drag to turn, pinch or scroll to zoom.';
+    // Legend: what each colour in the model is. Names follow the BodyParts3D
+    // parts each group is built from (tools/build_anatomy.py); no instructions.
+    var NAMES = { ribcage:'Ribs and rib cartilage', sternum:'Breastbone (sternum)', heart:'Heart', larynx:'Windpipe and voice box',
+      bronchi:'Bronchi (airways in the lungs)', thigh:'Outer thigh muscle (vastus lateralis)', brain:'Brain' };
+    var leg = host.querySelector('.v3d-legend');
+    if (!leg){ leg = document.createElement('ul'); leg.className = 'v3d-legend'; leg.setAttribute('aria-label', 'Colour key'); stageEl.insertAdjacentElement('afterend', leg); }
+    var items = [];
+    (spec.hi || []).forEach(function(id){ if (NAMES[id]) items.push(['#' + mix(COLOURS[id], SELECT, 0.6).getHexString(), NAMES[id], 'Highlighted', 'hi']); });
+    (spec.show || []).forEach(function(id){ if (NAMES[id]) items.push([COLOURS[id], NAMES[id], '', 'ctx']); });
+    if (spec.marker) items.push(['#c05245', 'Red ring', 'The spot described above', 'mk']);
+    items.push([COLOURS.skin, 'Body outline', '', 'skin']);
+    leg.innerHTML = items.map(function(i){ return '<li class="' + i[3] + '"><span class="sw" style="--sw:' + i[0] + '"></span><span><b>' + i[1] + '</b>' + (i[2] ? ' <small>' + i[2] + '</small>' : '') + '</span></li>'; }).join('');
+
+    // View pills stay pressed in for the current view.
+    var pills = [].slice.call(host.querySelectorAll('.v3d-tools button'));
+    pills.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', function(){ pills.forEach(function(o){ o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); }); }); });
     host.querySelector('.v3d-tools').hidden = false;
   }
 
@@ -1165,7 +1383,21 @@ var FLOW = {
   r_other: { end: true, call: true, h: 'If you’re worried, call 000', p: 'Describe what you can see and the call-taker will tell you what to do. If they stop responding and aren’t breathing normally, start CPR.', topic: 'collapse' }
 };
 
+/* Generated by build.py from data/topic-reviews.json */
+var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"cpr":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"choking":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"bleeding":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"anaphylaxis":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"heart":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"stroke":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"unconscious":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"snake":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"marine":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"asthma":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"burns":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"seizure":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"heat":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"poison":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"spider":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"question-flow":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"3d-captions":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"illustrations":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null}};
 (function(){
+  /* Lighting for the drawings (see "Illustration lighting" in style.css): one
+     hidden set of gradients, shared by every drawing on the page. Stop colours
+     come from CSS variables, so they follow light and dark mode. */
+  (function(){
+    function lin(id, v){ return '<linearGradient id="fa-g-' + id + '" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".5" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></linearGradient>'; }
+    function rad(id, v){ return '<radialGradient id="fa-g-' + id + '" cx=".36" cy=".3" r=".78"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".55" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></radialGradient>'; }
+    var d = document.createElement('div');
+    d.innerHTML = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>' +
+      rad('skin', 'skin') + rad('skind', 'skin-d') + lin('pt', 'pt') + lin('water', 'water') + lin('ice', 'ice') +
+      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber') + '</defs></svg>';
+    document.body.insertBefore(d.firstChild, document.body.firstChild);
+  })();
   var N = TOPICS.length;
   var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1197,7 +1429,11 @@ var FLOW = {
     cards.forEach(function(c, i){
       var d = ((i - active) % N + N + Math.floor(N/2)) % N - Math.floor(N/2);
       var a = Math.abs(d);
-      c.style.transform = 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
+      // Active card: lifted 40px towards the viewer, plus the tilt/lean variables
+      // set by the pointer handlers below (0 when idle). Others recede and turn.
+      c.style.transform = d === 0
+        ? 'translateZ(40px) translateX(var(--dx,0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))'
+        : 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
       c.style.opacity = a > 2 ? 0 : (1 - a * 0.22);
       c.style.visibility = a > 2 ? 'hidden' : 'visible';
       c.style.zIndex = 10 - a;
@@ -1220,6 +1456,36 @@ var FLOW = {
   });
   var dragged = false;
   swipe(stage, function(dir){ if (!reduce) setActive(active + dir); });
+
+  /* Tactile hooks (skipped under reduced motion). They only set CSS variables
+     on the active card; the transform and the spring transition live in CSS.
+     Mouse: tilt towards the pointer, up to about 5 degrees.
+     Touch: lean with the drag, so a swipe has weight before it turns the deck. */
+  function tilt(rx, ry, dx){
+    var c = cards[active];
+    c.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+    c.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    c.style.setProperty('--dx', dx.toFixed(1) + 'px');
+  }
+  function untilt(){ stage.classList.remove('tilting', 'dragging'); cards.forEach(function(c){ c.style.removeProperty('--rx'); c.style.removeProperty('--ry'); c.style.removeProperty('--dx'); }); }
+  if (!reduce){
+    var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var tx0 = null;
+    stage.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse') tx0 = e.clientX; });
+    stage.addEventListener('pointermove', function(e){
+      if (e.pointerType === 'mouse'){
+        if (!fine) return;
+        var r = cards[active].getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        if (Math.abs(px) > 0.6 || Math.abs(py) > 0.6){ untilt(); return; }
+        stage.classList.add('tilting'); tilt(-py * 8, px * 10, 0);
+      } else if (tx0 !== null){
+        var dx = Math.max(-120, Math.min(120, e.clientX - tx0));
+        stage.classList.add('dragging'); tilt(0, dx * 0.08, dx * 0.3);
+      }
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(ev){ stage.addEventListener(ev, function(){ tx0 = null; untilt(); }); });
+  }
   window.addEventListener('resize', layout);
 
   function swipe(el, cb){
@@ -1261,6 +1527,20 @@ var FLOW = {
     if (q && first) setActive(byId[first].i);
   });
 
+
+  /* Clinical review status (from data/topic-reviews.json via build.py). */
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function monthYear(d){ var p = (d || '').split('-'); return p.length > 1 ? MONTHS[+p[1] - 1] + ' ' + p[0] : (d || ''); }
+  function reviewLine(id){
+    var r = (typeof REVIEWS !== 'undefined' && REVIEWS[id]) || null; if (!r) return '';
+    var txt, cls = 'pending';
+    if (r.status === 'APPROVED FOR PUBLICATION'){ txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + '. Next review due ' + monthYear(r.nextReview) + '.'; cls = 'ok'; }
+    else if (r.status === 'CLINICALLY REVIEWED') txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + ', awaiting publication sign-off.';
+    else if (r.status === 'REVIEW OVERDUE') txt = 'Review overdue. Last reviewed ' + monthYear(r.reviewedAt) + '.';
+    else txt = 'Not yet reviewed by a qualified first aid trainer or clinician.';
+    return '<p class="rstatus ' + cls + '">Review status: ' + txt + '</p>';
+  }
+
   /* ---------- Topic view ---------- */
   var cur = null, step = 0;
   function go(id){ location.hash = id; }
@@ -1293,6 +1573,7 @@ var FLOW = {
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
     h += '<p class="src">Source: ' + t.src + '</p>';
+    h += reviewLine(t.id);
     var prev = TOPICS[(t.i - 1 + N) % N], next = TOPICS[(t.i + 1) % N];
     h += '<nav class="nexttopic" aria-label="More topics"><a href="#' + prev.id + '">← ' + prev.title + '</a><a href="#' + next.id + '">' + next.title + ' →</a></nav>';
     view.innerHTML = h;
@@ -1334,7 +1615,7 @@ var FLOW = {
     var out = '', lastG = null;
     t.steps.forEach(function(s, i){
       if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
-      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '.</span>' + s.t + '</p></li>';
+      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
     });
     return out;
   }
@@ -1401,6 +1682,7 @@ var FLOW = {
     h += '</section><div class="fnav">' + (hist.length ? '<button type="button" class="pbtn" id="fBack">\u2190 Previous question</button>' : '') +
       (id !== 'start' ? '<button type="button" class="pbtn" id="fRestart">Start again</button>' : '') + '</div>';
     h += '<p class="src">These questions follow the ANZCOR first-steps sequence (DRSABCD). Each answer leads to the full steps and their sources.</p>';
+    h += reviewLine('question-flow');
     help.innerHTML = h; fixNumbers(help);
     [].forEach.call(help.querySelectorAll('.fbtn'), function(b){
       b.addEventListener('click', function(){ hist.push(id); renderFlow(n.a[+b.getAttribute('data-i')].go); focusFlow(); });
