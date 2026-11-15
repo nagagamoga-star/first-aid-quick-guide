@@ -129,6 +129,7 @@
     var prev = TOPICS[(t.i - 1 + N) % N], next = TOPICS[(t.i + 1) % N];
     h += '<nav class="nexttopic" aria-label="More topics"><a href="#' + prev.id + '">← ' + prev.title + '</a><a href="#' + next.id + '">' + next.title + ' →</a></nav>';
     view.innerHTML = h;
+    fixNumbers(view);
 
     if (t.steps.length <= 10) $('dots').innerHTML = t.steps.map(function(s, i){ return '<button type="button" aria-label="Step ' + (i+1) + '"></button>'; }).join('');
     else $('dots').innerHTML = '<div class="prog" style="width:100%" aria-hidden="true"><span id="progBar"></span></div>';
@@ -188,6 +189,28 @@
     if ($('progBar')) $('progBar').style.width = ((i+1) / t.steps.length * 100) + '%';
     else [].forEach.call($('dots').children, function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
+  }
+
+  /* Atkinson Hyperlegible slashes its zeros, which makes 000 read badly: set phone numbers in the display face. */
+  function fixNumbers(root){
+    var re = /(^|[^\d])(000|13 11 26)(?![\d])/;
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: function(n){
+      var p = n.parentNode;
+      if (!p || p.closest('svg,script,style,textarea,input,.num,.call')) return NodeFilter.FILTER_REJECT;
+      return re.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }});
+    var nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+    nodes.forEach(function(n){
+      var frag = document.createDocumentFragment(), text = n.nodeValue, m;
+      while ((m = re.exec(text))){
+        var at = m.index + m[1].length;
+        frag.appendChild(document.createTextNode(text.slice(0, at)));
+        var sp = document.createElement('span'); sp.className = 'num'; sp.textContent = m[2]; frag.appendChild(sp);
+        text = text.slice(at + m[2].length);
+      }
+      frag.appendChild(document.createTextNode(text));
+      n.parentNode.replaceChild(frag, n);
+    });
   }
 
   /* ---------- Routing ---------- */
@@ -250,6 +273,7 @@
     });
   }
 
+  fixNumbers(document.body);
   setActive(0);
   route();
 })();
