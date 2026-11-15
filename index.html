@@ -610,6 +610,21 @@ body.palette-open{overflow:hidden}
 @media (prefers-reduced-motion:no-preference){ .dg-dialog[open]{animation:dgIn .18s var(--ease-spring,ease-out)} @keyframes dgIn{from{opacity:0;transform:scale(.97)}} }
 @media (forced-colors:active){ .dg-zoom{border:2px solid CanvasText} }
 
+/* Compact dock on phones once you scroll: one row with the home and topics
+   buttons as icons and both call buttons side by side (still 44px tall), so the
+   step card isn't hidden behind the dock. The labels stay for screen readers. */
+@media (max-width:839px){
+  .dock.compact{display:flex;align-items:center;gap:6px;padding:6px}
+  .dock.compact .dock-top{flex:none;flex-wrap:nowrap;gap:6px}
+  .dock.compact .brand{margin-right:0}
+  .dock.compact .brand span,.dock.compact .jump-label,.dock.compact .call small{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .dock.compact .jump{padding:0 11px}
+  .dock.compact .dock-calls{flex:1;flex-direction:row;margin-top:0;gap:6px;min-width:0}
+  .dock.compact .call{flex:1;min-width:0;min-height:44px;padding:6px 8px;font-size:17px;border-radius:12px}
+  .dock.compact .call.e{font-size:18px;min-height:46px}
+  .dock.compact .net{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -2475,6 +2490,22 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
   fixNumbers(document.body);
   setActive(0);
   route();
+})();
+
+/* Compact dock: after scrolling 64px on a phone, the dock folds into one row
+   (style.css, ".dock.compact"); back at the top it unfolds. The gap between the
+   two thresholds stops it flickering. Call 000 and 13 11 26 never leave the screen. */
+(function(){
+  var dock = document.querySelector('.dock'); if (!dock) return;
+  var on = false, ticking = false;
+  function update(){
+    ticking = false;
+    var y = window.scrollY || 0;
+    if (!on && y > 64){ on = true; dock.classList.add('compact'); }
+    else if (on && y < 16){ on = false; dock.classList.remove('compact'); }
+  }
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
 })();
 
 /* Offline support: service worker registration, offline label, update bar and optional install.

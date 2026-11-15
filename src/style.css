@@ -590,3 +590,18 @@ body.palette-open{overflow:hidden}
 #dgCredits li{margin:4px 0;font-size:14px}
 @media (prefers-reduced-motion:no-preference){ .dg-dialog[open]{animation:dgIn .18s var(--ease-spring,ease-out)} @keyframes dgIn{from{opacity:0;transform:scale(.97)}} }
 @media (forced-colors:active){ .dg-zoom{border:2px solid CanvasText} }
+
+/* Compact dock on phones once you scroll: one row with the home and topics
+   buttons as icons and both call buttons side by side (still 44px tall), so the
+   step card isn't hidden behind the dock. The labels stay for screen readers. */
+@media (max-width:839px){
+  .dock.compact{display:flex;align-items:center;gap:6px;padding:6px}
+  .dock.compact .dock-top{flex:none;flex-wrap:nowrap;gap:6px}
+  .dock.compact .brand{margin-right:0}
+  .dock.compact .brand span,.dock.compact .jump-label,.dock.compact .call small{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .dock.compact .jump{padding:0 11px}
+  .dock.compact .dock-calls{flex:1;flex-direction:row;margin-top:0;gap:6px;min-width:0}
+  .dock.compact .call{flex:1;min-width:0;min-height:44px;padding:6px 8px;font-size:17px;border-radius:12px}
+  .dock.compact .call.e{font-size:18px;min-height:46px}
+  .dock.compact .net{display:none}
+}
