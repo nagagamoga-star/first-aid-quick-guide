@@ -158,6 +158,19 @@ var Anatomy = (function(){
       controls.update(); renderer.render(scene, camera);
     })();
     status.textContent = 'Drag to turn, pinch or scroll to zoom.';
+    // Legend: what each colour in the model is. Names follow the BodyParts3D
+    // parts each group is built from (tools/build_anatomy.py); no instructions.
+    var NAMES = { ribcage:'Ribs and rib cartilage', sternum:'Breastbone (sternum)', heart:'Heart', larynx:'Windpipe and voice box',
+      bronchi:'Bronchi (airways in the lungs)', thigh:'Outer thigh muscle (vastus lateralis)', brain:'Brain' };
+    var leg = host.querySelector('.v3d-legend');
+    if (!leg){ leg = document.createElement('ul'); leg.className = 'v3d-legend'; leg.setAttribute('aria-label', 'Colour key'); stageEl.insertAdjacentElement('afterend', leg); }
+    var items = [];
+    (spec.hi || []).forEach(function(id){ if (NAMES[id]) items.push(['#' + mix(COLOURS[id], SELECT, 0.6).getHexString(), NAMES[id], 'Highlighted', 'hi']); });
+    (spec.show || []).forEach(function(id){ if (NAMES[id]) items.push([COLOURS[id], NAMES[id], '', 'ctx']); });
+    if (spec.marker) items.push(['#c05245', 'Red ring', 'The spot described above', 'mk']);
+    items.push([COLOURS.skin, 'Body outline', '', 'skin']);
+    leg.innerHTML = items.map(function(i){ return '<li class="' + i[3] + '"><span class="sw" style="--sw:' + i[0] + '"></span><span><b>' + i[1] + '</b>' + (i[2] ? ' <small>' + i[2] + '</small>' : '') + '</span></li>'; }).join('');
+
     // View pills stay pressed in for the current view.
     var pills = [].slice.call(host.querySelectorAll('.v3d-tools button'));
     pills.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', function(){ pills.forEach(function(o){ o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); }); }); });
