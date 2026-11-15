@@ -52,7 +52,7 @@ jobs:
           const base = process.env.BASE_SHA;
           const before = execFileSync('git', ['show', base + ':src/app.js'], { encoding: 'utf8' });
           const after = fs.readFileSync('src/app.js', 'utf8');
-          const timing = s => (s.match(/60000\\s*\\/\\s*\\d+|BREATHS_MS\\s*=\\s*\\d+/g) || []).join(';');
+          const timing = s => (s.match(/60000\\s*\\/\\s*\\d+|BREATHS_MS\\s*=\\s*\\d+|60000\\s*\\/\\s*\\d+|BREATHS_MS\\s*=\\s*\\d+/g) || []).join(';');
           const changed = timing(before) !== timing(after);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, 'required=' + (changed ? 'true' : 'false') + '\\n');
           NODE
