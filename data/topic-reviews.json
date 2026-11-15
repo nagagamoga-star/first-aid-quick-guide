@@ -686,8 +686,21 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Commons diagrams PR",
           "note": "Five Wikimedia Commons diagrams replace drawings in 16 steps (F42). Awaiting qualified review."
+        },
+        {
+          "date": "2026-11-16",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Naga Gamoga (project owner)",
+          "note": "Owner override recorded for PR #9. Status unchanged: clinical review still required."
         }
-      ]
+      ],
+      "ownerOverride": {
+        "by": "Naga Gamoga (project owner)",
+        "at": "2026-11-16",
+        "reason": "Owner decision: the Commons diagrams are clearer and more realistic than the unreviewed drawings they replace (live since PR #7). Published before clinical review; F40, F41 and F42 remain open for the reviewer.",
+        "scope": "PR #9: Commons diagrams for compress, recovery, backblows, aed, puffer, on top of the PR #7 drawings",
+        "contentHash": "f8a20ba6990ccc50"
+      }
     }
   ]
 }

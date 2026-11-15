@@ -100,14 +100,29 @@ if (base) {
     else if (recordAt(baseRev, id) !== recordAt(rev, id)) recordOnly.push(id);
   }
   const reg = [...src.topics, ...src.components];
+  const overridden = [];
   const toCheck = [...changed, ...recordOnly.filter(id => (rev.items.find(i => i.id === id) || {}).status === 'APPROVED FOR PUBLICATION')];
   for (const id of toCheck) {
+    // Owner override: the project owner may publish an item before clinical
+    // review, on the record. It must name who, when and why, and match the
+    // exact content being merged. It never changes the item's status, so the
+    // app still says "not yet reviewed" and the full gate still fails.
+    const it = rev.items.find(i => i.id === id) || {};
+    const ov = it.ownerOverride;
+    if (it.status !== 'APPROVED FOR PUBLICATION' && ov) {
+      if (!ov.by || !ov.at || !ov.reason) fail(`${id}: owner override must record by, at and reason`);
+      else if (ov.contentHash !== hashes[id]) fail(`${id}: owner override covers ${ov.contentHash}, content is now ${hashes[id]}`);
+      else { overridden.push(id); console.log(`OVERRIDE ${id}: published by ${ov.by} on ${ov.at} before clinical review. Reason: ${ov.reason}`); continue; }
+      continue;
+    }
     checkItem(id);
     for (const f of fin.findings) if (f.status === 'open' && (f.topic === id || f.topic === 'all')) fail(`${f.id} (${f.severity}, ${f.topic}): still open`);
     sourcesFresh((reg.find(r => r.id === id) || { sources: [] }).sources);
   }
   console.log(`changed since ${base.slice(0, 12)}: content ${changed.join(', ') || 'none'}; approval records ${recordOnly.join(', ') || 'none'}`);
-  report(`Changed items are reviewed, approved and match their approved content.`);
+  report(overridden.length
+    ? `Owner override for ${overridden.join(', ')}: published by the owner, NOT clinically reviewed. Other changed items are reviewed and approved.`
+    : `Changed items are reviewed, approved and match their approved content.`);
 }
 
 for (const id of Object.keys(hashes)) checkItem(id);

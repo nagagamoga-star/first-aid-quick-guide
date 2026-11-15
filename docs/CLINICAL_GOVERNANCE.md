@@ -83,6 +83,8 @@ Run it before announcing or promoting the guide as reviewed, and before any "Cli
 
 A manual run (`workflow_dispatch`) runs the full gate: is the whole guide cleared for clinical publication?
 
+**Owner override.** The project owner can publish a changed item before clinical review by adding `ownerOverride` to its record in `data/topic-reviews.json`: `by`, `at`, `reason`, and the `contentHash` of the exact content (from `node tests/release_gate.mjs --print-hashes`). The pull request check then passes for that item and prints the override. The item's status does not change: the app still says it is not yet reviewed, pictures say they were published by the owner before clinical review, its findings stay open, and the full gate still fails. Any later edit changes the hash and needs a new override or a review. First used 2026-11-16 for the Commons diagrams (PR #9).
+
 **Branch protection.** `main` has a rule requiring the `release-gate` check to pass before merging, with no bypass for administrators. The check only reports on pull requests whose merge result contains the workflow file. PR #1 (`pwa-offline` into `main`) does not contain it until PR #2 is merged into `pwa-offline`, so merge PR #2 first; PR #1 then picks up the workflow and the check. The current content went live before this process existed; the in-app status line tells users it has not been reviewed.
 
 ## 5. Review process (per topic)

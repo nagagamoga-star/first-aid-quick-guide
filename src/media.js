@@ -24,6 +24,14 @@ var Media = (function(){
       ', ' + link(it.licenceUrl, it.licence) + ', via Wikimedia Commons.' + (it.credit && /Resized/.test(it.credit) ? ' Resized and converted to WebP.' : '');
   }
 
+  /* Pictures share the 'illustrations' review item. Until it is approved, each
+     diagram says so; an owner override says who published it before review. */
+  function reviewNote(){
+    var r = (typeof REVIEWS !== 'undefined' && REVIEWS.illustrations) || null;
+    if (!r || r.status === 'APPROVED FOR PUBLICATION') return '';
+    return '<span class="dg-review">' + (r.override ? 'Picture published by the site owner before clinical review.' : 'Picture not yet clinically reviewed.') + '</span>';
+  }
+
   Illustrate.use(function(s){
     if (s.step === 'icon') return '';
     var it = bySlot[s.id] || byKey[s.key];
@@ -35,7 +43,7 @@ var Media = (function(){
         ' onerror="this.closest(\'figure\').classList.add(\'dg-off\')">' +
       '</button>' +
       '<div class="dg-fallback" aria-hidden="true">' + fallback + '</div>' +
-      '<figcaption>' + esc(it.caption) + ' <span class="dg-credit">' + shortCredit(it) + '</span></figcaption>' +
+      '<figcaption>' + esc(it.caption) + ' <span class="dg-credit">' + shortCredit(it) + '</span>' + reviewNote() + '</figcaption>' +
     '</figure>';
   });
 

@@ -78,6 +78,11 @@ for (const f of fin.findings) {
 
 const counts = rev.items.reduce((a, i) => (a[i.status] = (a[i.status] || 0) + 1, a), {});
 const openHigh = fin.findings.filter(f => f.severity === 'HIGH' && f.status === 'open').length;
+for (const it of rev.items.filter(i => i.ownerOverride)) {
+  const o = it.ownerOverride;
+  ok(o.by && DATE.test(o.at || '') && o.reason && /^[0-9a-f]{16}$/.test(o.contentHash || ''), `${it.id}: ownerOverride needs by, at (YYYY-MM-DD), reason and contentHash`);
+  ok(it.status !== 'APPROVED FOR PUBLICATION', `${it.id}: an approved item doesn't need an owner override; remove it`);
+}
 const judged = fin.findings.filter(f => f.basis === 'judgement').length;
 console.log(`governance: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(', ')}; findings ${fin.findings.length} (${openHigh} open HIGH, ${judged} need clinical judgement)`);
 warn.forEach(w => console.log('WARN ' + w));

@@ -570,6 +570,7 @@ body.palette-open{overflow:hidden}
 .dg-zoom:focus-visible{outline:3px solid var(--select);outline-offset:3px}
 .dg figcaption{padding:8px 4px 0;font-size:14px;line-height:1.35;color:var(--ink)}
 .dg-credit{display:block;color:var(--muted);font-size:12.5px}
+.dg-review{display:block;margin-top:2px;color:var(--muted);font-size:12.5px;font-style:italic}
 .dg-fallback{display:none}
 .dg.dg-off .dg-zoom,.dg.dg-off figcaption{display:none}
 .dg.dg-off .dg-fallback{display:block}
