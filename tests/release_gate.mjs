@@ -48,7 +48,14 @@ function contentHashes(read) {
   }
   content['question-flow'] = JSON.stringify(FLOW);
   content['3d-captions'] = JSON.stringify(TOPICS.filter(t => t.body).map(t => [t.id, t.body]));
-  content['illustrations'] = read('src/art.js');
+  // Drawings plus any accepted Commons diagrams (manifest entry and file hash),
+  // so swapping a picture is a clinical change just like editing a drawing.
+  let media = '';
+  try {
+    const m = JSON.parse(read('data/media.json'));
+    media = JSON.stringify(m.items.filter(i => i.decision === 'accepted').map(i => [i.id, i.keys, i.slots, i.file, i.sha256, i.alt, i.caption]));
+  } catch { /* no manifest at this ref */ }
+  content['illustrations'] = read('src/art.js') + (media && media !== '[]' ? '|' + media : '');
   return Object.fromEntries(Object.entries(content).map(([k, v]) => [k, sha(v)]));
 }
 const hashes = contentHashes(text);

@@ -652,7 +652,8 @@
       },
       "openFindings": [
         "F40",
-        "F41"
+        "F41",
+        "F42"
       ],
       "review": {
         "reviewer": null,
@@ -679,6 +680,12 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Illustration redraw PR",
           "note": "Six drawings redrawn (F41). Awaiting qualified review with the rest of the drawings."
+        },
+        {
+          "date": "2026-11-16",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Commons diagrams PR",
+          "note": "Five Wikimedia Commons diagrams replace drawings in 16 steps (F42). Awaiting qualified review."
         }
       ]
     }

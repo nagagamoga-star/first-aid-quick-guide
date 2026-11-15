@@ -499,6 +499,18 @@
       "proposal": "Reviewer to approve each of the six against current ANZCOR technique, or mark what to change. If any is rejected, the previous drawing can be restored from git history.",
       "status": "open",
       "basis": "judgement"
+    },
+    {
+      "id": "F42",
+      "topic": "illustrations",
+      "item": "compress, recovery, backblows, aed, puffer (step pictures)",
+      "severity": "MEDIUM",
+      "type": "not-in-source",
+      "source": null,
+      "finding": "Five Wikimedia Commons diagrams now replace the drawings in 17 steps (CPR compressions in 8 topics, recovery position, adult back blows, AED pads, puffer with spacer). Wikimedia Commons is not peer reviewed. Each was checked visually by an AI against the ANZCOR step only. Three other candidates were rejected (hand position mid-sternum, airway cross-section without hands, infant compressions with head tilted back). Licences verified through the Commons API; all five are CC BY-SA 3.0 or 4.0.",
+      "proposal": "Reviewer to approve or reject each diagram for the steps listed in docs/clinical-review/commons-review.html. A rejected diagram is removed by setting its decision to 'rejected' in data/media.json; the drawing returns.",
+      "status": "open",
+      "basis": "judgement"
     }
   ],
   "basis": {

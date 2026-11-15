@@ -10,8 +10,8 @@
   "items": [
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "Hands interlocked on the centre of the chest, arms straight down. Matches ANZCOR 6. The picture carries its own English text, \"Position Hands Over Sternum\".",
       "file": "assets/diagrams/cpr-compression.webp",
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
@@ -29,13 +29,15 @@
       "commons": "File:CPR Adult Chest Compression.png",
       "alt": "Illustration: a rescuer kneels beside a person lying on their back and presses on the centre of their chest with straight arms.",
       "caption": "Chest compressions on an adult",
-      "anzcor": "ANZCOR 6: heel of hand on the lower half of the breastbone, centre of the chest; arms straight; shoulders over the hands."
+      "anzcor": "ANZCOR 6: heel of hand on the lower half of the breastbone, centre of the chest; arms straight; shoulders over the hands.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
-      "file": "assets/diagrams/cpr-hand-position.webp",
+      "decision": "rejected",
+      "decisionNote": "The hand rests along the middle of the breastbone. ANZCOR says the lower half, and the existing drawing says so. Not used.",
+      "file": null,
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "author": "BruceBlaus",
@@ -52,13 +54,15 @@
       "commons": "File:CPR Adult Chest Compression Sternum.png",
       "alt": "Illustration: hands placed on the lower half of the breastbone, with the breastbone shown under the skin.",
       "caption": "Where the hands go: lower half of the breastbone",
-      "anzcor": "ANZCOR 6: lower half of the sternum, centre of the chest."
+      "anzcor": "ANZCOR 6: lower half of the sternum, centre of the chest.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
-      "file": "assets/diagrams/infant-compression.webp",
+      "decision": "rejected",
+      "decisionNote": "Two fingers, with the baby’s head tilted back. ANZCOR keeps an infant’s head neutral, and the two-finger technique is itself open (F37). Not used.",
+      "file": null,
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "author": "BruceBlaus",
@@ -75,13 +79,15 @@
       "commons": "File:CPR Infant Chest Compression.png",
       "alt": "Illustration: chest compressions on a baby lying on its back, using two fingers on the lower half of the breastbone.",
       "caption": "Chest compressions on a baby",
-      "anzcor": "ANZCOR 12/13 and finding F37 (two-finger vs two-thumb technique, 2026 paediatric update). Reviewer decides."
+      "anzcor": "ANZCOR 12/13 and finding F37 (two-finger vs two-thumb technique, 2026 paediatric update). Reviewer decides.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
-      "file": "assets/diagrams/head-tilt.svg",
+      "decision": "rejected",
+      "decisionNote": "Cross-section showing why the airway opens, with no hands. It shows why, not how; the drawing shows the hands. Not used.",
+      "file": null,
       "licence": "Public domain",
       "licenceUrl": null,
       "author": "Original:  Vassia Atanassova Vector:  Offnfopt",
@@ -98,12 +104,14 @@
       "commons": "File:Tongue blocking airway.svg",
       "alt": "Diagram: with the head bent forward the tongue blocks the airway; with the head tilted back and chin lifted the airway is open.",
       "caption": "Head tilt and chin lift open the airway",
-      "anzcor": "ANZCOR 4: head tilt and chin lift for adults and children (not infants)."
+      "anzcor": "ANZCOR 4: head tilt and chin lift for adults and children (not infants).",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "On the side, top leg bent forward at hip and knee, lower arm out in front. Matches ANZCOR 3; the head tilt is less obvious than in the drawing.",
       "file": "assets/diagrams/recovery.svg",
       "licence": "CC BY-SA 3.0 fr",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0/fr/deed.en",
@@ -121,12 +129,14 @@
       "commons": "File:Recovery position.svg",
       "alt": "Drawing: a person lying on their side, top knee bent forward on the ground, top hand under the cheek, head tilted back.",
       "caption": "Recovery position",
-      "anzcor": "ANZCOR 3: on the side, top leg bent at hip and knee, head tilted back with the mouth turned down."
+      "anzcor": "ANZCOR 3: on the side, top leg bent at hip and knee, head tilted back with the mouth turned down.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "Person leaning well forward, chest supported, blow between the shoulder blades. Matches ANZCOR 4. Sketchy cartoon style, unlike the rest.",
       "file": "assets/diagrams/back-blows-adult.webp",
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
@@ -144,12 +154,14 @@
       "commons": "File:Back blows (back slaps) against choking for adult people.jpg",
       "alt": "Illustration: a person leaning forward while a rescuer gives a blow between the shoulder blades with the heel of the hand.",
       "caption": "Back blows for an adult",
-      "anzcor": "ANZCOR 4: up to 5 sharp back blows between the shoulder blades with the heel of the hand, person leaning forward."
+      "anzcor": "ANZCOR 4: up to 5 sharp back blows between the shoulder blades with the heel of the hand, person leaning forward.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "One pad below the right collarbone, one on the left side below the armpit (anterolateral). Matches ANZCOR 7.",
       "file": "assets/diagrams/aed-pads.svg",
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
@@ -167,12 +179,14 @@
       "commons": "File:Defibrilation electrode placement svg hariadhi.svg",
       "alt": "Diagram: one pad below the right collarbone and one on the left side of the chest below the armpit.",
       "caption": "Where the AED pads go",
-      "anzcor": "ANZCOR 7: one pad on the upper right chest below the collarbone, one on the left side below the armpit; follow the AED's own pictures."
+      "anzcor": "ANZCOR 7: one pad on the upper right chest below the collarbone, one on the left side below the armpit; follow the AED's own pictures.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "Puffer through a spacer. Matches the asthma step. Shows a small spacer; the dose (4 separate puffs) stays in the step text.",
       "file": "assets/diagrams/spacer.webp",
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
@@ -190,7 +204,9 @@
       "commons": "File:Metered-Dose Inhaler Spacer (Adult).png",
       "alt": "Illustration: an adult breathing through a spacer attached to a puffer.",
       "caption": "Puffer with a spacer",
-      "anzcor": "National Asthma Council / ANZCOR 9.2.5: puffer through a spacer; 1 puff then 4 breaths, repeat."
+      "anzcor": "National Asthma Council / ANZCOR 9.2.5: puffer through a spacer; 1 puff then 4 breaths, repeat.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
