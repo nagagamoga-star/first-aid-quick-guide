@@ -1,4 +1,16 @@
 (function(){
+  /* Lighting for the drawings (see "Illustration lighting" in style.css): one
+     hidden set of gradients, shared by every drawing on the page. Stop colours
+     come from CSS variables, so they follow light and dark mode. */
+  (function(){
+    function lin(id, v){ return '<linearGradient id="fa-g-' + id + '" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".5" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></linearGradient>'; }
+    function rad(id, v){ return '<radialGradient id="fa-g-' + id + '" cx=".36" cy=".3" r=".78"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".55" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></radialGradient>'; }
+    var d = document.createElement('div');
+    d.innerHTML = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>' +
+      rad('skin', 'skin') + rad('skind', 'skin-d') + lin('pt', 'pt') + lin('water', 'water') + lin('ice', 'ice') +
+      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber') + '</defs></svg>';
+    document.body.insertBefore(d.firstChild, document.body.firstChild);
+  })();
   var N = TOPICS.length;
   var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;

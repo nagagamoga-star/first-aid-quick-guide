@@ -52,3 +52,12 @@ After: no contrast or target-size violations in light or dark, mobile or desktop
 ![Topic index](index-light.png)
 ![Step player](steps-light.png)
 ![3D viewport, dark](anatomy-dark.png)
+
+## Illustration lighting and 3D colour key (follow-up PR)
+
+- **Lighting:** every filled shape in the 57 drawings is painted with a gradient lit from the upper left (heads as spheres, clothing, bandages, water, wood, warning signs). The gradients live in one hidden `<svg>` added by `src/app.js` and use CSS colour variables, so they follow light and dark mode. Each fill keeps its flat colour as a fallback. **`src/art.js` is unchanged**: no drawing shows anything different, so the release gate reports no clinical change. Strokes (limbs, arrows) stay flat because a gradient on a straight line has no height and would disappear.
+- **Ground line:** now a soft contact shadow instead of a grey rule.
+- **3D colour key:** under each 3D view, a swatch for every colour in the model, with names from the BodyParts3D parts used (for example "Breastbone (sternum), highlighted", "Outer thigh muscle (vastus lateralis)"). The marker ring is listed as "the spot described above", so the key adds no instruction of its own.
+- **Drawings stay `aria-hidden`:** each sits next to the step text it illustrates. Giving them `role="img"` and a title would make screen readers read every step twice.
+
+![Drawing lighting, before and after](drawing-lighting.png)
