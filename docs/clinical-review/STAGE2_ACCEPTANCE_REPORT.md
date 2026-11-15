@@ -60,8 +60,8 @@ The follow-up recommendations were converted into a Stage 2-only implementation 
 
 - F01 already covers EpiPen, Anapen, Jext and neffy, as well as general-use devices and the ASCIA plan. This remains a draft for the reviewer; no app instruction was changed.
 - Reviewer criteria now require current topic-relevant competence, an explicit scope check, referral to a second reviewer where needed, and private verification of credentials. A reusable checklist is in `docs/clinical-review/REVIEWER_SCOPE_CHECKLIST.md`.
-- The release gate remains separate from the normal build. A GitHub Actions workflow now runs on pull requests targeting `main` and the Stage 1 base branch `pwa-offline`. It executes the full release gate for changes to clinical instructions, question-flow logic, illustrations or CPR timing, and explicitly skips unrelated pull requests.
-- The repository owner must still configure `Clinical release gate / release-gate` as a required check in a ruleset for `main`. A workflow alone does not enforce branch protection.
+- The release gate remains separate from the normal build. A GitHub Actions workflow now runs on pull requests targeting `main` and the Stage 1 base branch `pwa-offline`. It checks that `index.html` and `sw.js` match `src/`, then runs the release gate in per-item mode: any item whose content or approval record changed must be approved and match its approved hash; unchanged items aren't required to be approved yet.
+- Configured 15 November 2026: a branch protection rule on `main` requires the `release-gate` check (GitHub Actions), with no bypass for administrators and no force pushes or deletion.
 
 ## Known limits
 
@@ -69,4 +69,4 @@ The follow-up recommendations were converted into a Stage 2-only implementation 
 2. The ASCIA page couldn't be fetched directly; it was checked through ASCIA's published 2026 plan PDFs.
 3. The drawings and 3D captions have no clinical source by nature. They need reviewer approval (F38, F40).
 4. Reviewer names are kept in the repo's records, not shown in the app. If the reviewer prefers not to be named in a public repo, record a role and keep the signed pack privately.
-5. The release workflow has been added, but its GitHub Actions run must be checked in the PR checks. The owner must configure `Clinical release gate / release-gate` as a required status check in a ruleset for `main`; this repository setting is not changed by a PR.
+5. The required check only reports on pull requests whose merge result contains the workflow. PR #1 is blocked until PR #2 is merged into `pwa-offline`; then PR #1 picks up the workflow. Branch protection does not cover the GitHub Pages source setting itself: anyone with admin access can still repoint Pages to another branch.
