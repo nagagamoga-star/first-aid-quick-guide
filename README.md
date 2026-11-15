@@ -58,6 +58,7 @@ src/
 tests/
   validate_structure.mjs  Topics, illustrations and question flow structure (no clinical judgement)
   validate_governance.mjs Source and review registers (completeness and approval rules)
+  release_gate.mjs        Publication gate, not part of the build (fails until review is complete)
   browser_tests.py        Browser regression and offline tests
 tools/
   build_anatomy.py  Rebuilds models/anatomy.b64.txt from Human Atlas model data
@@ -81,6 +82,7 @@ The build stops without writing anything if a file is missing, a script has a sy
 ```
 node tests/validate_structure.mjs          # structure only, a few seconds
 node tests/validate_governance.mjs         # source and review records
+node tests/release_gate.mjs                # clinical publication gate (blocked until reviewed)
 python3 tests/browser_tests.py --pwa       # full browser suite, needs Playwright and Chrome
 ```
 

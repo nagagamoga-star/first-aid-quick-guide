@@ -14,7 +14,7 @@ Branch `clinical-governance`, stacked on `pwa-offline` (Stage 1, PR #1). 15 Nove
 | 5.3 Don't treat a source check as approval | Approval needs a named reviewer, qualification, date, a person confirming the source check, and no open HIGH findings | `tests/validate_governance.mjs` |
 | 5.4 Steps 1–4: statements, sources, latest version, comparison | Every statement compared with its live source (AI-assisted, needs human confirmation) | `docs/clinical-review/SOURCE_CHECK_2026-11.md`, `data/source-findings.json` |
 | 5.4 Steps 5–7: discrepancies and proposed corrections | 40 findings (3 HIGH, 14 MEDIUM, 23 LOW), each with a proposed change | same |
-| 5.4 Step 8: qualified review | Review pack with every item, drawing, finding and sign-off field | `docs/clinical-review/REVIEW_PACK.pdf` (39 pages) and `.md` |
+| 5.4 Step 8: qualified review | Review pack with every item, drawing, finding and sign-off field | `docs/clinical-review/REVIEW_PACK.pdf` (41 pages) and `.md` |
 | 5.4 Steps 9–10: record reviewer, publish only after approval | Fields and rules in place; nothing marked reviewed | `data/topic-reviews.json` |
 | 5.4 Don't silently rewrite content | `src/topics.js`, `src/flow.js`, `src/art.js` unchanged | git diff against `00e83fb` |
 | 5.5 Source currency | Version and amendment dates, ANZCOR 2025–2026 updates checked, monthly and 12-monthly process, 12-month staleness warning | `docs/CLINICAL_GOVERNANCE.md` §6, build warning |
@@ -35,11 +35,24 @@ Also: each topic and the question flow now show their review status in the app (
 
 ## HIGH findings (for the reviewer first)
 
-- **F01 Anaphylaxis device:** ASCIA's 2026 plans cover adrenaline devices including a nasal spray (neffy). The app describes only thigh autoinjectors.
+- **F01 Anaphylaxis device:** ASCIA's 2026 plans cover four devices (EpiPen, Anapen and Jext injectors, neffy nasal spray) and general use devices for people without their own. The app describes only EpiPen or Anapen into the thigh.
 - **F02 Anaphylaxis:** ASCIA says "if in doubt, give adrenaline device". The app doesn't say this.
 - **F07 Button battery:** ANZCOR 9.5.1 says nothing by mouth if there's difficulty breathing *or bleeding*. The app's honey and jam step doesn't mention bleeding.
 
 These are live on the current site. Fixing them needs a reviewer's agreement (brief §5.4 and §14), then a separate "Clinical change" pull request.
+
+## Corrections after second review (15 November 2026)
+
+Another reviewer's critique of this pull request was assessed point by point. Changes made:
+
+| Point | Change |
+|---|---|
+| F01 missed Jext | F01 finding and draft wording now cover EpiPen, Anapen, Jext and neffy, and general use devices with the ASCIA First Aid Plan. ASCIA's device instructions page added to the source register. The wording remains a draft for the reviewer. |
+| Build check is not a publication gate | New `tests/release_gate.mjs`, separate from the build. Blocks unless every item is approved, unchanged since approval (content hash), every finding is decided and sources were checked in the last 45 days. Tested: blocks now (59 issues); passes on a simulated full approval; blocks again after a one-character change to the CPR rate; blocks when the source check is stale. |
+| Evidence versus clinical judgement | Each finding now has a `basis`: `source` or `judgement` (16 findings). Shown in the review pack. The reviewer is asked to judge whether each item suits a general Australian audience, not only whether it matches the source. F20 stays `source` (the guideline states it), but its proposal was incomplete and now includes hydrogel dressings. |
+| Reviewer qualifications | Tightened in `docs/CLINICAL_GOVERNANCE.md` and the review pack: accredited first aid trainer with current practice preferred; otherwise a clinician whose current work involves first response or first aid training; general registration alone is not enough; must review drawings and the flow. |
+
+Still no clinical content changed: `src/topics.js`, `src/flow.js` and `src/art.js` are identical to `00e83fb`.
 
 ## Known limits
 
@@ -47,3 +60,4 @@ These are live on the current site. Fixing them needs a reviewer's agreement (br
 2. The ASCIA page couldn't be fetched directly; it was checked through ASCIA's published 2026 plan PDFs.
 3. The drawings and 3D captions have no clinical source by nature. They need reviewer approval (F38, F40).
 4. Reviewer names are kept in the repo's records, not shown in the app. If the reviewer prefers not to be named in a public repo, record a role and keep the signed pack privately.
+5. The release gate can't stop GitHub Pages deploying `main`. It becomes binding only as a required status check, which the owner sets in the repo settings.

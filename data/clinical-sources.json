@@ -172,6 +172,15 @@
       "amendments": null,
       "lastChecked": "2026-11-15"
     },
+    "ASCIA-DEVICES": {
+      "organisation": "ASCIA",
+      "guideline": "How to give adrenaline devices 2026",
+      "title": "How to give adrenaline (epinephrine) devices: EpiPen, Anapen, Jext, neffy",
+      "url": "https://www.allergy.org.au/hp/anaphylaxis/how-to-give-devices",
+      "sourceUpdated": "2026",
+      "amendments": "Jext PBS listed 1 June 2026; neffy PBS listed 1 July 2026",
+      "lastChecked": "2026-11-15"
+    },
     "HD-JELLYFISH": {
       "organisation": "healthdirect",
       "guideline": "n/a",
@@ -224,7 +233,8 @@
       "severity": "crit",
       "sources": [
         "ANZCOR-9.2.7",
-        "ASCIA-FAP"
+        "ASCIA-FAP",
+        "ASCIA-DEVICES"
       ]
     },
     {
@@ -325,7 +335,8 @@
       "title": "\"What’s happening?\" question flow (src/flow.js)",
       "sources": [
         "ANZCOR-8",
-        "ANZCOR-3"
+        "ANZCOR-3",
+        "ASCIA-DEVICES"
       ],
       "note": "Questions follow DRSABCD; results restate topic steps. Wording is the app’s own."
     },

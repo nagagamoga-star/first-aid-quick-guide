@@ -6,9 +6,10 @@ Generated from the app's content on 2026-11-15. Live site: https://nagagamoga-st
 
 This pack contains every instruction, drawing, 3D caption and question in the app, exactly as users see them. Please mark each item **Approve**, **Change** (write the change) or **Remove**, and sign each section. Nothing is published as reviewed until you sign off.
 
-- **Who can review:** a currently accredited first aid trainer, or a registered nurse, paramedic or doctor with current first aid and CPR knowledge.
-- **What to check:** that each step matches current Australian first aid guidance (ANZCOR, and ASCIA for anaphylaxis), is safe for a member of the public to follow, and that each drawing shows the step correctly.
-- **Findings:** an AI-assisted comparison against the official pages found the issues listed under each topic. Please confirm or reject each one. Three are marked HIGH and should be settled first.
+- **Who can review:** preferably a currently accredited first aid trainer with current practical teaching experience; otherwise a paramedic, emergency or critical care nurse, or emergency doctor whose current work involves first response or first aid training. General registration alone is not enough. You will also need to review the drawings and the question flow.
+- **What to check:** two questions for every item. Does it match current Australian first aid guidance (ANZCOR, and ASCIA for anaphylaxis)? And is it appropriate for a member of the public in Australia, with no training, to follow under stress? An item can match its source and still need changing. Also check that each drawing shows the step correctly.
+- **Findings:** an AI-assisted comparison against the official pages found the issues listed under each topic. Please confirm or reject each one. Three are marked HIGH and should be settled first. The proposed changes are drafts for you to accept, edit or reject, not recommendations.
+- **Basis:** each finding is marked **Source** (the guideline states it; check the app matches and reads well) or **Judgement** (the guideline does not settle it, so your clinical judgement decides what suits a general audience). 16 of 40 findings need judgement.
 - **Item IDs:** W = "when to act" box, S1, S2… = steps, N = notes, D = "Don't" items.
 
 ## Summary
@@ -19,7 +20,7 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 | [CPR](#cpr) | ANZCOR 6 (2021-04); ANZCOR 8 (2021-04) | 0 / 0 / 4 | CLINICAL REVIEW REQUIRED |
 | [Choking](#choking) | ANZCOR 4 (2021-04) | 0 / 1 / 1 | CLINICAL REVIEW REQUIRED |
 | [Severe bleeding](#severe-bleeding) | ANZCOR 9.1.1 (2021-04) | 0 / 0 / 3 | CLINICAL REVIEW REQUIRED |
-| [Anaphylaxis](#anaphylaxis) | ANZCOR 9.2.7 (2019); ASCIA First Aid Plan 2026 (2026) | 2 / 3 / 2 | CLINICAL REVIEW REQUIRED |
+| [Anaphylaxis](#anaphylaxis) | ANZCOR 9.2.7 (2019); ASCIA First Aid Plan 2026 (2026); ASCIA How to give adrenaline devices 2026 (2026) | 2 / 3 / 2 | CLINICAL REVIEW REQUIRED |
 | [Heart attack](#heart-attack) | ANZCOR 9.2.1 (2021-04) | 0 / 0 / 3 | CLINICAL REVIEW REQUIRED |
 | [Stroke](#stroke) | ANZCOR 9.2.2 (2021-04) | 0 / 0 / 2 | CLINICAL REVIEW REQUIRED |
 | [Unconscious, breathing](#unconscious-breathing) | ANZCOR 3 (2021-04) | 0 / 0 / 2 | CLINICAL REVIEW REQUIRED |
@@ -34,9 +35,9 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 ### HIGH findings (settle first)
 
-- **F01 (anaphylaxis, S2; flow r_ana):** The 2026 ASCIA plans say "give adrenaline device" and include a nasal adrenaline spray (neffy) as well as autoinjectors. The app only describes an autoinjector (EpiPen or Anapen) into the outer thigh. ANZCOR 9.2.7 dates from 2019, before nasal adrenaline. *Proposed:* Give their adrenaline device as its instructions show: an autoinjector (EpiPen or Anapen) into the outer mid-thigh, or a nasal spray (neffy). Follow their ASCIA Action Plan. Apply the same change to the question flow result.
-- **F02 (anaphylaxis, new):** ASCIA plans say "if in doubt, give adrenaline device". The app does not say this. ANZCOR 9.2.7 does not include it either. *Proposed:* Add: If in doubt, give the adrenaline device.
-- **F07 (poison, S8):** ANZCOR 9.5.1 (section 4.6) says to give nothing by mouth if there is difficulty breathing or bleeding. The app only says to give honey or jam if they can breathe and swallow without trouble, so it misses the bleeding condition. *Proposed:* On the way, if they have no trouble breathing and no bleeding (including vomiting blood): over 1 year, 2 teaspoons (10 mL) of honey every 10 minutes...
+- **F01 (anaphylaxis, S2; flow r_ana, Judgement):** The 2026 ASCIA plans say "give adrenaline device". Four devices are approved in Australia: EpiPen, Anapen and Jext injectors, and neffy nasal spray (Jext PBS listed from 1 June 2026, neffy from 1 July 2026). Each has its own instructions. General use devices in first aid kits are given when the person has no prescribed device, with the ASCIA First Aid Plan stored beside them. The app only describes an EpiPen or Anapen injected into the outer thigh. ANZCOR 9.2.7 dates from 2019, before neffy and Jext. *Proposed:* Draft for the reviewer, not final: Give an adrenaline device: their own if they have one, or a general use one from a first aid kit. Follow the instructions on the device and on their ASCIA Action Plan (or the ASCIA First Aid Plan kept with a general use device). Injectors (EpiPen, Anapen, Jext) go into the outer mid-thigh; neffy is sprayed into a nostril. Reviewer to decide the final wording, whether to name devices at all, and whether the drawings need a nasal spray version. Apply the same change to the question flow result.
+- **F02 (anaphylaxis, new, Source):** ASCIA plans say "if in doubt, give adrenaline device". The app does not say this. ANZCOR 9.2.7 does not include it either. *Proposed:* Add: If in doubt, give the adrenaline device.
+- **F07 (poison, S8, Source):** ANZCOR 9.5.1 (section 4.6) says to give nothing by mouth if there is difficulty breathing or bleeding. The app only says to give honey or jam if they can breathe and swallow without trouble, so it misses the bleeding condition. *Proposed:* On the way, if they have no trouble breathing and no bleeding (including vomiting blood): over 1 year, 2 teaspoons (10 mL) of honey every 10 minutes...
 
 
 ## Someone has collapsed
@@ -60,11 +61,11 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F11 | MEDIUM | S4 | The app says: if you can see something in the mouth, roll them onto their side and remove it, then tilt the head back. Guideline 4 says the person should not be routinely rolled onto the side, describes removing visible material with the head turned slightly downwards, and keeps rolling for fluid or matter blocking the airway. | Reviewer to confirm the airway step wording against Guideline 4 and the BLS flowchart. | ☐ Yes ☐ No |
-| F12 | LOW | S2 | ANZCOR describes "talk and touch" (for example "open your eyes") and squeezing the shoulders. The app says to say their name loudly. | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F11 | MEDIUM | Judgement | S4 | The app says: if you can see something in the mouth, roll them onto their side and remove it, then tilt the head back. Guideline 4 says the person should not be routinely rolled onto the side, describes removing visible material with the head turned slightly downwards, and keeps rolling for fluid or matter blocking the airway. | Reviewer to confirm the airway step wording against Guideline 4 and the BLS flowchart. | ☐ Yes ☐ No |
+| F12 | LOW | Source | S2 | ANZCOR describes "talk and touch" (for example "open your eyes") and squeezing the shoulders. The app says to say their name loudly. | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -95,12 +96,12 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F13 | LOW | N1 | Swapping rescuers every couple of minutes is not in Guideline 8. The app already says so. | Reviewer to decide whether to keep it. | ☐ Yes ☐ No |
-| F14 | LOW | table | Guideline 6 gives depth as one-third of the chest, about 4 cm (infant) and 5 cm (child), and more than 5 cm for adults. Age bands are not defined there. | Reviewer to confirm the depth table wording. | ☐ Yes ☐ No |
-| F15 | LOW | S6 | Guideline 8 also lists stopping when a health professional directs that CPR be stopped. | Keep going until ... a paramedic or health professional takes over or tells you to stop ... | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F13 | LOW | Judgement | N1 | Swapping rescuers every couple of minutes is not in Guideline 8. The app already says so. | Reviewer to decide whether to keep it. | ☐ Yes ☐ No |
+| F14 | LOW | Source | table | Guideline 6 gives depth as one-third of the chest, about 4 cm (infant) and 5 cm (child), and more than 5 cm for adults. Age bands are not defined there. | Reviewer to confirm the depth table wording. | ☐ Yes ☐ No |
+| F15 | LOW | Source | S6 | Guideline 8 also lists stopping when a health professional directs that CPR be stopped. | Keep going until ... a paramedic or health professional takes over or tells you to stop ... | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -132,10 +133,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F37 | MEDIUM | S7 | "Two fingers" for infant chest thrusts comes from Guideline 6 (compressions), not Guideline 4. ANZCOR’s 2026 paediatric updates added a section on choking in children (health professional guideline); the reviewer should check the lay steps still agree. | Reviewer to check against the 2026 paediatric update. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F37 | MEDIUM | Judgement | S7 | "Two fingers" for infant chest thrusts comes from Guideline 6 (compressions), not Guideline 4. ANZCOR’s 2026 paediatric updates added a section on choking in children (health professional guideline); the reviewer should check the lay steps still agree. | Reviewer to check against the 2026 paediatric update. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -163,11 +164,11 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F24 | LOW | W | The app’s shock signs (pale, sweaty, confused, drowsy) are looser than the guideline’s criteria. | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F25 | LOW | S4 | The guideline places a tourniquet above the bleeding point. A July 2025 editorial covers prolonged tourniquet use. | Reviewer to confirm whether anything from the 2025 editorial belongs in a lay guide. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F24 | LOW | Source | W | The app’s shock signs (pale, sweaty, confused, drowsy) are looser than the guideline’s criteria. | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F25 | LOW | Judgement | S4 | The guideline places a tourniquet above the bleeding point. A July 2025 editorial covers prolonged tourniquet use. | Reviewer to confirm whether anything from the 2025 editorial belongs in a lay guide. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -180,6 +181,7 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 - [ANZCOR 9.2.7: First Aid Management of Anaphylaxis](https://www.anzcor.org/home/first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis), version 2019. Checked 2026-11-15.
 - [ASCIA First Aid Plan 2026: ASCIA First Aid Plan for Anaphylaxis (and Action Plans 2026)](https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis), version 2026. Checked 2026-11-15.
+- [ASCIA How to give adrenaline devices 2026: How to give adrenaline (epinephrine) devices: EpiPen, Anapen, Jext, neffy](https://www.allergy.org.au/hp/anaphylaxis/how-to-give-devices), version 2026, amended Jext PBS listed 1 June 2026; neffy PBS listed 1 July 2026. Checked 2026-11-15.
 
 **W (when to act):** **Signs:** difficult or noisy breathing, wheeze or persistent cough, swelling of the face, tongue or throat, hoarse voice or trouble talking, dizziness or collapse, a young child going pale and floppy. Vomiting, stomach pain, hives or welts can also be signs.
 
@@ -196,15 +198,15 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F01 | HIGH | S2; flow r_ana | The 2026 ASCIA plans say "give adrenaline device" and include a nasal adrenaline spray (neffy) as well as autoinjectors. The app only describes an autoinjector (EpiPen or Anapen) into the outer thigh. ANZCOR 9.2.7 dates from 2019, before nasal adrenaline. | Give their adrenaline device as its instructions show: an autoinjector (EpiPen or Anapen) into the outer mid-thigh, or a nasal spray (neffy). Follow their ASCIA Action Plan. Apply the same change to the question flow result. | ☐ Yes ☐ No |
-| F02 | HIGH | new | ASCIA plans say "if in doubt, give adrenaline device". The app does not say this. ANZCOR 9.2.7 does not include it either. | Add: If in doubt, give the adrenaline device. | ☐ Yes ☐ No |
-| F03 | MEDIUM | S1 | ASCIA positioning detail is missing: hold young children flat, not upright; if unconscious or pregnant, use the recovery position (left side if pregnant); if breathing is hard, sit with legs outstretched. | Add the three positioning points to step 1. | ☐ Yes ☐ No |
-| F04 | MEDIUM | new | ASCIA plans say to transfer the person to hospital for at least 4 hours of observation. The app does not say they need hospital after adrenaline. | Add: They need to go to hospital to be watched for at least 4 hours, even if they seem better. | ☐ Yes ☐ No |
-| F06 | MEDIUM | all | ANZCOR 9.2.7 was approved in 2019. ASCIA updated its plans in 2026 and its acute management guidelines in October 2026. Where they differ, the reviewer must decide which to follow. | Reviewer decision: name ASCIA 2026 as the primary source for anaphylaxis, with ANZCOR 9.2.7 as secondary. | ☐ Yes ☐ No |
-| F05 | LOW | S1 | ANZCOR says prevent further exposure to the trigger; ASCIA says flick out an insect sting if visible. The app says remove the trigger. | Stop further contact with the trigger if you can (for an insect sting, flick it out). | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F01 | HIGH | Judgement | S2; flow r_ana | The 2026 ASCIA plans say "give adrenaline device". Four devices are approved in Australia: EpiPen, Anapen and Jext injectors, and neffy nasal spray (Jext PBS listed from 1 June 2026, neffy from 1 July 2026). Each has its own instructions. General use devices in first aid kits are given when the person has no prescribed device, with the ASCIA First Aid Plan stored beside them. The app only describes an EpiPen or Anapen injected into the outer thigh. ANZCOR 9.2.7 dates from 2019, before neffy and Jext. | Draft for the reviewer, not final: Give an adrenaline device: their own if they have one, or a general use one from a first aid kit. Follow the instructions on the device and on their ASCIA Action Plan (or the ASCIA First Aid Plan kept with a general use device). Injectors (EpiPen, Anapen, Jext) go into the outer mid-thigh; neffy is sprayed into a nostril. Reviewer to decide the final wording, whether to name devices at all, and whether the drawings need a nasal spray version. Apply the same change to the question flow result. | ☐ Yes ☐ No |
+| F02 | HIGH | Source | new | ASCIA plans say "if in doubt, give adrenaline device". The app does not say this. ANZCOR 9.2.7 does not include it either. | Add: If in doubt, give the adrenaline device. | ☐ Yes ☐ No |
+| F03 | MEDIUM | Source | S1 | ASCIA positioning detail is missing: hold young children flat, not upright; if unconscious or pregnant, use the recovery position (left side if pregnant); if breathing is hard, sit with legs outstretched. | Add the three positioning points to step 1. | ☐ Yes ☐ No |
+| F04 | MEDIUM | Source | new | ASCIA plans say to transfer the person to hospital for at least 4 hours of observation. The app does not say they need hospital after adrenaline. | Add: They need to go to hospital to be watched for at least 4 hours, even if they seem better. | ☐ Yes ☐ No |
+| F06 | MEDIUM | Judgement | all | ANZCOR 9.2.7 was approved in 2019. ASCIA updated its plans in 2026 and its acute management guidelines in October 2026. Where they differ, the reviewer must decide which to follow. | Reviewer decision: name ASCIA 2026 as the primary source for anaphylaxis, with ANZCOR 9.2.7 as secondary. | ☐ Yes ☐ No |
+| F05 | LOW | Source | S1 | ANZCOR says prevent further exposure to the trigger; ASCIA says flick out an insect sting if visible. The app says remove the trigger. | Stop further contact with the trigger if you can (for an insect sting, flick it out). | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -231,11 +233,11 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F26 | LOW | S4 | Aspirin is a weak recommendation ("suggests"); the guideline’s exclusion is known aspirin allergy (anaphylaxis). The app’s "unless they’re allergic" is more cautious. | Reviewer to confirm. | ☐ Yes ☐ No |
-| F27 | LOW | W | The guideline’s list of people with milder or unusual symptoms also includes people with chronic inflammatory conditions. | Reviewer to confirm the list. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F26 | LOW | Judgement | S4 | Aspirin is a weak recommendation ("suggests"); the guideline’s exclusion is known aspirin allergy (anaphylaxis). The app’s "unless they’re allergic" is more cautious. | Reviewer to confirm. | ☐ Yes ☐ No |
+| F27 | LOW | Source | W | The guideline’s list of people with milder or unusual symptoms also includes people with chronic inflammatory conditions. | Reviewer to confirm the list. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -265,10 +267,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F28 | LOW | D1 | The guideline allows treating measured low blood glucose in a fully conscious person who can swallow. The app gives a blanket "nothing to eat or drink". | Reviewer to decide whether the exception belongs in a lay guide. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F28 | LOW | Judgement | D1 | The guideline allows treating measured low blood glucose in a fully conscious person who can swallow. The app gives a blanket "nothing to eat or drink". | Reviewer to decide whether the exception belongs in a lay guide. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -290,10 +292,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F35 | LOW | S1; S4 | Head tilt and rolling onto the back to start CPR come from Guidelines 4 and 8, not Guideline 3. | Credit Guidelines 4 and 8 as well. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F35 | LOW | Source | S1; S4 | Head tilt and rolling onto the back to start CPR come from Guidelines 4 and 8, not Guideline 3. | Credit Guidelines 4 and 8 as well. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -325,11 +327,11 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F33 | MEDIUM | all | The pressure immobilisation guideline (9.4.8) was approved in 2011, the oldest source the app uses. It also lists sea snakes, which the app does not mention. | Reviewer to confirm 9.4.8 is still current; consider adding sea snakes to the note on which bites use this bandage. | ☐ Yes ☐ No |
-| F32 | LOW | D2 | The guideline says not to use an arterial tourniquet. The app’s "don’t use a tourniquet" is broader and does not conflict. | None needed unless the reviewer prefers the exact term. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F33 | MEDIUM | Judgement | all | The pressure immobilisation guideline (9.4.8) was approved in 2011, the oldest source the app uses. It also lists sea snakes, which the app does not mention. | Reviewer to confirm 9.4.8 is still current; consider adding sea snakes to the note on which bites use this bandage. | ☐ Yes ☐ No |
+| F32 | LOW | Source | D2 | The guideline says not to use an arterial tourniquet. The app’s "don’t use a tourniquet" is broader and does not conflict. | None needed unless the reviewer prefers the exact term. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -373,13 +375,13 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F16 | MEDIUM | S4 | The current guideline (June 2025) says to liberally douse or spray with vinegar. The "30 seconds" duration was not found in it. | Reviewer to confirm. Possible wording: Pour plenty of vinegar over the sting, then pick off any tentacles. | ☐ Yes ☐ No |
-| F19 | MEDIUM | W | The geographic range "Bundaberg north, across the Top End to Geraldton WA" was not found in the current guideline, which refers to the tropical coastline. | Reviewer to confirm the range, or source it from Queensland or Surf Life Saving guidance, or replace with "tropical waters of northern Australia". | ☐ Yes ☐ No |
-| F17 | LOW | S7; src | The Irukandji symptoms in step 7 (sweating, trouble breathing) are in ANZCOR 9.4.5 section 2.2 but not on the healthdirect page the app credits. | Credit ANZCOR 9.4.5 for the symptoms; keep healthdirect only if it supports something else. | ☐ Yes ☐ No |
-| F18 | LOW | S9 | The guideline summary says 45°C for 20 minutes; its body says 43 to 45°C for up to 30 minutes. The app matches the summary. | Reviewer to confirm. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F16 | MEDIUM | Judgement | S4 | The current guideline (June 2025) says to liberally douse or spray with vinegar. The "30 seconds" duration was not found in it. | Reviewer to confirm. Possible wording: Pour plenty of vinegar over the sting, then pick off any tentacles. | ☐ Yes ☐ No |
+| F19 | MEDIUM | Judgement | W | The geographic range "Bundaberg north, across the Top End to Geraldton WA" was not found in the current guideline, which refers to the tropical coastline. | Reviewer to confirm the range, or source it from Queensland or Surf Life Saving guidance, or replace with "tropical waters of northern Australia". | ☐ Yes ☐ No |
+| F17 | LOW | Source | S7; src | The Irukandji symptoms in step 7 (sweating, trouble breathing) are in ANZCOR 9.4.5 section 2.2 but not on the healthdirect page the app credits. | Credit ANZCOR 9.4.5 for the symptoms; keep healthdirect only if it supports something else. | ☐ Yes ☐ No |
+| F18 | LOW | Source | S9 | The guideline summary says 45°C for 20 minutes; its body says 43 to 45°C for up to 30 minutes. The app matches the summary. | Reviewer to confirm. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -405,10 +407,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F34 | LOW | S2 | "Shake it" is a device instruction, not in the guideline. | Reviewer to confirm. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F34 | LOW | Source | S2 | "Shake it" is a device instruction, not in the guideline. | Reviewer to confirm. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -441,13 +443,13 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F20 | MEDIUM | S6 | The guideline says not to apply cling wrap or hydrogel dressings to chemical burns. The app’s chemical burn step does not say this. | Add to the chemical burn step: Don’t cover it with cling film. | ☐ Yes ☐ No |
-| F21 | LOW | S2 | The guideline says cool for at least 20 minutes. | Cool the burn under cool running water for at least 20 minutes. | ☐ Yes ☐ No |
-| F22 | LOW | S6; S7 | Chemical burns: the guideline allows flushing up to an hour, until stinging stops. Electrical: it gives 10 m as the maximum recommended distance and notes authorities differ. | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F23 | LOW | S3 | The guideline says remove wet, non-adherent clothing and jewellery without causing further damage. | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F20 | MEDIUM | Source | S6 | The guideline says not to apply cling wrap or hydrogel dressings to chemical burns. The app’s chemical burn step does not say this. | Add to the chemical burn step: Don’t cover it with cling wrap or a burn gel (hydrogel) dressing. | ☐ Yes ☐ No |
+| F21 | LOW | Source | S2 | The guideline says cool for at least 20 minutes. | Cool the burn under cool running water for at least 20 minutes. | ☐ Yes ☐ No |
+| F22 | LOW | Source | S6; S7 | Chemical burns: the guideline allows flushing up to an hour, until stinging stops. Electrical: it gives 10 m as the maximum recommended distance and notes authorities differ. | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F23 | LOW | Source | S3 | The guideline says remove wet, non-adherent clothing and jewellery without causing further damage. | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -474,10 +476,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F29 | MEDIUM | W | The guideline’s reasons to call an ambulance also include: there is no seizure management plan, and you are concerned about any aspect of their care. | Add both to the "Call 000 if" list. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F29 | MEDIUM | Source | W | The guideline’s reasons to call an ambulance also include: there is no seizure management plan, and you are concerned about any aspect of their care. | Add both to the "Call 000 if" list. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -503,10 +505,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F30 | LOW | W | "Very drowsy" and "hot dry skin" are not listed as ambulance triggers (dry skin is listed as a red flag sign). | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F30 | LOW | Judgement | W | "Very drowsy" and "hot dry skin" are not listed as ambulance triggers (dry skin is listed as a red flag sign). | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -539,13 +541,13 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F07 | HIGH | S8 | ANZCOR 9.5.1 (section 4.6) says to give nothing by mouth if there is difficulty breathing or bleeding. The app only says to give honey or jam if they can breathe and swallow without trouble, so it misses the bleeding condition. | On the way, if they have no trouble breathing and no bleeding (including vomiting blood): over 1 year, 2 teaspoons (10 mL) of honey every 10 minutes... | ☐ Yes ☐ No |
-| F08 | MEDIUM | W | The ambulance triggers "drowsy, trouble breathing, or you’re worried" are the app’s own. The guideline says to send for an ambulance promptly in its listed circumstances. | Reviewer to confirm or replace the 000 triggers. | ☐ Yes ☐ No |
-| F09 | LOW | S4 | The guideline also allows saline or contact lens solution for flushing the eye. | In the eye: hold the eyelids open and flush with cold water, saline or contact lens solution for 15 minutes. | ☐ Yes ☐ No |
-| F10 | LOW | S7 | The guideline describes the battery compartment being open, and treats chest pain as a sign only alongside other circumstances. | Reviewer to confirm wording. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F07 | HIGH | Source | S8 | ANZCOR 9.5.1 (section 4.6) says to give nothing by mouth if there is difficulty breathing or bleeding. The app only says to give honey or jam if they can breathe and swallow without trouble, so it misses the bleeding condition. | On the way, if they have no trouble breathing and no bleeding (including vomiting blood): over 1 year, 2 teaspoons (10 mL) of honey every 10 minutes... | ☐ Yes ☐ No |
+| F08 | MEDIUM | Judgement | W | The ambulance triggers "drowsy, trouble breathing, or you’re worried" are the app’s own. The guideline says to send for an ambulance promptly in its listed circumstances. | Reviewer to confirm or replace the 000 triggers. | ☐ Yes ☐ No |
+| F09 | LOW | Source | S4 | The guideline also allows saline or contact lens solution for flushing the eye. | In the eye: hold the eyelids open and flush with cold water, saline or contact lens solution for 15 minutes. | ☐ Yes ☐ No |
+| F10 | LOW | Source | S7 | The guideline describes the battery compartment being open, and treats chest pain as a sign only alongside other circumstances. | Reviewer to confirm wording. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -570,10 +572,10 @@ This pack contains every instruction, drawing, 3D caption and question in the ap
 
 **Source check findings**
 
-| ID | Severity | Item | Finding | Proposed change | Agree? |
-|---|---|---|---|---|---|
-| F31 | LOW | S3 | The 20-minute limit on cold packs is stated for redback bites only. | Reviewer to confirm. | ☐ Yes ☐ No |
-| F36 | LOW | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
+| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |
+|---|---|---|---|---|---|---|
+| F31 | LOW | Source | S3 | The 20-minute limit on cold packs is stated for redback bites only. | Reviewer to confirm. | ☐ Yes ☐ No |
+| F36 | LOW | Source | 000 | ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app. | Add the Australian Government Triple Zero site as the source for 000. | ☐ Yes ☐ No |
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
@@ -611,10 +613,10 @@ Each answer leads to the next question or to a result. Results restate topic ste
 
 **Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________
 
-- **F39 (MEDIUM):** The question flow’s questions and answer groupings are the app’s own wording. Results restate topic steps, so findings F01, F07 and F29 also affect it. *Proposed:* Reviewer to approve every node; apply topic corrections to matching results.
-- **F38 (MEDIUM):** The six 3D captions are general anatomy written for the app and have no clinical source. *Proposed:* Reviewer to approve or rewrite each caption.
-- **F40 (MEDIUM):** The 57 drawings are simplified diagrams with no clinical source. Highest risk: CPR hand position, infant back blows, and the snake-bite bandage. *Proposed:* Reviewer to approve each drawing used in a step.
+- **F39 (MEDIUM, Judgement):** The question flow’s questions and answer groupings are the app’s own wording. Results restate topic steps, so findings F01, F07 and F29 also affect it. *Proposed:* Reviewer to approve every node; apply topic corrections to matching results.
+- **F38 (MEDIUM, Judgement):** The six 3D captions are general anatomy written for the app and have no clinical source. *Proposed:* Reviewer to approve or rewrite each caption.
+- **F40 (MEDIUM, Judgement):** The 57 drawings are simplified diagrams with no clinical source. Highest risk: CPR hand position, infant back blows, and the snake-bite bandage. *Proposed:* Reviewer to approve each drawing used in a step.
 
 ## Recording the outcome (project owner)
 
-For each item the reviewer signs off, update `data/topic-reviews.json`: set `review.reviewer`, `review.qualification`, `review.reviewedAt`, `sourceCheck.confirmedBy`, mark each finding in `data/source-findings.json` as `accepted`, `rejected` or `resolved`, and set the status to `CLINICALLY REVIEWED`. Make any agreed content changes in a separate pull request. Then set `APPROVED FOR PUBLICATION` with `publication.approvedBy`, `publication.approvedAt` and `nextReview` (within 12 months). The build refuses approval while HIGH findings are open or details are missing. See `docs/CLINICAL_GOVERNANCE.md`.
+For each item the reviewer signs off, update `data/topic-reviews.json`: set `review.reviewer`, `review.qualification`, `review.reviewedAt`, `sourceCheck.confirmedBy`, mark each finding in `data/source-findings.json` as `accepted`, `rejected` or `resolved`, and set the status to `CLINICALLY REVIEWED`. Make any agreed content changes in a separate pull request. Then set `APPROVED FOR PUBLICATION` with `publication.approvedBy`, `publication.approvedAt`, `publication.contentHash` (from `node tests/release_gate.mjs --print-hashes`) and `nextReview` (within 12 months). The build refuses approval while HIGH findings are open or details are missing. Before promoting the guide as reviewed, run `node tests/release_gate.mjs`; it passes only when every item is approved, unchanged since approval, and every finding is decided. See `docs/CLINICAL_GOVERNANCE.md`.

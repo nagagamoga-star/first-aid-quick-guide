@@ -14,10 +14,11 @@
       "item": "S2; flow r_ana",
       "severity": "HIGH",
       "type": "currency",
-      "source": "ASCIA-FAP",
-      "finding": "The 2026 ASCIA plans say \"give adrenaline device\" and include a nasal adrenaline spray (neffy) as well as autoinjectors. The app only describes an autoinjector (EpiPen or Anapen) into the outer thigh. ANZCOR 9.2.7 dates from 2019, before nasal adrenaline.",
-      "proposal": "Give their adrenaline device as its instructions show: an autoinjector (EpiPen or Anapen) into the outer mid-thigh, or a nasal spray (neffy). Follow their ASCIA Action Plan. Apply the same change to the question flow result.",
-      "status": "open"
+      "source": "ASCIA-DEVICES",
+      "finding": "The 2026 ASCIA plans say \"give adrenaline device\". Four devices are approved in Australia: EpiPen, Anapen and Jext injectors, and neffy nasal spray (Jext PBS listed from 1 June 2026, neffy from 1 July 2026). Each has its own instructions. General use devices in first aid kits are given when the person has no prescribed device, with the ASCIA First Aid Plan stored beside them. The app only describes an EpiPen or Anapen injected into the outer thigh. ANZCOR 9.2.7 dates from 2019, before neffy and Jext.",
+      "proposal": "Draft for the reviewer, not final: Give an adrenaline device: their own if they have one, or a general use one from a first aid kit. Follow the instructions on the device and on their ASCIA Action Plan (or the ASCIA First Aid Plan kept with a general use device). Injectors (EpiPen, Anapen, Jext) go into the outer mid-thigh; neffy is sprayed into a nostril. Reviewer to decide the final wording, whether to name devices at all, and whether the drawings need a nasal spray version. Apply the same change to the question flow result.",
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F02",
@@ -28,7 +29,8 @@
       "source": "ASCIA-FAP",
       "finding": "ASCIA plans say \"if in doubt, give adrenaline device\". The app does not say this. ANZCOR 9.2.7 does not include it either.",
       "proposal": "Add: If in doubt, give the adrenaline device.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F03",
@@ -39,7 +41,8 @@
       "source": "ASCIA-FAP",
       "finding": "ASCIA positioning detail is missing: hold young children flat, not upright; if unconscious or pregnant, use the recovery position (left side if pregnant); if breathing is hard, sit with legs outstretched.",
       "proposal": "Add the three positioning points to step 1.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F04",
@@ -50,7 +53,8 @@
       "source": "ASCIA-FAP",
       "finding": "ASCIA plans say to transfer the person to hospital for at least 4 hours of observation. The app does not say they need hospital after adrenaline.",
       "proposal": "Add: They need to go to hospital to be watched for at least 4 hours, even if they seem better.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F05",
@@ -61,7 +65,8 @@
       "source": "ANZCOR-9.2.7",
       "finding": "ANZCOR says prevent further exposure to the trigger; ASCIA says flick out an insect sting if visible. The app says remove the trigger.",
       "proposal": "Stop further contact with the trigger if you can (for an insect sting, flick it out).",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F06",
@@ -72,7 +77,8 @@
       "source": "ANZCOR-9.2.7",
       "finding": "ANZCOR 9.2.7 was approved in 2019. ASCIA updated its plans in 2026 and its acute management guidelines in October 2026. Where they differ, the reviewer must decide which to follow.",
       "proposal": "Reviewer decision: name ASCIA 2026 as the primary source for anaphylaxis, with ANZCOR 9.2.7 as secondary.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F07",
@@ -83,7 +89,8 @@
       "source": "ANZCOR-9.5.1",
       "finding": "ANZCOR 9.5.1 (section 4.6) says to give nothing by mouth if there is difficulty breathing or bleeding. The app only says to give honey or jam if they can breathe and swallow without trouble, so it misses the bleeding condition.",
       "proposal": "On the way, if they have no trouble breathing and no bleeding (including vomiting blood): over 1 year, 2 teaspoons (10 mL) of honey every 10 minutes...",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F08",
@@ -94,7 +101,8 @@
       "source": "ANZCOR-9.5.1",
       "finding": "The ambulance triggers \"drowsy, trouble breathing, or you’re worried\" are the app’s own. The guideline says to send for an ambulance promptly in its listed circumstances.",
       "proposal": "Reviewer to confirm or replace the 000 triggers.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F09",
@@ -105,7 +113,8 @@
       "source": "ANZCOR-9.5.1",
       "finding": "The guideline also allows saline or contact lens solution for flushing the eye.",
       "proposal": "In the eye: hold the eyelids open and flush with cold water, saline or contact lens solution for 15 minutes.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F10",
@@ -116,7 +125,8 @@
       "source": "ANZCOR-9.5.1",
       "finding": "The guideline describes the battery compartment being open, and treats chest pain as a sign only alongside other circumstances.",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F11",
@@ -127,7 +137,8 @@
       "source": "ANZCOR-4",
       "finding": "The app says: if you can see something in the mouth, roll them onto their side and remove it, then tilt the head back. Guideline 4 says the person should not be routinely rolled onto the side, describes removing visible material with the head turned slightly downwards, and keeps rolling for fluid or matter blocking the airway.",
       "proposal": "Reviewer to confirm the airway step wording against Guideline 4 and the BLS flowchart.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F12",
@@ -138,7 +149,8 @@
       "source": "ANZCOR-3",
       "finding": "ANZCOR describes \"talk and touch\" (for example \"open your eyes\") and squeezing the shoulders. The app says to say their name loudly.",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F13",
@@ -149,7 +161,8 @@
       "source": "ANZCOR-8",
       "finding": "Swapping rescuers every couple of minutes is not in Guideline 8. The app already says so.",
       "proposal": "Reviewer to decide whether to keep it.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F14",
@@ -160,7 +173,8 @@
       "source": "ANZCOR-6",
       "finding": "Guideline 6 gives depth as one-third of the chest, about 4 cm (infant) and 5 cm (child), and more than 5 cm for adults. Age bands are not defined there.",
       "proposal": "Reviewer to confirm the depth table wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F15",
@@ -171,7 +185,8 @@
       "source": "ANZCOR-8",
       "finding": "Guideline 8 also lists stopping when a health professional directs that CPR be stopped.",
       "proposal": "Keep going until ... a paramedic or health professional takes over or tells you to stop ...",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F16",
@@ -182,7 +197,8 @@
       "source": "ANZCOR-9.4.5",
       "finding": "The current guideline (June 2025) says to liberally douse or spray with vinegar. The \"30 seconds\" duration was not found in it.",
       "proposal": "Reviewer to confirm. Possible wording: Pour plenty of vinegar over the sting, then pick off any tentacles.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F17",
@@ -193,7 +209,8 @@
       "source": "ANZCOR-9.4.5",
       "finding": "The Irukandji symptoms in step 7 (sweating, trouble breathing) are in ANZCOR 9.4.5 section 2.2 but not on the healthdirect page the app credits.",
       "proposal": "Credit ANZCOR 9.4.5 for the symptoms; keep healthdirect only if it supports something else.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F18",
@@ -204,7 +221,8 @@
       "source": "ANZCOR-9.4.5",
       "finding": "The guideline summary says 45°C for 20 minutes; its body says 43 to 45°C for up to 30 minutes. The app matches the summary.",
       "proposal": "Reviewer to confirm.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F19",
@@ -215,7 +233,8 @@
       "source": "ANZCOR-9.4.5",
       "finding": "The geographic range \"Bundaberg north, across the Top End to Geraldton WA\" was not found in the current guideline, which refers to the tropical coastline.",
       "proposal": "Reviewer to confirm the range, or source it from Queensland or Surf Life Saving guidance, or replace with \"tropical waters of northern Australia\".",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F20",
@@ -225,8 +244,9 @@
       "type": "omission",
       "source": "ANZCOR-9.1.3",
       "finding": "The guideline says not to apply cling wrap or hydrogel dressings to chemical burns. The app’s chemical burn step does not say this.",
-      "proposal": "Add to the chemical burn step: Don’t cover it with cling film.",
-      "status": "open"
+      "proposal": "Add to the chemical burn step: Don’t cover it with cling wrap or a burn gel (hydrogel) dressing.",
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F21",
@@ -237,7 +257,8 @@
       "source": "ANZCOR-9.1.3",
       "finding": "The guideline says cool for at least 20 minutes.",
       "proposal": "Cool the burn under cool running water for at least 20 minutes.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F22",
@@ -248,7 +269,8 @@
       "source": "ANZCOR-9.1.3",
       "finding": "Chemical burns: the guideline allows flushing up to an hour, until stinging stops. Electrical: it gives 10 m as the maximum recommended distance and notes authorities differ.",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F23",
@@ -259,7 +281,8 @@
       "source": "ANZCOR-9.1.3",
       "finding": "The guideline says remove wet, non-adherent clothing and jewellery without causing further damage.",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F24",
@@ -270,7 +293,8 @@
       "source": "ANZCOR-9.1.1",
       "finding": "The app’s shock signs (pale, sweaty, confused, drowsy) are looser than the guideline’s criteria.",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F25",
@@ -281,7 +305,8 @@
       "source": "ANZCOR-9.1.1",
       "finding": "The guideline places a tourniquet above the bleeding point. A July 2025 editorial covers prolonged tourniquet use.",
       "proposal": "Reviewer to confirm whether anything from the 2025 editorial belongs in a lay guide.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F26",
@@ -292,7 +317,8 @@
       "source": "ANZCOR-9.2.1",
       "finding": "Aspirin is a weak recommendation (\"suggests\"); the guideline’s exclusion is known aspirin allergy (anaphylaxis). The app’s \"unless they’re allergic\" is more cautious.",
       "proposal": "Reviewer to confirm.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F27",
@@ -303,7 +329,8 @@
       "source": "ANZCOR-9.2.1",
       "finding": "The guideline’s list of people with milder or unusual symptoms also includes people with chronic inflammatory conditions.",
       "proposal": "Reviewer to confirm the list.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F28",
@@ -314,7 +341,8 @@
       "source": "ANZCOR-9.2.2",
       "finding": "The guideline allows treating measured low blood glucose in a fully conscious person who can swallow. The app gives a blanket \"nothing to eat or drink\".",
       "proposal": "Reviewer to decide whether the exception belongs in a lay guide.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F29",
@@ -325,7 +353,8 @@
       "source": "ANZCOR-9.2.4",
       "finding": "The guideline’s reasons to call an ambulance also include: there is no seizure management plan, and you are concerned about any aspect of their care.",
       "proposal": "Add both to the \"Call 000 if\" list.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F30",
@@ -336,7 +365,8 @@
       "source": "ANZCOR-9.3.4",
       "finding": "\"Very drowsy\" and \"hot dry skin\" are not listed as ambulance triggers (dry skin is listed as a red flag sign).",
       "proposal": "Reviewer to confirm wording.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F31",
@@ -347,7 +377,8 @@
       "source": "ANZCOR-9.4.2",
       "finding": "The 20-minute limit on cold packs is stated for redback bites only.",
       "proposal": "Reviewer to confirm.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F32",
@@ -358,7 +389,8 @@
       "source": "ANZCOR-9.4.1",
       "finding": "The guideline says not to use an arterial tourniquet. The app’s \"don’t use a tourniquet\" is broader and does not conflict.",
       "proposal": "None needed unless the reviewer prefers the exact term.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F33",
@@ -369,7 +401,8 @@
       "source": "ANZCOR-9.4.8",
       "finding": "The pressure immobilisation guideline (9.4.8) was approved in 2011, the oldest source the app uses. It also lists sea snakes, which the app does not mention.",
       "proposal": "Reviewer to confirm 9.4.8 is still current; consider adding sea snakes to the note on which bites use this bandage.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F34",
@@ -380,7 +413,8 @@
       "source": "ANZCOR-9.2.5",
       "finding": "\"Shake it\" is a device instruction, not in the guideline.",
       "proposal": "Reviewer to confirm.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F35",
@@ -391,7 +425,8 @@
       "source": "ANZCOR-3",
       "finding": "Head tilt and rolling onto the back to start CPR come from Guidelines 4 and 8, not Guideline 3.",
       "proposal": "Credit Guidelines 4 and 8 as well.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F36",
@@ -402,7 +437,8 @@
       "source": null,
       "finding": "ANZCOR covers Australia and New Zealand and gives no phone numbers. The 000 number is not sourced in the app.",
       "proposal": "Add the Australian Government Triple Zero site as the source for 000.",
-      "status": "open"
+      "status": "open",
+      "basis": "source"
     },
     {
       "id": "F37",
@@ -413,7 +449,8 @@
       "source": "ANZCOR-4",
       "finding": "\"Two fingers\" for infant chest thrusts comes from Guideline 6 (compressions), not Guideline 4. ANZCOR’s 2026 paediatric updates added a section on choking in children (health professional guideline); the reviewer should check the lay steps still agree.",
       "proposal": "Reviewer to check against the 2026 paediatric update.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F38",
@@ -424,7 +461,8 @@
       "source": null,
       "finding": "The six 3D captions are general anatomy written for the app and have no clinical source.",
       "proposal": "Reviewer to approve or rewrite each caption.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F39",
@@ -435,7 +473,8 @@
       "source": "ANZCOR-8",
       "finding": "The question flow’s questions and answer groupings are the app’s own wording. Results restate topic steps, so findings F01, F07 and F29 also affect it.",
       "proposal": "Reviewer to approve every node; apply topic corrections to matching results.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     },
     {
       "id": "F40",
@@ -446,7 +485,12 @@
       "source": null,
       "finding": "The 57 drawings are simplified diagrams with no clinical source. Highest risk: CPR hand position, infant back blows, and the snake-bite bandage.",
       "proposal": "Reviewer to approve each drawing used in a step.",
-      "status": "open"
+      "status": "open",
+      "basis": "judgement"
     }
-  ]
+  ],
+  "basis": {
+    "source": "The source states it. The reviewer checks the app matches the source and that the wording works for the public.",
+    "judgement": "The source does not settle it, or adding it is a choice. The reviewer decides what suits a general Australian first aid audience; matching the source is not enough."
+  }
 }

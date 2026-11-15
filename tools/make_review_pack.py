@@ -57,9 +57,10 @@ w('# Clinical Review Pack: First Aid Quick Guide\n')
 w(f'Generated from the app\'s content on {fin["checkedOn"]}. Live site: https://nagagamoga-star.github.io/first-aid-quick-guide/\n')
 w('## For the reviewer\n')
 w('This pack contains every instruction, drawing, 3D caption and question in the app, exactly as users see them. Please mark each item **Approve**, **Change** (write the change) or **Remove**, and sign each section. Nothing is published as reviewed until you sign off.\n')
-w('- **Who can review:** a currently accredited first aid trainer, or a registered nurse, paramedic or doctor with current first aid and CPR knowledge.')
-w('- **What to check:** that each step matches current Australian first aid guidance (ANZCOR, and ASCIA for anaphylaxis), is safe for a member of the public to follow, and that each drawing shows the step correctly.')
-w('- **Findings:** an AI-assisted comparison against the official pages found the issues listed under each topic. Please confirm or reject each one. Three are marked HIGH and should be settled first.')
+w('- **Who can review:** preferably a currently accredited first aid trainer with current practical teaching experience; otherwise a paramedic, emergency or critical care nurse, or emergency doctor whose current work involves first response or first aid training. General registration alone is not enough. You will also need to review the drawings and the question flow.')
+w('- **What to check:** two questions for every item. Does it match current Australian first aid guidance (ANZCOR, and ASCIA for anaphylaxis)? And is it appropriate for a member of the public in Australia, with no training, to follow under stress? An item can match its source and still need changing. Also check that each drawing shows the step correctly.')
+w('- **Findings:** an AI-assisted comparison against the official pages found the issues listed under each topic. Please confirm or reject each one. Three are marked HIGH and should be settled first. The proposed changes are drafts for you to accept, edit or reject, not recommendations.')
+w('- **Basis:** each finding is marked **Source** (the guideline states it; check the app matches and reads well) or **Judgement** (the guideline does not settle it, so your clinical judgement decides what suits a general audience). %d of %d findings need judgement.' % (sum(f.get('basis') == 'judgement' for f in fin['findings']), len(fin['findings'])))
 w('- **Item IDs:** W = "when to act" box, S1, S2… = steps, N = notes, D = "Don\'t" items.\n')
 w('## Summary\n')
 w('| Topic | Sources (version) | Findings H / M / L | Status |')
@@ -71,7 +72,7 @@ for t in data['topics']:
     w(f'| [{t["title"]}](#{slug(t["title"])}) | {srcs} | {c[0]} / {c[1]} / {c[2]} | {items[t["id"]]["status"]} |')
 w('\n### HIGH findings (settle first)\n')
 for f in findings:
-    if f['severity'] == 'HIGH': w(f'- **{f["id"]} ({f["topic"]}, {f["item"]}):** {f["finding"]} *Proposed:* {f["proposal"]}')
+    if f['severity'] == 'HIGH': w(f'- **{f["id"]} ({f["topic"]}, {f["item"]}, {f["basis"].capitalize()}):** {f["finding"]} *Proposed:* {f["proposal"]}')
 w('')
 for t in data['topics']:
     reg = next(x for x in src['topics'] if x['id'] == t['id'])
@@ -96,9 +97,9 @@ for t in data['topics']:
     tf = sorted(topic_findings(t['id']), key=lambda f: SEV[f['severity']])
     if tf:
         w('\n**Source check findings**\n')
-        w('| ID | Severity | Item | Finding | Proposed change | Agree? |')
-        w('|---|---|---|---|---|---|')
-        for f in tf: w(f'| {f["id"]} | {f["severity"]} | {f["item"]} | {f["finding"]} | {f["proposal"]} | ☐ Yes ☐ No |')
+        w('| ID | Severity | Basis | Item | Finding | Proposed change | Agree? |')
+        w('|---|---|---|---|---|---|---|')
+        for f in tf: w(f'| {f["id"]} | {f["severity"]} | {f["basis"].capitalize()} | {f["item"]} | {f["finding"]} | {f["proposal"]} | ☐ Yes ☐ No |')
     w('\n**Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________\n')
 
 w('\n## Question flow ("What\'s happening?")\n')
@@ -116,9 +117,9 @@ for nid, n in data['flow'].items():
         w(f'| {nid} | {pre}{text(n["q"])}{note} | {ans} | ☐ A ☐ C ☐ R |')
 w('\n**Sign-off:** Reviewer name ______________________  Qualification ______________________  Date ____________  Signature ______________________\n')
 for cid in ('question-flow', '3d-captions', 'illustrations'):
-    for f in topic_findings(cid): w(f'- **{f["id"]} ({f["severity"]}):** {f["finding"]} *Proposed:* {f["proposal"]}')
+    for f in topic_findings(cid): w(f'- **{f["id"]} ({f["severity"]}, {f["basis"].capitalize()}):** {f["finding"]} *Proposed:* {f["proposal"]}')
 w('\n## Recording the outcome (project owner)\n')
-w('For each item the reviewer signs off, update `data/topic-reviews.json`: set `review.reviewer`, `review.qualification`, `review.reviewedAt`, `sourceCheck.confirmedBy`, mark each finding in `data/source-findings.json` as `accepted`, `rejected` or `resolved`, and set the status to `CLINICALLY REVIEWED`. Make any agreed content changes in a separate pull request. Then set `APPROVED FOR PUBLICATION` with `publication.approvedBy`, `publication.approvedAt` and `nextReview` (within 12 months). The build refuses approval while HIGH findings are open or details are missing. See `docs/CLINICAL_GOVERNANCE.md`.')
+w('For each item the reviewer signs off, update `data/topic-reviews.json`: set `review.reviewer`, `review.qualification`, `review.reviewedAt`, `sourceCheck.confirmedBy`, mark each finding in `data/source-findings.json` as `accepted`, `rejected` or `resolved`, and set the status to `CLINICALLY REVIEWED`. Make any agreed content changes in a separate pull request. Then set `APPROVED FOR PUBLICATION` with `publication.approvedBy`, `publication.approvedAt`, `publication.contentHash` (from `node tests/release_gate.mjs --print-hashes`) and `nextReview` (within 12 months). The build refuses approval while HIGH findings are open or details are missing. Before promoting the guide as reviewed, run `node tests/release_gate.mjs`; it passes only when every item is approved, unchanged since approval, and every finding is decided. See `docs/CLINICAL_GOVERNANCE.md`.')
 open(os.path.join(OUT, 'REVIEW_PACK.md'), 'w').write('\n'.join(md) + '\n')
 print(f'wrote REVIEW_PACK.md and {len(data["arts"])} drawings')
 

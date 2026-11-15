@@ -58,6 +58,7 @@ for (const it of rev.items) {
   if (it.status === 'APPROVED FOR PUBLICATION') {
     ok(it.publication.approvedBy && DATE.test(it.publication.approvedAt || ''), `${it.id}: approval needs approvedBy and approvedAt`);
     ok(DATE.test(it.nextReview || ''), `${it.id}: approval needs nextReview`);
+    ok(/^[0-9a-f]{16}$/.test(it.publication.contentHash || ''), `${it.id}: approval needs publication.contentHash (node tests/release_gate.mjs --print-hashes)`);
     if (it.nextReview && it.nextReview < today) errors.push(`${it.id}: review was due ${it.nextReview}; set status to REVIEW OVERDUE and arrange a review`);
   }
   for (const f of it.openFindings || []) ok(fin.findings.some(x => x.id === f), `${it.id}: unknown finding ${f}`);
@@ -72,11 +73,13 @@ for (const f of fin.findings) {
   ok(['open', 'accepted', 'rejected', 'resolved'].includes(f.status), `${f.id}: bad status`);
   ok(f.topic === 'all' || topicIds.includes(f.topic) || compIds.includes(f.topic), `${f.id}: unknown topic ${f.topic}`);
   ok(!f.source || src.sources[f.source], `${f.id}: unknown source ${f.source}`);
+  ok(fin.basis && Object.hasOwn(fin.basis, f.basis), `${f.id}: basis must be one of ${Object.keys(fin.basis || {}).join(', ')}`);
 }
 
 const counts = rev.items.reduce((a, i) => (a[i.status] = (a[i.status] || 0) + 1, a), {});
 const openHigh = fin.findings.filter(f => f.severity === 'HIGH' && f.status === 'open').length;
-console.log(`governance: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(', ')}; findings ${fin.findings.length} (${openHigh} open HIGH)`);
+const judged = fin.findings.filter(f => f.basis === 'judgement').length;
+console.log(`governance: ${Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(', ')}; findings ${fin.findings.length} (${openHigh} open HIGH, ${judged} need clinical judgement)`);
 warn.forEach(w => console.log('WARN ' + w));
 if (errors.length) { errors.forEach(e => console.log('FAIL ' + e)); process.exit(1); }
 console.log('PASS governance');

@@ -10,7 +10,7 @@
     "SUPERSEDED"
   ],
   "reviewIntervalMonths": 12,
-  "note": "Review register. Only a qualified reviewer (accredited first aid trainer or registered clinician) can move an item to CLINICALLY REVIEWED. Only the project owner can move it to APPROVED FOR PUBLICATION. See docs/CLINICAL_GOVERNANCE.md.",
+  "note": "Review register. Only a qualified reviewer (see docs/CLINICAL_GOVERNANCE.md, \"Who can review\") can move an item to CLINICALLY REVIEWED. Only the project owner can move it to APPROVED FOR PUBLICATION, recording publication.contentHash from `node tests/release_gate.mjs --print-hashes`.",
   "items": [
     {
       "id": "collapse",
@@ -34,7 +34,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -69,7 +70,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -102,7 +104,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -136,7 +139,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -174,7 +178,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -208,7 +213,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -241,7 +247,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -274,7 +281,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -308,7 +316,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -344,7 +353,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -377,7 +387,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -413,7 +424,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -446,7 +458,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -479,7 +492,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -515,7 +529,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -548,7 +563,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -580,7 +596,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -612,7 +629,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
@@ -644,7 +662,8 @@
       },
       "publication": {
         "approvedBy": null,
-        "approvedAt": null
+        "approvedAt": null,
+        "contentHash": null
       },
       "nextReview": null,
       "history": [
