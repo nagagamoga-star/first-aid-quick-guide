@@ -4,6 +4,7 @@ An illustrated, step-by-step first aid guide for Australia, built as a single we
 
 **Live site:** https://nagagamoga-star.github.io/first-aid-quick-guide/
 
+- "What's happening?" question flow: a few questions that follow ANZCOR's first-steps sequence (DRSABCD) and lead to the right topic, with when to call 000 (`#help`)
 - A 3D carousel of 16 topics, with search and quick links for when speed matters
 - Illustrated step cards for each topic (swipe, tap or use the arrow keys), plus a list view
 - An always-visible bar with 000 and the Poisons Information Centre (13 11 26)
@@ -42,6 +43,7 @@ src/
   style.css       Styles and colour tokens (light and dark)
   art.js          Illustration library (inline SVG pictograms)
   topics.js       All first aid content and sources
+  flow.js         Question flow: questions, answers and results (each result links to a topic)
   viewer.js       3D body viewer (three.js 0.147, loaded on demand from jsDelivr)
   app.js          Carousel, step player, routing, CPR beat
   build.py        Inlines src/ into index.html

@@ -213,10 +213,49 @@
     });
   }
 
+
+  /* ---------- "What's happening?" question flow ---------- */
+  var help = $('help'), hist = [];
+  function renderFlow(id){
+    var n = FLOW[id], h = '<a class="back" href="#">\u2190 All topics</a>';
+    h += '<header class="fhead"><span class="tag">Answer a few questions</span><h1 id="fTitle" tabindex="-1">What\u2019s happening?</h1></header>';
+    h += '<section class="fcard' + (n.end ? ' fresult' : '') + '" aria-live="polite">';
+    if (n.call === true) h += '<p class="fcall"><strong>Call 000 now</strong>, or get someone else to call while you stay with them.</p>';
+    else if (n.call) h += '<p class="fcall soft">' + n.call + '</p>';
+    if (!n.end){
+      h += '<h2 class="fq">' + n.q + '</h2>';
+      if (n.note) h += '<p class="fnote">' + n.note + '</p>';
+      h += '<div class="fans">' + n.a.map(function(x, i){ return '<button type="button" class="fbtn' + (x.alarm ? ' alarm' : '') + '" data-i="' + i + '">' + x.t + '</button>'; }).join('') + '</div>';
+    } else {
+      var t = byId[n.topic];
+      h += '<h2 class="fq">' + n.h + '</h2><p class="fp">' + n.p + '</p>';
+      if (t) h += '<a class="fgo" href="#' + t.id + '">' + (t.id === 'collapse' ? 'Go to: Someone has collapsed (DRSABCD)' : 'Go to the full steps: ' + t.title) + ' \u2192</a>';
+    }
+    h += '</section><div class="fnav">' + (hist.length ? '<button type="button" class="pbtn" id="fBack">\u2190 Previous question</button>' : '') +
+      (id !== 'start' ? '<button type="button" class="pbtn" id="fRestart">Start again</button>' : '') + '</div>';
+    h += '<p class="src">These questions follow the ANZCOR first-steps sequence (DRSABCD). Each answer leads to the full steps and their sources.</p>';
+    help.innerHTML = h; fixNumbers(help);
+    [].forEach.call(help.querySelectorAll('.fbtn'), function(b){
+      b.addEventListener('click', function(){ hist.push(id); renderFlow(n.a[+b.getAttribute('data-i')].go); focusFlow(); });
+    });
+    if ($('fBack')) $('fBack').addEventListener('click', function(){ renderFlow(hist.pop()); focusFlow(); });
+    if ($('fRestart')) $('fRestart').addEventListener('click', function(){ hist = []; renderFlow('start'); focusFlow(); });
+  }
+  function focusFlow(){ window.scrollTo(0, 0); var q = help.querySelector('.fq'); if (q){ q.tabIndex = -1; q.focus({preventScroll:true}); } }
+
   /* ---------- Routing ---------- */
   function route(){
     var id = location.hash.replace('#', '');
     var t = byId[id];
+    if (id === 'help'){
+      stopBeat(); Anatomy.dispose();
+      home.hidden = true; view.hidden = true; help.hidden = false; cur = null; view.innerHTML = '';
+      hist = []; renderFlow('start'); window.scrollTo(0, 0);
+      var ft = $('fTitle'); if (ft) ft.focus({preventScroll:true});
+      document.title = 'What\u2019s happening? | First Aid Quick Guide';
+      return;
+    }
+    help.hidden = true;
     if (t){
       home.hidden = true; view.hidden = false;
       if (cur !== t || view.innerHTML === '') renderTopic(t);
