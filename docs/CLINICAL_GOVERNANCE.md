@@ -16,10 +16,12 @@ How first aid content in this app is sourced, checked, reviewed, approved and ke
 
 General professional registration is not enough on its own. In order of preference:
 
-1. A currently accredited first aid trainer (delivering HLTAID units through a registered training organisation) with current practical teaching experience.
-2. A paramedic, emergency or critical care nurse, or emergency doctor whose current work involves first response or first aid training.
+1. A currently accredited first aid trainer delivering the relevant HLTAID units through a registered training organisation, with current practical teaching experience.
+2. A paramedic, emergency or critical care nurse, or emergency doctor whose current role includes first response, emergency care or first-aid education, and whose recent practice is relevant to the topics being reviewed.
 
-The reviewer must also be willing to review the drawings and the question flow, not only the text, and to judge whether each instruction suits a member of the public with no training. Record the qualification and how it was confirmed (for example, a trainer's RTO and current HLTAID units) in `review.qualification`. One reviewer can cover all items; a second reviewer is advised for the three HIGH findings.
+**Match competence to the review scope.** Do not assume that one qualification automatically demonstrates current competence across every topic. The reviewer must identify any area outside their current scope and refer it to a second suitably experienced reviewer. Particular care is required for anaphylaxis and adrenaline devices, CPR and choking (including infants and children), poisoning and button batteries, marine envenomation, burns, and the clinical accuracy of diagrams. A second reviewer is recommended for the three HIGH findings and any specialist area outside the primary reviewer's regular practice.
+
+The reviewer must assess the written instructions, illustrations, 3D captions and question flow, and judge whether each item is appropriate for an untrained member of the Australian public to follow under stress. Record the qualification category, relevant current experience and how credentials were verified in `review.qualification`. Verification should be performed privately (for example, confirming current RTO authorisation and relevant HLTAID scope, or confirming professional registration and relevant current practice). Do not put registration numbers, contact details, identity documents or signatures in the public repository. If the reviewer does not consent to public attribution, record an agreed role or reviewer code in the repository and retain the signed review pack securely outside GitHub.
 
 ## 2. Source hierarchy
 
@@ -74,7 +76,7 @@ The **release gate**, `node tests/release_gate.mjs`, is the publication control.
 
 Run it before announcing or promoting the guide as reviewed, and before any "Clinical change" pull request is merged.
 
-**Limits.** The gate cannot stop GitHub Pages deploying `main` on merge. To make it binding, the owner can add it as a required status check on pull requests to `main` that touch `src/topics.js`, `src/flow.js`, `src/art.js` or `data/`. Note also that the current content went live before this process existed; the in-app status line is what tells users it has not been reviewed.
+**Automation and limits.** `.github/workflows/clinical-release-gate.yml` runs on every pull request targeting `main`, so it can be selected as a required status check without leaving unrelated pull requests pending. It runs the full release gate when `src/topics.js`, `src/flow.js` or `src/art.js` changes, or when the CPR timing constants in `src/app.js` change; it reports a successful skip for other changes. A manual `workflow_dispatch` runs the full gate on demand. The workflow does not itself configure repository branch protection. The project owner must go to **Settings → Rules → Rulesets** (or **Settings → Branches**, depending on the repository's controls), create or edit the rule for `main`, enable required status checks, and select **`Clinical release gate / release-gate`**. Require the check before merging and do not allow routine bypasses. Until that repository setting is enabled, the script and workflow provide a check but do not technically prevent a merge or GitHub Pages deployment. The current content went live before this process existed; the in-app status line tells users it has not been reviewed.
 
 ## 5. Review process (per topic)
 
@@ -112,3 +114,7 @@ Each topic and the question flow show their review status under the source line.
 - Source check: AI-assisted, against the live official pages, 15 November 2026. Needs confirmation by a person.
 - 40 findings: **3 HIGH** (F01, F02 anaphylaxis; F07 button battery), 14 MEDIUM, 23 LOW. 16 need clinical judgement rather than a source match.
 - Release gate: blocked (expected until review is complete).
+
+## 9. Stage 2 implementation boundary
+
+Stage 2 establishes evidence records, reviewer instructions and technical controls only. It does not amend first-aid steps, the question flow, drawings or 3D captions. F01's current proposal already identifies EpiPen, Anapen and Jext autoinjectors, neffy nasal spray, and general-use devices with the associated ASCIA plan; this remains a reviewer proposal, not approved clinical wording. Any accepted wording or illustration change must be implemented in a separate clinical-change pull request after the reviewer records the decision. See `docs/clinical-review/STAGE2_REVIEW_ACTIONS.md` and `docs/clinical-review/REVIEWER_SCOPE_CHECKLIST.md`.
