@@ -27,7 +27,9 @@ The 3D anatomy comes from BodyParts3D, © The Database Center for Life Science, 
 
 ## Review status
 
-**This guide has not been reviewed by a clinician or first aid trainer.** The illustrations are simplified diagrams drawn for this project, not exact technique. Have a qualified trainer check the text and the drawings before anyone relies on it, especially CPR hand position, infant back blows and the snake-bite pressure bandage.
+**This guide has not been reviewed by a clinician or first aid trainer.** Each topic in the app shows its review status. How content is sourced, checked, reviewed and approved is set out in [docs/CLINICAL_GOVERNANCE.md](docs/CLINICAL_GOVERNANCE.md). The latest source check is [docs/clinical-review/SOURCE_CHECK_2026-11.md](docs/clinical-review/SOURCE_CHECK_2026-11.md), and the reviewer pack is [docs/clinical-review/REVIEW_PACK.pdf](docs/clinical-review/REVIEW_PACK.pdf).
+
+ The illustrations are simplified diagrams drawn for this project, not exact technique. Have a qualified trainer check the text and the drawings before anyone relies on it, especially CPR hand position, infant back blows and the snake-bite pressure bandage.
 
 This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice. In an emergency, call 000.
 
@@ -55,10 +57,12 @@ src/
   build.py          Checks and builds index.html and sw.js
 tests/
   validate_structure.mjs  Topics, illustrations and question flow structure (no clinical judgement)
+  validate_governance.mjs Source and review registers (completeness and approval rules)
   browser_tests.py        Browser regression and offline tests
 tools/
   build_anatomy.py  Rebuilds models/anatomy.b64.txt from Human Atlas model data
   make_icons.py     Renders the PNG app icons
+  make_review_pack.py  Builds the clinical review pack (Markdown + PDF) from the app content
 docs/               Audit, PWA plan and acceptance report
 ```
 
@@ -76,10 +80,13 @@ The build stops without writing anything if a file is missing, a script has a sy
 
 ```
 node tests/validate_structure.mjs          # structure only, a few seconds
+node tests/validate_governance.mjs         # source and review records
 python3 tests/browser_tests.py --pwa       # full browser suite, needs Playwright and Chrome
 ```
 
 The browser suite serves the repo under `/first-aid-quick-guide/`, like GitHub Pages, and blocks every other host. It covers navigation, search, all 16 topics, the question flow, the CPR beat, 3D, reduced motion, and offline behaviour: airplane mode, updates, interrupted installs and cleared caches. These checks are about structure and behaviour. They don't check whether the first aid content is correct; that needs a qualified human reviewer.
+
+**Clinical content changes need a recorded review first** (see docs/CLINICAL_GOVERNANCE.md). After changing content, update the registers in `data/` and rebuild the review pack with `python3 tools/make_review_pack.py`.
 
 Content lives in `src/topics.js`. Each step has an illustration key (`a`), the text (`t`) and an optional group (`g`). A topic's optional `body` field sets its 3D view: the groups to show (`show`), the groups to highlight (`hi`) and the caption. Each topic's `src` field names the guideline the steps come from, so update it whenever the content changes.
 

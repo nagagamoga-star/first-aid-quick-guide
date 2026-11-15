@@ -94,6 +94,20 @@
     if (q && first) setActive(byId[first].i);
   });
 
+
+  /* Clinical review status (from data/topic-reviews.json via build.py). */
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function monthYear(d){ var p = (d || '').split('-'); return p.length > 1 ? MONTHS[+p[1] - 1] + ' ' + p[0] : (d || ''); }
+  function reviewLine(id){
+    var r = (typeof REVIEWS !== 'undefined' && REVIEWS[id]) || null; if (!r) return '';
+    var txt, cls = 'pending';
+    if (r.status === 'APPROVED FOR PUBLICATION'){ txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + '. Next review due ' + monthYear(r.nextReview) + '.'; cls = 'ok'; }
+    else if (r.status === 'CLINICALLY REVIEWED') txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + ', awaiting publication sign-off.';
+    else if (r.status === 'REVIEW OVERDUE') txt = 'Review overdue. Last reviewed ' + monthYear(r.reviewedAt) + '.';
+    else txt = 'Not yet reviewed by a qualified first aid trainer or clinician.';
+    return '<p class="rstatus ' + cls + '">Review status: ' + txt + '</p>';
+  }
+
   /* ---------- Topic view ---------- */
   var cur = null, step = 0;
   function go(id){ location.hash = id; }
@@ -126,6 +140,7 @@
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
     h += '<p class="src">Source: ' + t.src + '</p>';
+    h += reviewLine(t.id);
     var prev = TOPICS[(t.i - 1 + N) % N], next = TOPICS[(t.i + 1) % N];
     h += '<nav class="nexttopic" aria-label="More topics"><a href="#' + prev.id + '">← ' + prev.title + '</a><a href="#' + next.id + '">' + next.title + ' →</a></nav>';
     view.innerHTML = h;
@@ -234,6 +249,7 @@
     h += '</section><div class="fnav">' + (hist.length ? '<button type="button" class="pbtn" id="fBack">\u2190 Previous question</button>' : '') +
       (id !== 'start' ? '<button type="button" class="pbtn" id="fRestart">Start again</button>' : '') + '</div>';
     h += '<p class="src">These questions follow the ANZCOR first-steps sequence (DRSABCD). Each answer leads to the full steps and their sources.</p>';
+    h += reviewLine('question-flow');
     help.innerHTML = h; fixNumbers(help);
     [].forEach.call(help.querySelectorAll('.fbtn'), function(b){
       b.addEventListener('click', function(){ hist.push(id); renderFlow(n.a[+b.getAttribute('data-i')].go); focusFlow(); });

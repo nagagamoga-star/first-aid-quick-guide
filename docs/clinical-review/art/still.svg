@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><style>svg{
+  --ink:#20242b;
+  --muted:#68727d;
+  --paper:#f3f4f4;
+  --card:#ffffff;
+  --line:rgba(24,37,54,.11);
+  --alarm:#c4122f;
+  --alarm-ink:#ffffff;
+  --warn:#86610f;
+  --warn-bg:#f7f0dc;
+  --calm:#2b7a70;
+  --calm-bg:#e5f3f0;
+  --chip:#e9ecef;
+  --slate:#263b48;
+  --stage:#f2f3f3;
+  --select:#6bd9c7;
+  
+  --skin:#c9a68a; --skin-d:#ab886c; --pt:#536875; --res:#3a9c8f; --water:#527c9f; --ice:#b0c8ce;
+  --amber:#d8b565; --wood:#b8916b; --sand:#e2d9ba; --sting:#8f6aa6; --leaf:#879f7c; --bandage:#f4f1e8; --act:#c05245;
+  
+  
+  }.gr{stroke:var(--line);stroke-width:4;fill:none;stroke-linecap:round}
+.sk{fill:var(--skin)}
+.skd{fill:var(--skin-d)}
+.skl{stroke:var(--skin);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pt{fill:var(--pt)}
+.ptl{stroke:var(--pt);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rsl{stroke:var(--res);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ln{stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.dash{stroke:var(--ink);fill:none;stroke-width:2.5;stroke-dasharray:5 5;opacity:.6}
+.ar{stroke:var(--act);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.arf{fill:var(--act)}
+.ink{fill:var(--ink)}
+.wh{fill:var(--card)}
+.wh-l{stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round}
+.bub,.pad,.sp,.bottle{fill:var(--card);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.band{fill:var(--bandage);stroke:var(--ink);stroke-width:2}
+.bandl{stroke:var(--ink);stroke-width:1.5;opacity:.4;fill:none}
+.board{fill:var(--wood)}
+.trunk{fill:var(--wood)}
+.ice{fill:var(--ice);stroke:var(--water);stroke-width:2}
+.wt{fill:var(--water)}
+.wtl{stroke:var(--water);fill:none;stroke-width:3;stroke-linecap:round}
+.calmf{fill:var(--water)}
+.pen{fill:var(--amber);stroke:var(--ink);stroke-width:2}
+.sting{stroke:var(--sting);stroke-width:4;fill:none;stroke-linecap:round}
+.sand{fill:var(--sand)}
+.sun{fill:var(--amber)}
+.sunl{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
+.leaf{fill:var(--leaf)}
+.honey{fill:var(--amber)}
+.burn{fill:var(--act);opacity:.4}
+.film{fill:var(--water);fill-opacity:.15;stroke:var(--water);stroke-width:2.5;stroke-dasharray:7 5}
+.pillow{fill:var(--water);opacity:.5}
+.blanket{fill:var(--leaf);opacity:.7}
+.ringc{fill:var(--amber);stroke:var(--ink);stroke-width:1.5}
+.cl{fill:var(--calm-bg);stroke:var(--calm);stroke-width:4}
+.tx{fill:var(--ink);font-family:var(--font-display);font-weight:700}
+.txa{fill:var(--act);font-family:var(--font-display);font-weight:700}</style><ellipse class="ink" cx="102" cy="94" rx="13" ry="22" transform="rotate(-12 102 94)"/><ellipse class="ink" cx="140" cy="70" rx="13" ry="22" transform="rotate(12 140 70)"/><circle class="ar" stroke-width="7" cx="120" cy="80" r="56"/><path class="ar" stroke-width="7" d="M80.80000000000001 119.19999999999999L159.2 40.800000000000004"/><text class="tx" x="120" y="156" font-size="16" text-anchor="middle">Keep still</text></svg>

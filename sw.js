@@ -4,7 +4,7 @@
      Precached on install as one unit, so an update can never mix old and new parts.
    - 3D: three.js, OrbitControls and the anatomy model. Cached on first use, versioned separately,
      so app-only updates don't re-download them. */
-var CORE = 'fa-core-106c5fa21e43';
+var CORE = 'fa-core-01582f52fe8d';
 var THREE_D = 'fa-3d-5e5903f3730d';
 var PRECACHE = ["./", "index.html", "manifest.webmanifest", "favicon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "fonts/atkinson-hyperlegible-latin-400-italic.woff2", "fonts/atkinson-hyperlegible-latin-400-normal.woff2", "fonts/atkinson-hyperlegible-latin-700-italic.woff2", "fonts/atkinson-hyperlegible-latin-700-normal.woff2", "fonts/inter-latin-500-normal.woff2", "fonts/inter-latin-600-normal.woff2", "fonts/inter-latin-700-normal.woff2"];
 var LAZY = ["vendor/three/three.min.js", "vendor/three/OrbitControls.js", "models/anatomy.b64.txt"];

@@ -1,0 +1,660 @@
+{
+  "schemaVersion": 1,
+  "statuses": [
+    "DRAFT",
+    "SOURCE CHECK REQUIRED",
+    "CLINICAL REVIEW REQUIRED",
+    "CLINICALLY REVIEWED",
+    "APPROVED FOR PUBLICATION",
+    "REVIEW OVERDUE",
+    "SUPERSEDED"
+  ],
+  "reviewIntervalMonths": 12,
+  "note": "Review register. Only a qualified reviewer (accredited first aid trainer or registered clinician) can move an item to CLINICALLY REVIEWED. Only the project owner can move it to APPROVED FOR PUBLICATION. See docs/CLINICAL_GOVERNANCE.md.",
+  "items": [
+    {
+      "id": "collapse",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F11",
+        "F12",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "cpr",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F13",
+        "F14",
+        "F15",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "choking",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F36",
+        "F37"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "bleeding",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F24",
+        "F25",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "anaphylaxis",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F01",
+        "F02",
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "heart",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F26",
+        "F27",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "stroke",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F28",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "unconscious",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F35",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "snake",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F32",
+        "F33",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "marine",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F16",
+        "F17",
+        "F18",
+        "F19",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "asthma",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F34",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "burns",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F20",
+        "F21",
+        "F22",
+        "F23",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "seizure",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F29",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "heat",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F30",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "poison",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "spider",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F31",
+        "F36"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "question-flow",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F39"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "3d-captions",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F38"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    },
+    {
+      "id": "illustrations",
+      "status": "CLINICAL REVIEW REQUIRED",
+      "sourceCheck": {
+        "date": "2026-11-15",
+        "method": "ai-assisted",
+        "confirmedBy": null
+      },
+      "openFindings": [
+        "F40"
+      ],
+      "review": {
+        "reviewer": null,
+        "qualification": null,
+        "reviewedAt": null,
+        "decision": null,
+        "notes": null
+      },
+      "publication": {
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "nextReview": null,
+      "history": [
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Stage 2 setup",
+          "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        }
+      ]
+    }
+  ]
+}

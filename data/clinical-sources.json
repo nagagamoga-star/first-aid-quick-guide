@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "note": "Source register. Records which official guideline each topic comes from and when it was last checked. Checking a source is not clinical approval: see topic-reviews.json.",
+  "hierarchy": [
+    "ANZCOR",
+    "ASCIA",
+    "healthdirect",
+    "State and territory health departments",
+    "Queensland Ambulance Service and Queensland Health",
+    "Other recognised Australian clinical organisations"
+  ],
+  "sources": {
+    "ANZCOR-3": {
+      "organisation": "ANZCOR",
+      "guideline": "3",
+      "title": "Recognition and First Aid Management of the Unconscious Person",
+      "url": "https://www.anzcor.org/home/basic-life-support/guideline-3-recognition-and-first-aid-management-of-the-unconscious-person",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-4": {
+      "organisation": "ANZCOR",
+      "guideline": "4",
+      "title": "Airway",
+      "url": "https://www.anzcor.org/home/basic-life-support/guideline-4-airway",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-6": {
+      "organisation": "ANZCOR",
+      "guideline": "6",
+      "title": "Compressions",
+      "url": "https://www.anzcor.org/home/basic-life-support/guideline-6-compressions",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-8": {
+      "organisation": "ANZCOR",
+      "guideline": "8",
+      "title": "Cardiopulmonary Resuscitation (CPR), and Basic Life Support Flowchart",
+      "url": "https://www.anzcor.org/home/basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.1.1": {
+      "organisation": "ANZCOR",
+      "guideline": "9.1.1",
+      "title": "First Aid for Management of Bleeding",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding",
+      "sourceUpdated": "2021-04",
+      "amendments": "2025-07 editorial update (prolonged tourniquet use)",
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.1.3": {
+      "organisation": "ANZCOR",
+      "guideline": "9.1.3",
+      "title": "First Aid for Burns",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-1-3-first-aid-for-burns",
+      "sourceUpdated": "2023-03",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.2.1": {
+      "organisation": "ANZCOR",
+      "guideline": "9.2.1",
+      "title": "Recognition and First Aid Management of Suspected Heart Attack",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-2-1-recognition-and-first-aid-management-of-suspected-heart-attack",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.2.2": {
+      "organisation": "ANZCOR",
+      "guideline": "9.2.2",
+      "title": "Stroke",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-2-2-stroke",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.2.4": {
+      "organisation": "ANZCOR",
+      "guideline": "9.2.4",
+      "title": "First Aid Management of a Seizure",
+      "url": "https://www.anzcor.org/home/first-aid/9-2-4-first-aid-management-of-a-seizure",
+      "sourceUpdated": "2024-06",
+      "amendments": "undated minor wording clarification after a seizure",
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.2.5": {
+      "organisation": "ANZCOR",
+      "guideline": "9.2.5",
+      "title": "First Aid for Asthma",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-2-5-first-aid-for-asthma",
+      "sourceUpdated": "2023-07",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.2.7": {
+      "organisation": "ANZCOR",
+      "guideline": "9.2.7",
+      "title": "First Aid Management of Anaphylaxis",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis",
+      "sourceUpdated": "2019",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.3.4": {
+      "organisation": "ANZCOR",
+      "guideline": "9.3.4",
+      "title": "Heat Induced Illness (Hyperthermia)",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-3-4-heat-induced-illness-hyperthermia",
+      "sourceUpdated": "2020-09",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.4.1": {
+      "organisation": "ANZCOR",
+      "guideline": "9.4.1",
+      "title": "First Aid Management of Australian Snake Bite",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-4-1-first-aid-management-of-australian-snake-bite",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.4.2": {
+      "organisation": "ANZCOR",
+      "guideline": "9.4.2",
+      "title": "First Aid Management of Spider Bite",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-4-2-first-aid-management-of-spider-bite",
+      "sourceUpdated": "2021-04",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.4.5": {
+      "organisation": "ANZCOR",
+      "guideline": "9.4.5",
+      "title": "First Aid Management of Marine Envenomation",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-4-5-first-aid-management-of-marine-envenomation",
+      "sourceUpdated": "2025-06",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.4.8": {
+      "organisation": "ANZCOR",
+      "guideline": "9.4.8",
+      "title": "Envenomation: Pressure Immobilisation Technique",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-4-8-envenomation-pressure-immobilisation-technique",
+      "sourceUpdated": "2011",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "ANZCOR-9.5.1": {
+      "organisation": "ANZCOR",
+      "guideline": "9.5.1",
+      "title": "First Aid Management of Poisoning",
+      "url": "https://www.anzcor.org/home/first-aid/guideline-9-5-1-first-aid-management-of-poisoning",
+      "sourceUpdated": "2025-06",
+      "amendments": "2026-07 (button battery: jam, not honey, under 1 year)",
+      "lastChecked": "2026-11-15"
+    },
+    "ASCIA-FAP": {
+      "organisation": "ASCIA",
+      "guideline": "First Aid Plan 2026",
+      "title": "ASCIA First Aid Plan for Anaphylaxis (and Action Plans 2026)",
+      "url": "https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis",
+      "sourceUpdated": "2026",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    },
+    "HD-JELLYFISH": {
+      "organisation": "healthdirect",
+      "guideline": "n/a",
+      "title": "Jellyfish stings",
+      "url": "https://www.healthdirect.gov.au/jellyfish-stings",
+      "sourceUpdated": "2024-10 (last reviewed)",
+      "amendments": null,
+      "lastChecked": "2026-11-15"
+    }
+  },
+  "topics": [
+    {
+      "id": "collapse",
+      "title": "Someone has collapsed (DRSABCD)",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-8",
+        "ANZCOR-3",
+        "ANZCOR-4"
+      ]
+    },
+    {
+      "id": "cpr",
+      "title": "CPR",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-6",
+        "ANZCOR-8"
+      ]
+    },
+    {
+      "id": "choking",
+      "title": "Choking",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-4"
+      ]
+    },
+    {
+      "id": "bleeding",
+      "title": "Severe bleeding",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-9.1.1"
+      ]
+    },
+    {
+      "id": "anaphylaxis",
+      "title": "Anaphylaxis",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-9.2.7",
+        "ASCIA-FAP"
+      ]
+    },
+    {
+      "id": "heart",
+      "title": "Heart attack",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-9.2.1"
+      ]
+    },
+    {
+      "id": "stroke",
+      "title": "Stroke",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-9.2.2"
+      ]
+    },
+    {
+      "id": "unconscious",
+      "title": "Unconscious, breathing",
+      "severity": "crit",
+      "sources": [
+        "ANZCOR-3"
+      ]
+    },
+    {
+      "id": "snake",
+      "title": "Snake bite",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.4.1",
+        "ANZCOR-9.4.8"
+      ]
+    },
+    {
+      "id": "marine",
+      "title": "Jellyfish and marine stings",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.4.5",
+        "HD-JELLYFISH"
+      ]
+    },
+    {
+      "id": "asthma",
+      "title": "Asthma attack",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.2.5"
+      ]
+    },
+    {
+      "id": "burns",
+      "title": "Burns and scalds",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.1.3"
+      ]
+    },
+    {
+      "id": "seizure",
+      "title": "Seizure",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.2.4"
+      ]
+    },
+    {
+      "id": "heat",
+      "title": "Heat illness",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.3.4"
+      ]
+    },
+    {
+      "id": "poison",
+      "title": "Poisoning",
+      "severity": "urgent",
+      "sources": [
+        "ANZCOR-9.5.1"
+      ]
+    },
+    {
+      "id": "spider",
+      "title": "Spider bite",
+      "severity": "calm",
+      "sources": [
+        "ANZCOR-9.4.2",
+        "ANZCOR-9.4.8"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "question-flow",
+      "title": "\"What’s happening?\" question flow (src/flow.js)",
+      "sources": [
+        "ANZCOR-8",
+        "ANZCOR-3"
+      ],
+      "note": "Questions follow DRSABCD; results restate topic steps. Wording is the app’s own."
+    },
+    {
+      "id": "3d-captions",
+      "title": "3D view captions (src/topics.js body.caption)",
+      "sources": [],
+      "note": "General anatomy written for the app. Not from ANZCOR."
+    },
+    {
+      "id": "illustrations",
+      "title": "Step illustrations (src/art.js, 57 drawings)",
+      "sources": [],
+      "note": "Simplified diagrams drawn for the app. Not from any guideline."
+    }
+  ]
+}
