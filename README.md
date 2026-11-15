@@ -101,3 +101,12 @@ Content lives in `src/topics.js`. Each step has an illustration key (`a`), the t
 Serve the folder from any static host, GitHub Pages included. All paths are relative, so the app works under a subfolder like `/first-aid-quick-guide/`. Offline support needs HTTPS (or `localhost`); elsewhere, such as inside the Claude artifact preview or from `file://`, the app works as a normal web page. To try it locally, run `python3 -m http.server` in the parent folder and open http://localhost:8000/first-aid-quick-guide/.
 
 After a change reaches users, open copies show a "new version is ready" bar. The update applies when they tap Reload or next open the app with no tabs running.
+
+## Diagrams from Wikimedia Commons
+
+Some steps show a diagram from Wikimedia Commons instead of the guide's own drawing. They are listed in `data/media.json`, stored in `assets/diagrams/` and precached for offline use.
+
+- `tools/fetch_commons.py` checks each file's licence through the Commons API (public domain, CC0, CC BY or CC BY-SA only), downloads it and records author, licence and sha256. The `Fetch diagrams` workflow runs it on GitHub's servers when `data/media.json` changes on a branch.
+- A diagram is shown only when its `decision` is `accepted`. Every other step keeps its drawing from `src/art.js`, and a diagram that fails to load falls back to the drawing.
+- Credits are listed in the footer under "Diagrams". Tapping a diagram opens it full screen.
+- Diagrams are clinical content: the release gate hashes them into the `illustrations` review item. Review sheet: `node tools/commons_review.mjs` writes `docs/clinical-review/commons-review.html`.

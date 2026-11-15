@@ -139,7 +139,9 @@ with sync_playwright() as p:
             bad = []
             for t in TOPICS:
                 pg.goto(BASE + '#' + t); pg.wait_for_timeout(80)
-                if not pg.is_visible('#pcard svg'): bad.append(t)
+                # A step shows a drawing (inline SVG) or a Commons diagram that loaded from the cache.
+                pic = pg.is_visible('#pcard svg') or pg.evaluate("(()=>{const i=document.querySelector('#pcard .dg img');if(!i)return false;i.loading='eager';return new Promise(r=>{if(i.complete)return r(i.naturalWidth>0);i.onload=()=>r(true);i.onerror=()=>r(false)})})()")
+                if not pic: bad.append(t)
             rec('pwa', 'All 16 topics and illustrations work offline', not bad, ','.join(bad))
             pg.goto(BASE + '#help'); pg.wait_for_timeout(150); pg.click(".fbtn[data-i='1']")
             rec('pwa', 'Question flow works offline', 'Stay back' in pg.inner_text('.fq'))
