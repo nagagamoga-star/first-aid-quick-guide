@@ -565,3 +565,19 @@
   setActive(0);
   route();
 })();
+
+/* Compact dock: after scrolling 64px on a phone, the dock folds into one row
+   (style.css, ".dock.compact"); back at the top it unfolds. The gap between the
+   two thresholds stops it flickering. Call 000 and 13 11 26 never leave the screen. */
+(function(){
+  var dock = document.querySelector('.dock'); if (!dock) return;
+  var on = false, ticking = false;
+  function update(){
+    ticking = false;
+    var y = window.scrollY || 0;
+    if (!on && y > 64){ on = true; dock.classList.add('compact'); }
+    else if (on && y < 16){ on = false; dock.classList.remove('compact'); }
+  }
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+})();
