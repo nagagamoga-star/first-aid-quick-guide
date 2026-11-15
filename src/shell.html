@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Aid Quick Guide</title>
+<meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/*CSS*/
+</style>
+</head>
+<body>
+<div class="bar" role="banner">
+  <a class="brand" href="#">First Aid Quick Guide</a>
+  <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
+  <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+</div>
+
+<main>
+  <div id="home">
+    <div style="display:grid;gap:20px">
+      <section class="intro" aria-labelledby="t">
+        <h1 id="t">What to do in an emergency</h1>
+        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
+        <p class="first">If someone is seriously hurt or unwell, call 000 first. The call-taker will talk you through what to do.</p>
+      </section>
+
+      <section class="carousel" aria-label="Choose a topic">
+        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
+          <div class="ring" id="ring"></div>
+        </div>
+        <div class="cctl">
+          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
+          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
+          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
+        </div>
+        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
+      </section>
+
+      <nav class="index" aria-label="All topics">
+        <div>
+          <label for="find">Or find a topic</label>
+          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
+        </div>
+        <div id="chipsWrap" style="display:grid;gap:14px"></div>
+        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
+      </nav>
+
+      <footer>
+        <h2>About this guide</h2>
+        <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
+        <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
+        <ul>
+          <li>Ambulance, fire, police: <strong>000</strong></li>
+          <li>Poisons Information Centre (24 hours): <strong>13 11 26</strong></li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+
+  <div id="topic" hidden style="display:grid;gap:16px"></div>
+</main>
+
+<template id="tplAges">
+  <div class="ages">
+    <div class="age"><h3>Adult</h3><p>Heel of one hand on the centre of the chest (lower half of the breastbone), other hand on top.</p><p class="depth">At least 5 cm deep</p></div>
+    <div class="age"><h3>Child, 1 year and over</h3><p>Same spot, one or two hands.</p><p class="depth">About 5 cm deep</p></div>
+    <div class="age"><h3>Baby under 1</h3><p>Same spot, two fingers.</p><p class="depth">About 4 cm deep</p></div>
+  </div>
+  <p class="note">For everyone: press down about one-third of the depth of the chest.</p>
+</template>
+<template id="tplBeat">
+  <div class="beat">
+    <button type="button" id="beatBtn" aria-pressed="false">Start CPR beat</button>
+    <div aria-live="polite">
+      <div class="count" id="beatCount"><span class="pulse" id="pulse"></span>Ready</div>
+      <p class="note" id="beatNote">Beeps 110 times a minute and counts to 30, then reminds you to give 2 breaths. Turn your volume up.</p>
+    </div>
+  </div>
+</template>
+
+<script>
+/*JS*/
+</script>
+</body>
+</html>

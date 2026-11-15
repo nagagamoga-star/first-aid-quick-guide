@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Aid Quick Guide</title>
+<meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: fixed emergency bar; home is a 3D coverflow of topics with fast chips below; each topic is a deck of illustrated step cards you flip through, with an "all steps" list for scanning. */
+:root{
+  --ink:#13212d;
+  --muted:#4a5866;
+  --paper:#f2f5f6;
+  --card:#ffffff;
+  --line:#d6dde2;
+  --alarm:#c4122f;
+  --alarm-ink:#ffffff;
+  --warn:#9a4a00;
+  --warn-bg:#fff3e2;
+  --calm:#0b6b63;
+  --calm-bg:#e3f2ef;
+  --chip:#e7ecef;
+  /* illustration palette */
+  --skin:#c98e6b; --skin-d:#a8714f; --pt:#6f8499; --res:#0f7c72; --water:#2f8fd6; --ice:#a9dbf7;
+  --amber:#f0a500; --wood:#b48a5a; --sand:#ecd9ad; --sting:#7a3db8; --leaf:#3a9a62; --bandage:#f6f1e6;
+  --font-display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --font-body:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8edf1; --muted:#a9b6c1; --paper:#0e161d; --card:#17222c; --line:#2b3a47;
+    --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#ffb866; --warn-bg:#2c1f0f;
+    --calm:#5fd0c3; --calm-bg:#0f2a28; --chip:#22303c;
+    --skin:#d9a383; --skin-d:#b9845f; --pt:#8ea4b9; --res:#3fb5a8; --water:#5aaeff; --ice:#5d9cc4;
+    --amber:#ffc23d; --wood:#c7a072; --sand:#6b5a35; --sting:#b48aff; --leaf:#4fbf7d; --bandage:#d9d3c4;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e8edf1; --muted:#a9b6c1; --paper:#0e161d; --card:#17222c; --line:#2b3a47;
+  --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#ffb866; --warn-bg:#2c1f0f;
+  --calm:#5fd0c3; --calm-bg:#0f2a28; --chip:#22303c;
+  --skin:#d9a383; --skin-d:#b9845f; --pt:#8ea4b9; --res:#3fb5a8; --water:#5aaeff; --ice:#5d9cc4;
+  --amber:#ffc23d; --wood:#c7a072; --sand:#6b5a35; --sting:#b48aff; --leaf:#4fbf7d; --bandage:#d9d3c4;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--alarm);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.12;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit}
+[hidden]{display:none !important}
+
+/* Emergency bar */
+.bar{position:sticky;top:0;z-index:20;background:#13212d;color:#f2f5f6;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px}
+.brand{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:.02em;margin-right:auto;text-decoration:none}
+.call{display:inline-flex;align-items:baseline;gap:8px;text-decoration:none;font-weight:700;border-radius:10px;padding:8px 14px}
+.call.e{background:#d11a37;color:#fff;font-size:20px}
+.call.p{color:#f2f5f6;border:2px solid currentColor;font-size:15px}
+.call small{font-weight:400;font-size:13px;opacity:.9}
+
+main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
+
+/* Home */
+.intro{display:grid;gap:10px}
+.intro h1{font-size:clamp(30px,6vw,44px)}
+.intro p{max-width:65ch;color:var(--muted)}
+.intro .first{background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:12px 16px;font-weight:700;font-size:17px;max-width:none}
+
+.carousel{display:grid;gap:12px}
+.stage{position:relative;height:350px;perspective:1100px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:18px;background:radial-gradient(ellipse at 50% 85%,color-mix(in srgb,var(--ink) 9%,transparent),transparent 70%)}
+.ring{position:absolute;inset:0;transform-style:preserve-3d}
+.tcard{position:absolute;left:50%;top:14px;width:236px;height:318px;margin-left:-118px;border:0;padding:0;text-align:left;cursor:pointer;
+  background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(10,20,30,.18);display:grid;grid-template-rows:6px auto 1fr;overflow:hidden;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s;backface-visibility:hidden}
+.tcard::before{content:"";background:var(--calm)}
+.tcard.crit::before{background:var(--alarm)}
+.tcard.urgent::before{background:var(--amber)}
+.tcard .art{padding:10px 12px 0;background:var(--card)}
+.tcard .tbody{padding:8px 16px 14px;display:grid;gap:4px;align-content:start}
+.tcard .tag{font-size:12px}
+.tcard h2{font-size:26px}
+.tcard p{font-size:15px;color:var(--muted)}
+.tcard .go{margin-top:6px;font-weight:700;font-size:15px;color:var(--alarm)}
+.tcard[aria-current="true"]{box-shadow:0 14px 40px rgba(10,20,30,.28),0 0 0 3px var(--ink)}
+.cctl{display:flex;align-items:center;justify-content:center;gap:12px}
+.round{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:var(--card);font-size:24px;font-weight:700;cursor:pointer;display:grid;place-items:center}
+.cpos{min-width:72px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
+.openbtn{font-weight:700;border:0;border-radius:12px;padding:13px 18px;background:var(--ink);color:var(--paper);cursor:pointer}
+
+/* Flat fallback (reduced motion) */
+.stage.flat{height:auto;perspective:none;overflow-x:auto;scroll-snap-type:x mandatory;background:none}
+.stage.flat .ring{position:static;display:flex;gap:12px;padding:8px 2px 14px}
+.stage.flat .tcard{position:static;margin:0;flex:0 0 236px;scroll-snap-align:center;transform:none !important;opacity:1 !important;visibility:visible !important;transition:none}
+
+.index{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px}
+.index label{font-weight:700}
+.index input{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.group{display:grid;gap:8px}
+.group h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--font-body)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips a{text-decoration:none;background:var(--chip);border-radius:999px;padding:7px 14px;font-weight:700;font-size:15px;border:2px solid transparent}
+.chips a:hover{border-color:var(--ink)}
+.chips a.crit{background:var(--alarm);color:var(--alarm-ink)}
+.nomatch{color:var(--muted)}
+
+/* Topic */
+.back{justify-self:start;text-decoration:none;font-weight:700;border:2px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--card)}
+.thead{display:grid;gap:4px;border-left:8px solid var(--calm);padding-left:12px}
+.thead.crit{border-left-color:var(--alarm)}
+.thead.urgent{border-left-color:var(--amber)}
+.thead h1{font-size:clamp(30px,6vw,42px)}
+.tag{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.crit .tag{color:var(--alarm)}
+.urgent .tag{color:var(--warn)}
+.when{background:var(--calm-bg);border-radius:12px;padding:12px 14px}
+.crit-when{background:color-mix(in srgb,var(--alarm) 12%,var(--card))}
+.when strong{color:var(--alarm)}
+
+.gchips{display:flex;flex-wrap:wrap;gap:8px}
+.gchips button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px;cursor:pointer}
+.gchips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.player{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid}
+.pmeta{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--chip);font-size:14px;font-weight:700;color:var(--muted)}
+.pmeta .pg{color:var(--ink)}
+.pview{perspective:1200px;touch-action:pan-y}
+.pcard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:center;padding:18px;transform-origin:50% 50%}
+.pcard .art{background:color-mix(in srgb,var(--chip) 60%,var(--card));border-radius:14px;padding:8px}
+.pnum{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--alarm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.ptext{font-size:19px;line-height:1.5;max-width:40ch}
+.ptext a{font-weight:700}
+@media (prefers-reduced-motion: no-preference){
+  .pcard.in-next{animation:flipNext .42s cubic-bezier(.2,.7,.2,1)}
+  .pcard.in-prev{animation:flipPrev .42s cubic-bezier(.2,.7,.2,1)}
+}
+@keyframes flipNext{from{transform:rotateY(-38deg) translateX(40px);opacity:.2}to{transform:none;opacity:1}}
+@keyframes flipPrev{from{transform:rotateY(38deg) translateX(-40px);opacity:.2}to{transform:none;opacity:1}}
+.pctl{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 16px 16px}
+.pbtn{border:0;border-radius:12px;padding:13px 20px;font-weight:700;font-size:17px;cursor:pointer;background:var(--chip);min-width:96px}
+.pbtn.next{background:var(--alarm);color:var(--alarm-ink)}
+.pbtn:disabled{opacity:.35;cursor:default}
+.dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.dots button{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.prog span{display:block;height:100%;background:var(--alarm);transition:width .3s}
+.dots button[aria-current="true"]{background:var(--alarm);transform:scale(1.25)}
+.toggle{justify-self:start;border:2px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer}
+
+.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.list h3{font-size:22px;margin-top:6px}
+.list .li{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+.list .li .art{background:color-mix(in srgb,var(--chip) 60%,var(--card));border-radius:10px}
+.list .li p{max-width:60ch}
+.list .n{font-family:var(--font-display);font-weight:700;color:var(--alarm);margin-right:6px}
+
+.dont{background:var(--warn-bg);border-radius:12px;padding:12px 16px}
+.dont h2{font-size:20px;color:var(--warn);margin-bottom:4px}
+.dont ul,.notes{margin:0;padding-left:20px;display:grid;gap:4px}
+.notes{color:var(--ink)}
+.src{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.src a{color:var(--muted)}
+.nexttopic{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.nexttopic a{font-weight:700;text-decoration:none;border-bottom:2px solid var(--alarm)}
+
+/* CPR extras */
+.ages{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.age{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:6px;align-content:start}
+.age h3{font-size:20px}
+.age .depth{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--alarm);font-variant-numeric:tabular-nums}
+.beat{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.beat button{border:0;border-radius:12px;padding:14px 18px;background:var(--alarm);color:var(--alarm-ink);font-weight:700;font-size:18px;cursor:pointer;min-width:150px}
+.beat button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.count{font-family:var(--font-display);font-weight:700;font-size:34px;font-variant-numeric:tabular-nums;line-height:1}
+.count.breathe{color:var(--alarm)}
+.pulse{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--alarm);margin-right:8px;vertical-align:middle;opacity:.25}
+.pulse.on{opacity:1}
+.note{color:var(--muted);font-size:15px}
+
+footer{display:grid;gap:10px;color:var(--muted);font-size:15px;border-top:1px solid var(--line);padding-top:16px}
+footer h2{font-size:22px;color:var(--ink)}
+footer ul{margin:0;padding-left:20px}
+
+/* Illustrations */
+.art{display:block;width:100%;height:auto}
+.art .gr{stroke:var(--line);stroke-width:4;fill:none;stroke-linecap:round}
+.art .sk{fill:var(--skin)}
+.art .skd{fill:var(--skin-d)}
+.art .skl{stroke:var(--skin);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.art .pt{fill:var(--pt)}
+.art .ptl{stroke:var(--pt);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.art .rsl{stroke:var(--res);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.art .ln{stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.art .dash{stroke:var(--ink);fill:none;stroke-width:2.5;stroke-dasharray:5 5;opacity:.6}
+.art .ar{stroke:var(--alarm);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.art .arf{fill:var(--alarm)}
+.art .ink{fill:var(--ink)}
+.art .wh{fill:var(--card)}
+.art .wh-l{stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round}
+.art .bub,.art .pad,.art .sp,.art .bottle{fill:var(--card);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.art .band{fill:var(--bandage);stroke:var(--ink);stroke-width:2}
+.art .bandl{stroke:var(--ink);stroke-width:1.5;opacity:.4;fill:none}
+.art .board{fill:var(--wood)}
+.art .trunk{fill:var(--wood)}
+.art .ice{fill:var(--ice);stroke:var(--water);stroke-width:2}
+.art .wt{fill:var(--water)}
+.art .wtl{stroke:var(--water);fill:none;stroke-width:3;stroke-linecap:round}
+.art .calmf{fill:var(--water)}
+.art .pen{fill:var(--amber);stroke:var(--ink);stroke-width:2}
+.art .sting{stroke:var(--sting);stroke-width:4;fill:none;stroke-linecap:round}
+.art .sand{fill:var(--sand)}
+.art .sun{fill:var(--amber)}
+.art .sunl{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
+.art .leaf{fill:var(--leaf)}
+.art .honey{fill:var(--amber)}
+.art .burn{fill:var(--alarm);opacity:.4}
+.art .film{fill:var(--water);fill-opacity:.15;stroke:var(--water);stroke-width:2.5;stroke-dasharray:7 5}
+.art .pillow{fill:var(--water);opacity:.5}
+.art .blanket{fill:var(--leaf);opacity:.7}
+.art .ringc{fill:var(--amber);stroke:var(--ink);stroke-width:1.5}
+.art .cl{fill:var(--calm-bg);stroke:var(--calm);stroke-width:4}
+.art .tx{fill:var(--ink);font-family:var(--font-display);font-weight:700}
+.art .txa{fill:var(--alarm);font-family:var(--font-display);font-weight:700}
+
+@media (max-width:620px){
+  .pcard{grid-template-columns:1fr;gap:12px;padding:14px}
+  .ptext{font-size:18px}
+  .list .li{grid-template-columns:96px 1fr}
+}
+@media (max-width:420px){
+  .brand{width:100%}
+  .beat{grid-template-columns:1fr}
+  .pbtn{min-width:80px;padding:12px 14px}
+}
+
+</style>
+</head>
+<body>
+<div class="bar" role="banner">
+  <a class="brand" href="#">First Aid Quick Guide</a>
+  <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
+  <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+</div>
+
+<main>
+  <div id="home">
+    <div style="display:grid;gap:20px">
+      <section class="intro" aria-labelledby="t">
+        <h1 id="t">What to do in an emergency</h1>
+        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
+        <p class="first">If someone is seriously hurt or unwell, call 000 first. The call-taker will talk you through what to do.</p>
+      </section>
+
+      <section class="carousel" aria-label="Choose a topic">
+        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
+          <div class="ring" id="ring"></div>
+        </div>
+        <div class="cctl">
+          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
+          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
+          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
+        </div>
+        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
+      </section>
+
+      <nav class="index" aria-label="All topics">
+        <div>
+          <label for="find">Or find a topic</label>
+          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
+        </div>
+        <div id="chipsWrap" style="display:grid;gap:14px"></div>
+        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
+      </nav>
+
+      <footer>
+        <h2>About this guide</h2>
+        <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
+        <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
+        <ul>
+          <li>Ambulance, fire, police: <strong>000</strong></li>
+          <li>Poisons Information Centre (24 hours): <strong>13 11 26</strong></li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+
+  <div id="topic" hidden style="display:grid;gap:16px"></div>
+</main>
+
+<template id="tplAges">
+  <div class="ages">
+    <div class="age"><h3>Adult</h3><p>Heel of one hand on the centre of the chest (lower half of the breastbone), other hand on top.</p><p class="depth">At least 5 cm deep</p></div>
+    <div class="age"><h3>Child, 1 year and over</h3><p>Same spot, one or two hands.</p><p class="depth">About 5 cm deep</p></div>
+    <div class="age"><h3>Baby under 1</h3><p>Same spot, two fingers.</p><p class="depth">About 4 cm deep</p></div>
+  </div>
+  <p class="note">For everyone: press down about one-third of the depth of the chest.</p>
+</template>
+<template id="tplBeat">
+  <div class="beat">
+    <button type="button" id="beatBtn" aria-pressed="false">Start CPR beat</button>
+    <div aria-live="polite">
+      <div class="count" id="beatCount"><span class="pulse" id="pulse"></span>Ready</div>
+      <p class="note" id="beatNote">Beeps 110 times a minute and counts to 30, then reminds you to give 2 breaths. Turn your volume up.</p>
+    </div>
+  </div>
+</template>
+
+<script>
+/* Illustration library: simple pictograms on a 240 x 160 canvas.
+   Patient wears slate (pt), rescuer wears teal (rs), alarm red marks the action. */
+var ART = (function(){
+  var G = '<path class="gr" d="M14 140H226"/>';
+  function LY(){
+    return '<circle class="sk" cx="46" cy="114" r="14"/>' +
+      '<rect class="pt" x="60" y="102" width="86" height="26" rx="13"/>' +
+      '<path class="ptl" stroke-width="12" d="M146 110L214 112M146 121L214 126"/>' +
+      '<path class="skl" stroke-width="8" d="M84 127L134 131"/>';
+  }
+  var RB = '<circle class="sk" cx="106" cy="34" r="13"/><path class="rsl" stroke-width="22" d="M112 54L128 90L160 100"/>';
+  function LIMB(y){ y = y || 104;
+    return '<path class="skl" stroke-width="36" d="M16 ' + y + 'H196"/><circle class="sk" cx="204" cy="' + y + '" r="21"/>';
+  }
+  function T(x, y, s, txt, cls, anchor){
+    return '<text class="' + (cls || 'tx') + '" x="' + x + '" y="' + y + '" font-size="' + s + '" text-anchor="' + (anchor || 'middle') + '">' + txt + '</text>';
+  }
+  function down(x, y1, y2){ return '<path class="ar" d="M' + x + ' ' + y1 + 'V' + y2 + 'M' + (x-8) + ' ' + (y2-8) + 'L' + x + ' ' + (y2+2) + 'L' + (x+8) + ' ' + (y2-8) + '"/>'; }
+  function noSign(cx, cy, r){ return '<circle class="ar" stroke-width="7" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/><path class="ar" stroke-width="7" d="M' + (cx - r*0.7) + ' ' + (cy + r*0.7) + 'L' + (cx + r*0.7) + ' ' + (cy - r*0.7) + '"/>'; }
+  function bandageOn(x1, x2, y){
+    var s = '<rect class="band" x="' + x1 + '" y="' + (y-21) + '" width="' + (x2-x1) + '" height="42" rx="8"/><path class="bandl" d="';
+    for (var x = x1 + 14; x < x2; x += 15) s += 'M' + x + ' ' + (y-21) + 'l-10 42';
+    return s + '"/>';
+  }
+
+  var A = {
+    phone: function(l){ l = l || '000';
+      return '<rect class="ink" x="88" y="14" width="64" height="124" rx="12"/><rect class="wh" x="95" y="28" width="50" height="90" rx="4"/>' +
+        T(120, 80, l.length > 4 ? 12 : 24, l, 'txa') +
+        '<path class="ar" d="M164 52q12 18 0 36M176 42q22 28 0 56"/>';
+    },
+    danger: function(){
+      return '<path class="arf" d="M120 18L200 136H40Z" stroke-linejoin="round"/><rect class="wh" x="113" y="56" width="14" height="46" rx="7"/><circle class="wh" cx="120" cy="118" r="8"/>';
+    },
+    shoulders: function(){
+      return G + RB + LY() + '<path class="skl" stroke-width="9" d="M110 60L64 102M116 62L74 108"/>' +
+        '<rect class="bub" x="120" y="12" width="114" height="36" rx="10"/><path class="bub" d="M140 48l-10 12 22-12"/>' + T(177, 35, 12, 'Can you hear me?');
+    },
+    airway: function(){
+      return G + '<rect class="pt" x="116" y="90" width="112" height="36" rx="16"/><circle class="sk" cx="90" cy="106" r="30"/><circle class="sk" cx="100" cy="76" r="6"/>' +
+        '<path class="skl" stroke-width="10" d="M40 12L74 74M170 18L116 80"/><ellipse class="sk" cx="76" cy="78" rx="14" ry="7"/><ellipse class="sk" cx="114" cy="83" rx="10" ry="6"/>' +
+        '<path class="ar" d="M58 56Q34 62 30 92M22 84L30 95L38 85"/>' + T(184, 66, 14, 'Tilt head back');
+    },
+    breathing: function(){
+      return G + '<path class="rsl" stroke-width="22" d="M80 72L132 58L156 96"/><circle class="sk" cx="64" cy="80" r="13"/>' + LY() +
+        '<path class="wtl" d="M44 96q-6-6 0-12M36 99q-9-9 0-18"/><path class="dash" d="M72 86L104 104"/>' + T(150, 26, 15, 'Look, listen, feel');
+    },
+    compress: function(){
+      return G + RB + LY() + '<path class="skl" stroke-width="9" d="M110 58L96 100"/><ellipse class="sk" cx="96" cy="101" rx="12" ry="6"/>' +
+        down(70, 50, 90) + T(180, 34, 18, '100–120', 'txa') + T(180, 52, 13, 'a minute');
+    },
+    breaths: function(){
+      return G + '<path class="rsl" stroke-width="22" d="M68 82L128 64L156 98"/><circle class="sk" cx="52" cy="90" r="13"/>' + LY() +
+        '<path class="wtl" d="M38 94q-6-4-2-10M30 98q-8-6-2-14"/>' +
+        '<path class="ar" d="M104 96V70M96 78L104 68L112 78"/>' + T(132, 26, 14, '2 breaths, 1 second each');
+    },
+    aed: function(){
+      return G + LY() + '<rect class="pad" x="70" y="96" width="16" height="22" rx="3"/><rect class="pad" x="118" y="104" width="16" height="22" rx="3"/>' +
+        '<path class="ln" d="M78 96C78 60 150 70 166 56M126 104C130 82 168 84 188 74"/>' +
+        '<rect class="arf" x="158" y="20" width="62" height="50" rx="8"/><path class="wh" d="M194 26L180 48H192L186 64L204 40H192L198 26Z"/>';
+    },
+    aedbox: function(){
+      return '<rect class="arf" x="70" y="22" width="100" height="94" rx="14"/>' +
+        '<path class="wh" d="M120 104C80 80 82 50 102 50C112 50 118 58 120 62C122 58 128 50 138 50C158 50 160 80 120 104Z"/>' +
+        '<path class="arf" d="M124 56L110 80H122L116 96L134 72H122L128 56Z"/>' + T(120, 146, 22, 'AED');
+    },
+    recovery: function(){
+      return G + '<circle class="sk" cx="50" cy="112" r="14"/><path class="ptl" stroke-width="28" d="M74 116H138"/>' +
+        '<path class="ptl" stroke-width="13" d="M140 112L170 96L196 126M140 124L214 130"/><path class="skl" stroke-width="8" d="M86 108L66 96L44 102"/>' +
+        T(120, 40, 14, 'On their side, head tilted back');
+    },
+    backblows: function(){
+      return G + '<path class="ptl" stroke-width="12" d="M150 138V100M162 138V100"/><path class="ptl" stroke-width="28" d="M156 98L106 74"/>' +
+        '<circle class="sk" cx="88" cy="72" r="13"/><path class="skl" stroke-width="8" d="M124 84L114 114"/>' +
+        '<circle class="sk" cx="206" cy="28" r="13"/><path class="rsl" stroke-width="24" d="M206 48V100"/><path class="rsl" stroke-width="12" d="M200 100V138M212 100V138"/>' +
+        '<path class="skl" stroke-width="9" d="M200 58L150 58L136 66"/><ellipse class="sk" cx="132" cy="68" rx="11" ry="6"/>' +
+        '<path class="ar" d="M120 50l-6-10M132 48l2-12M108 58l-12-4"/>' + T(52, 34, 18, 'Up to 5', 'txa');
+    },
+    handpos: function(){
+      return '<circle class="sk" cx="120" cy="26" r="16"/><rect class="pt" x="66" y="44" width="108" height="100" rx="34"/>' +
+        '<path class="ln" opacity=".45" d="M120 54V118"/><ellipse class="sk" cx="120" cy="100" rx="22" ry="12"/><ellipse class="skd" cx="120" cy="95" rx="17" ry="9"/>' +
+        '<path class="ar" d="M210 98H152M160 90L150 98L160 106"/>' + T(120, 158, 12, 'Lower half of breastbone');
+    },
+    repeat55: function(){
+      return '<circle class="cl" cx="74" cy="80" r="44"/><circle class="cl" cx="166" cy="80" r="44"/>' +
+        T(74, 84, 34, '5', 'txa') + T(74, 104, 11, 'back blows') + T(166, 84, 34, '5', 'txa') + T(166, 104, 11, 'chest thrusts') +
+        '<path class="ar" d="M98 34Q120 18 142 34M134 26L144 35L132 38M142 126Q120 142 98 126M106 134L96 125L108 122"/>';
+    },
+    infant: function(){
+      return '<path class="rsl" stroke-width="28" d="M36 114L200 100"/><path class="rsl" stroke-width="22" d="M200 100V144"/>' +
+        '<path class="ptl" stroke-width="20" d="M86 92L150 82"/><circle class="sk" cx="72" cy="96" r="12"/>' +
+        '<path class="ptl" stroke-width="8" d="M150 82L174 84M150 86L172 94"/>' +
+        '<path class="skl" stroke-width="9" d="M150 18L128 64"/><ellipse class="sk" cx="126" cy="68" rx="12" ry="6"/>' +
+        '<path class="ar" d="M112 54l-8-8M124 48v-12M136 52l8-8"/>' + T(52, 40, 14, 'Head lower', 'tx');
+    },
+    twofinger: function(){
+      return G + '<circle class="sk" cx="70" cy="122" r="12"/><rect class="pt" x="82" y="112" width="56" height="22" rx="11"/>' +
+        '<path class="ptl" stroke-width="9" d="M138 118L170 120M138 128L170 132"/>' +
+        '<path class="skl" stroke-width="7" d="M150 30L108 108M160 32L116 110"/>' + down(84, 48, 86) + T(196, 48, 16, '2 fingers');
+    },
+    pressure: function(){
+      return LIMB(104) + '<path class="arf" d="M84 126q-6 10 0 14q6-4 0-14Z"/><rect class="pad" x="88" y="82" width="56" height="40" rx="6"/>' +
+        '<path class="skl" stroke-width="10" d="M108 62L94 10M126 62L142 10"/><ellipse class="skd" cx="116" cy="74" rx="30" ry="9"/><ellipse class="sk" cx="116" cy="65" rx="26" ry="9"/>' +
+        down(178, 30, 66) + T(178, 22, 15, 'Press hard');
+    },
+    embedded: function(){
+      return LIMB(108) + '<path class="ln" stroke-width="7" d="M118 100L136 38"/><rect class="pad" x="76" y="88" width="30" height="34" rx="5"/><rect class="pad" x="146" y="88" width="30" height="34" rx="5"/>' +
+        down(91, 50, 78) + down(161, 50, 78) + T(120, 26, 15, 'Leave it in');
+    },
+    tourniquet: function(){
+      return LIMB(104) + '<circle class="arf" cx="160" cy="104" r="8"/><rect class="ink" x="96" y="78" width="18" height="52" rx="4"/><path class="ln" stroke-width="6" d="M88 72L122 66"/>' +
+        '<circle class="bub" cx="194" cy="36" r="20"/><path class="ln" d="M194 36V24M194 36L203 41"/>' + T(150, 40, 14, 'Note the time', 'tx', 'end');
+    },
+    nose: function(){
+      return '<path class="ptl" stroke-width="34" d="M90 118L74 160"/><circle class="sk" cx="108" cy="72" r="38"/><path class="sk" d="M142 64l20 16-20 6Z"/>' +
+        '<path class="skl" stroke-width="11" d="M154 92L186 150"/><ellipse class="skd" cx="152" cy="80" rx="10" ry="15"/>' +
+        '<path class="ar" d="M54 34Q86 12 120 24M110 16L121 25L109 32"/>' + T(204, 40, 16, '10 min', 'txa');
+    },
+    layflat: function(){
+      return G + LY() + '<circle class="sk" cx="196" cy="34" r="8"/><path class="ptl" stroke-width="9" d="M196 44V64M196 64L190 80M196 64L202 80"/>' +
+        noSign(196, 54, 30) + T(80, 50, 16, 'Lie flat');
+    },
+    autoinjector: function(){
+      return '<path class="ptl" stroke-width="44" d="M20 110H176"/><path class="ptl" stroke-width="34" d="M176 110V156"/>' +
+        '<rect class="pen" x="104" y="22" width="22" height="62" rx="8"/><rect class="arf" x="108" y="80" width="14" height="10" rx="2"/>' +
+        '<ellipse class="sk" cx="115" cy="44" rx="20" ry="16"/>' + down(76, 40, 78) + T(184, 40, 15, 'Outer thigh');
+    },
+    puffer: function(){
+      return '<rect class="sp" x="44" y="70" width="118" height="40" rx="20"/><rect class="sp" x="22" y="80" width="26" height="20" rx="4"/>' +
+        '<rect class="calmf" x="170" y="30" width="22" height="52" rx="6"/><path class="ln" stroke-width="4" d="M160 80H200V110H162"/>' +
+        T(96, 40, 14, '1 puff, then 4 breaths') + T(110, 148, 24, '× 4', 'txa');
+    },
+    timer: function(l){
+      return '<circle class="bub" cx="120" cy="80" r="52"/><rect class="ink" x="112" y="14" width="16" height="14" rx="3"/>' +
+        '<path class="ln" stroke-width="5" d="M120 80V48M120 80L144 92"/>' + T(120, 156, 18, l || '', 'txa');
+    },
+    still: function(){
+      return '<ellipse class="ink" cx="102" cy="94" rx="13" ry="22" transform="rotate(-12 102 94)"/><ellipse class="ink" cx="140" cy="70" rx="13" ry="22" transform="rotate(12 140 70)"/>' +
+        noSign(120, 80, 56) + T(120, 156, 16, 'Keep still');
+    },
+    bitewrap: function(){
+      return LIMB(100) + '<circle class="arf" cx="122" cy="98" r="4"/><circle class="arf" cx="136" cy="98" r="4"/>' +
+        bandageOn(104, 160, 100).replace('class="band"', 'class="band" opacity=".9"') + T(130, 40, 15, 'Firm, over the bite first');
+    },
+    bandage: function(){
+      return '<path class="skl" stroke-width="36" d="M16 100H186"/><path class="skl" stroke-width="30" d="M186 100L206 70"/>' +
+        bandageOn(24, 196, 100) + '<path class="ar" d="M196 52H44M54 42L42 52L54 62"/>' + T(120, 146, 15, 'Start at the toes, wrap upwards');
+    },
+    splint: function(){
+      return '<rect class="board" x="18" y="122" width="186" height="12" rx="3"/><path class="skl" stroke-width="36" d="M16 100H186"/><path class="skl" stroke-width="30" d="M186 100L206 70"/>' +
+        bandageOn(24, 196, 100) + '<path class="ln" stroke-width="4" d="M60 76V134M120 76V134M172 76V134"/>' + T(120, 50, 15, 'Splint so joints can’t move');
+    },
+    beach: function(){
+      return '<path class="wt" opacity=".75" d="M0 96q20-10 40 0t40 0t40 0V160H0Z"/><path class="sand" d="M120 124H240V160H120Z"/>' +
+        '<circle class="sk" cx="176" cy="66" r="10"/><path class="ptl" stroke-width="12" d="M176 78V108M176 108L168 124M176 108L184 124"/>' +
+        '<path class="ar" d="M60 64Q104 26 150 60M138 52L151 61L139 68"/>' + T(60, 40, 14, 'Out of the water');
+    },
+    vinegar: function(){
+      return '<path class="skl" stroke-width="32" d="M16 124H200"/><path class="sting" d="M60 124q8-8 16 0t16 0t16 0t16 0t16 0"/>' +
+        '<g transform="rotate(-48 70 54)"><rect class="bottle" x="50" y="22" width="40" height="70" rx="8"/><rect class="bottle" x="62" y="8" width="16" height="16" rx="3"/></g>' +
+        '<path class="wtl" stroke-width="5" d="M106 62Q114 90 112 106"/>' + T(186, 40, 18, '30 seconds', 'txa') + T(186, 58, 13, 'of vinegar');
+    },
+    seawater: function(){
+      return '<path class="skl" stroke-width="32" d="M16 124H200"/><path class="sting" d="M50 124q10-8 20 0t20 0t20 0q10-6 18-42"/>' +
+        '<path class="skl" stroke-width="9" d="M178 14L136 74"/><ellipse class="sk" cx="132" cy="78" rx="11" ry="6"/>' +
+        '<path class="wtl" d="M170 96q-4 8 0 10M186 104q-4 8 0 10M200 92q-4 8 0 10"/>' + T(60, 40, 15, 'Sea water only');
+    },
+    coldpack: function(l){
+      return LIMB(108) + '<rect class="ice" x="90" y="78" width="64" height="46" rx="10"/><path class="wh-l" d="M122 88V114M110 94L134 108M134 94L110 108"/>' + T(120, 44, 16, l || 'Cold pack');
+    },
+    hotwater: function(){
+      return '<path class="bub" d="M40 90H200Q196 146 120 146Q44 146 40 90Z"/><path class="wt" opacity=".55" d="M46 100H194Q186 140 120 140Q54 140 46 100Z"/>' +
+        '<path class="skl" stroke-width="28" d="M224 26L146 112"/><path class="ar" stroke-width="3" d="M74 80q-8-10 0-20t0-20M100 80q-8-10 0-20t0-20"/>' +
+        T(22, 30, 15, 'About 45°C', 'txa', 'start');
+    },
+    spider: function(){
+      var legs = 'M100 70L64 48L44 66M98 84L54 80L36 100M100 98L58 112L46 136M106 110L80 134L78 154';
+      var mirror = legs.replace(/(M|L)(\d+) /g, function(m, c, x){ return c + (240 - x) + ' '; });
+      return '<path class="ln" stroke-width="5" d="' + legs + mirror + '"/><ellipse class="ink" cx="120" cy="92" rx="26" ry="32"/><circle class="ink" cx="120" cy="54" r="17"/>';
+    },
+    nobandage: function(){
+      return '<path class="band" d="M110 124H210V96H110Z"/><circle class="band" cx="110" cy="84" r="40"/><circle class="bub" cx="110" cy="84" r="12"/>' + noSign(120, 84, 66);
+    },
+    hospital: function(){
+      return G + '<rect class="bub" x="56" y="44" width="128" height="96"/><path class="ln" d="M48 44L120 14L192 44"/>' +
+        '<path class="arf" d="M110 56h20v14h14v20h-14v14h-20v-14h-14v-20h14Z"/><rect class="ink" x="108" y="112" width="24" height="28"/>';
+    },
+    chestpain: function(){
+      return '<circle class="sk" cx="120" cy="26" r="16"/><rect class="pt" x="66" y="44" width="108" height="104" rx="34"/>' +
+        '<path class="skl" stroke-width="12" d="M168 150L146 92"/><ellipse class="sk" cx="140" cy="86" rx="16" ry="12"/>' +
+        '<path class="ar" d="M98 72l-16-10M94 88H74M98 104l-16 10M150 18l12-8M90 22l-12-8"/>';
+    },
+    situp: function(){
+      return G + '<path class="ln" stroke-width="5" d="M86 44V140M82 106H160M156 106V140"/>' +
+        '<circle class="sk" cx="108" cy="40" r="13"/><path class="ptl" stroke-width="24" d="M106 60V98"/><path class="ptl" stroke-width="13" d="M106 98H148V138"/>' +
+        '<path class="skl" stroke-width="8" d="M108 66L126 92"/>' + T(188, 50, 14, 'Upright, calm');
+    },
+    spray: function(){
+      return '<rect class="calmf" x="100" y="52" width="40" height="86" rx="10"/><rect class="ink" x="108" y="34" width="24" height="20" rx="3"/>' +
+        '<path class="ln" stroke-width="4" d="M108 42H86"/><path class="wtl" d="M74 34l-14-8M72 42h-16M74 50l-14 8"/>' + T(190, 90, 14, 'Their own', 'tx') + T(190, 106, 14, 'medicine', 'tx');
+    },
+    aspirin: function(){
+      return '<circle class="bub" cx="120" cy="72" r="46"/><path class="ln" d="M82 72H158"/>' + T(120, 150, 24, '300 mg', 'txa');
+    },
+    fast: function(){
+      return '<circle class="sk" cx="112" cy="80" r="58"/><circle class="ink" cx="90" cy="66" r="5"/><circle class="ink" cx="134" cy="70" r="5"/>' +
+        '<path class="ln" stroke-width="4" d="M126 62L144 68M84 104Q100 112 116 108Q132 104 142 118"/><path class="ar" d="M214 134L158 120M168 114L156 120L166 128"/>';
+    },
+    arms: function(){
+      return '<circle class="sk" cx="120" cy="28" r="14"/><rect class="pt" x="98" y="44" width="44" height="62" rx="12"/>' +
+        '<path class="ptl" stroke-width="12" d="M110 106V148M130 106V148"/><path class="skl" stroke-width="10" d="M100 54L54 52M140 58L176 98"/>' +
+        '<path class="ar" d="M200 62V96M192 88L200 98L208 88"/>';
+    },
+    speech: function(){
+      return '<rect class="bub" x="34" y="26" width="172" height="80" rx="16"/><path class="bub" d="M70 106l-12 24 32-24"/>' +
+        '<path class="ar" d="M56 66q10-18 20 0t20 0t20 0t20 0t20 0t20 0"/>';
+    },
+    seizure: function(){
+      return G + '<rect class="pillow" x="20" y="124" width="56" height="13" rx="6"/>' + LY() +
+        '<rect class="ink" x="160" y="34" width="28" height="28" rx="4"/><path class="ar" d="M194 48H226M218 40L228 48L218 56"/>' +
+        '<path class="ar" stroke-width="3" d="M30 90q-8 8 0 16M150 92q8 8 0 16"/>' + T(80, 50, 15, 'Clear the space');
+    },
+    shade: function(){
+      return G + '<circle class="sun" cx="40" cy="36" r="18"/><path class="sunl" d="M40 6v8M40 58v8M10 36h8M62 36h8M19 15l6 6M55 51l6 6M19 57l6-6M55 21l6-6"/>' +
+        '<rect class="trunk" x="166" y="62" width="12" height="78"/><circle class="leaf" cx="172" cy="50" r="42"/>' +
+        '<circle class="sk" cx="132" cy="100" r="10"/><path class="ptl" stroke-width="12" d="M132 112V130H104"/>';
+    },
+    coolwater: function(){
+      return '<rect class="wt" opacity=".55" x="34" y="76" width="172" height="62" rx="10"/><path class="ln" stroke-width="4" d="M30 60V122Q30 142 50 142H190Q210 142 210 122V60"/>' +
+        '<path class="pt" opacity=".5" d="M80 90H180V120H80Z"/><circle class="sk" cx="66" cy="70" r="14"/>' + T(176, 40, 18, '15 min', 'txa');
+    },
+    icepacks: function(){
+      return G + LY() + '<rect class="ice" x="56" y="96" width="16" height="12" rx="3"/><rect class="ice" x="86" y="94" width="16" height="12" rx="3"/><rect class="ice" x="140" y="106" width="16" height="12" rx="3"/>' +
+        '<path class="wtl" stroke-width="4" d="M190 30q10 10 0 22M204 24q16 16 0 34M218 18q22 22 0 46"/>' + T(80, 48, 15, 'Wet, ice, fan');
+    },
+    cup: function(){
+      return '<path class="bub" d="M88 34H152L142 138H98Z"/><path class="wt" opacity=".55" d="M92 66H148L140 132H100Z"/>';
+    },
+    tap: function(l){
+      return '<path class="ink" d="M30 26H118V42H98V60H78V42H30Z"/><rect class="wt" opacity=".75" x="80" y="60" width="16" height="42" rx="3"/>' +
+        '<path class="skl" stroke-width="32" d="M16 120H206"/><path class="wtl" d="M70 104l-10-8M106 104l10-8"/>' + T(176, 48, 18, l || '', 'txa');
+    },
+    eye: function(){
+      return '<path class="bub" d="M36 100Q120 34 204 100Q120 166 36 100Z"/><circle class="ink" cx="120" cy="100" r="22"/>' +
+        '<path class="wtl" stroke-width="6" d="M156 8Q146 40 136 72"/>' + T(52, 36, 18, '15 min', 'txa');
+    },
+    air: function(){
+      return '<rect class="bub" x="34" y="22" width="104" height="114" rx="4"/><path class="ln" d="M86 22V136M34 79H138"/>' +
+        '<path class="wtl" stroke-width="4" d="M150 50q20-6 40 0t40 0M150 80q20-6 40 0t30 0M150 110q20-6 40 0"/>';
+    },
+    bottle: function(){
+      return '<path class="bottle" d="M100 16h40v22l16 18v86q0 8-8 8h-56q-8 0-8-8V56l16-18Z"/><rect class="wh" x="90" y="76" width="60" height="48" rx="4"/>' +
+        '<rect class="arf" x="115" y="84" width="10" height="24" rx="5"/><circle class="arf" cx="120" cy="116" r="5"/>' + T(196, 70, 13, 'Take it', 'tx') + T(196, 86, 13, 'with you', 'tx');
+    },
+    honey: function(l){
+      return '<ellipse class="bub" cx="90" cy="86" rx="46" ry="28"/><ellipse class="honey" cx="90" cy="88" rx="36" ry="17"/><path class="ln" stroke-width="9" d="M134 78L222 46"/>' +
+        T(120, 148, 16, l || '', 'txa');
+    },
+    stopdrop: function(){
+      return G + LY() + '<path class="ar" d="M70 82A50 30 0 1 1 170 82M160 74L170 84L178 72"/>' + T(120, 28, 15, 'Stop, drop, cover, roll');
+    },
+    cling: function(){
+      return LIMB(104) + '<ellipse class="burn" cx="118" cy="104" rx="30" ry="12"/><rect class="film" x="76" y="78" width="84" height="52" rx="4"/>' + T(118, 52, 15, 'Lay on loosely');
+    },
+    ring: function(){
+      return '<rect class="sk" x="66" y="74" width="74" height="70" rx="22"/><path class="skl" stroke-width="16" d="M80 78V36M100 76V26M120 78V34M138 98L164 76"/>' +
+        '<rect class="ringc" x="91" y="52" width="18" height="10" rx="3"/><path class="ar" d="M184 70V22M176 30L184 20L192 30"/>';
+    },
+    blanket: function(){
+      return G + LY() + '<path class="blanket" d="M64 96H222V132H64Z"/><path class="ar" stroke-width="3" d="M100 82q-6-8 0-16t0-16M140 82q-6-8 0-16t0-16M180 82q-6-8 0-16t0-16"/>';
+    },
+    power: function(){
+      return '<path class="ink" d="M128 30L96 86H118L108 132L150 70H126Z"/>' + noSign(120, 80, 60);
+    }
+  };
+
+  function svg(spec){
+    var k = spec, arg;
+    if (Array.isArray(spec)){ k = spec[0]; arg = spec[1]; }
+    var f = A[k];
+    if (!f) return '';
+    return '<svg class="art" viewBox="0 0 240 160" aria-hidden="true" focusable="false">' + f(arg) + '</svg>';
+  }
+  return { svg: svg, keys: Object.keys(A) };
+})();
+
+/* Content: every step summarised from the ANZCOR guidelines named in each topic's src. */
+var AZ = 'https://www.anzcor.org/home/';
+var TOPICS = [
+{
+  id:'collapse', sev:'crit', tag:'Life-threatening', title:'Someone has collapsed', short:'DRSABCD: the first 7 checks', icon:'shoulders',
+  k:'collapsed unconscious not responding drsabcd fainted',
+  steps:[
+    {a:'danger', t:'<b>D: Danger.</b> Check it’s safe for you, bystanders and the person. Don’t put yourself at risk.'},
+    {a:'shoulders', t:'<b>R: Response.</b> Say their name loudly and squeeze their shoulders. If they respond, make them comfortable and keep watching them.'},
+    {a:'phone', t:'<b>S: Send for help.</b> No response: call 000, or get someone else to call. Stay on the line and follow the call-taker.'},
+    {a:'airway', t:'<b>A: Airway.</b> Open their mouth. If you can see something in it, roll them onto their side and remove it. Then tilt the head back gently to open the airway.'},
+    {a:'breathing', t:'<b>B: Breathing.</b> Look, listen and feel. Not breathing normally, or only occasional gasps: start CPR. Breathing normally: put them in the <a href="#unconscious">recovery position</a>.'},
+    {a:'compress', t:'<b>C: CPR.</b> 30 chest compressions, then 2 breaths. Keep going. <a href="#cpr">How to do CPR</a>.'},
+    {a:'aed', t:'<b>D: Defibrillation.</b> Attach an AED (defibrillator) as soon as one arrives and follow its voice prompts.'}
+  ],
+  src:'ANZCOR Basic Life Support Flowchart and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (approved April 2021).'
+},
+{
+  id:'cpr', sev:'crit', tag:'Life-threatening', title:'CPR', short:'Not responding and not breathing normally', icon:'compress', extra:'cpr',
+  k:'cpr not breathing compressions heart stopped cardiac arrest resuscitation aed defibrillator',
+  when:'<strong>Start CPR</strong> if the person isn’t responding and isn’t breathing normally. Occasional gasps are not normal breathing.',
+  steps:[
+    {a:'handpos', t:'Lay them on their back on a firm surface. Put your hands on the <b>centre of the chest, on the lower half of the breastbone</b>. See the depth for their age above.'},
+    {a:'compress', t:'Push hard and fast: <b>100 to 120 compressions a minute</b>, almost 2 a second. Let the chest come all the way back up after each one.'},
+    {a:'breaths', t:'After <b>30 compressions, give 2 breaths</b>: tilt the head back, lift the chin, seal your mouth over theirs and blow for about 1 second each, until the chest rises.'},
+    {a:'compress', t:'If you can’t or won’t give breaths, <b>keep doing compressions without stopping</b>. Compressions alone still help.'},
+    {a:'aed', t:'Attach an <b>AED</b> as soon as one arrives and do what it says.'},
+    {a:['timer','Keep going'], t:'Don’t stop to check them. Keep going until they respond or breathe normally, a paramedic or health professional takes over, or you physically can’t continue.'}
+  ],
+  notes:['Swap with another person every couple of minutes if you can. This is common practice rather than part of the ANZCOR guidelines.'],
+  src:'ANZCOR <a href="'+AZ+'basic-life-support/guideline-6-compressions">Guideline 6, Compressions</a> and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (both approved April 2021).'
+},
+{
+  id:'choking', sev:'crit', tag:'Life-threatening', title:'Choking', short:'Can’t cough, breathe or speak', icon:'backblows',
+  k:'choking can’t breathe food stuck airway baby',
+  when:'<strong>Can cough, talk or cry?</strong> Encourage them to keep coughing and stay with them. Call 000 if it doesn’t clear. The steps below are for when they <strong>can’t</strong> cough, breathe or speak.',
+  steps:[
+    {g:'Adult or child', a:'phone', t:'<b>Call 000.</b>'},
+    {g:'Adult or child', a:'backblows', t:'Give <b>up to 5 sharp back blows</b> between the shoulder blades with the heel of your hand. Check after each one. Stop as soon as it clears.'},
+    {g:'Adult or child', a:'handpos', t:'Still blocked: give <b>up to 5 chest thrusts</b> on the same spot as CPR compressions. Make them sharper and slower than compressions. Check after each one.'},
+    {g:'Adult or child', a:'repeat55', t:'Keep <b>alternating 5 back blows and 5 chest thrusts</b> until it clears or help arrives.'},
+    {g:'Adult or child', a:'compress', t:'If they stop responding, start <a href="#cpr">CPR</a>.'},
+    {g:'Baby under 1', a:'infant', t:'<b>Back blows:</b> lay the baby face down across your lap, head lower than the body, supporting the head. Up to 5 back blows.'},
+    {g:'Baby under 1', a:'twofinger', t:'<b>Chest thrusts:</b> turn the baby onto their back, head down along your thigh. Use two fingers on the CPR spot. Up to 5 thrusts. Keep alternating.'}
+  ],
+  dont:['Don’t use abdominal thrusts (the Heimlich). ANZCOR doesn’t recommend them because of the risk of serious injury.','Don’t sweep blindly inside the mouth. Only remove something you can see.'],
+  src:'ANZCOR <a href="'+AZ+'basic-life-support/guideline-4-airway">Guideline 4, Airway</a> (approved April 2021).'
+},
+{
+  id:'bleeding', sev:'crit', tag:'Life-threatening', title:'Severe bleeding', short:'Press hard, keep pressing', icon:'pressure',
+  k:'bleeding blood cut wound tourniquet nosebleed',
+  when:'<strong>Call 000</strong> if bleeding won’t stop with pressure, or the person looks pale, sweaty, confused or drowsy.',
+  steps:[
+    {g:'Heavy bleeding', a:'pressure', t:'Press <b>firmly and directly on the wound</b> with your hands or a pad. This stops most bleeding.'},
+    {g:'Heavy bleeding', a:'pressure', t:'Still bleeding: add a second pad and bandage more firmly. Make sure the pad sits right over the bleeding point. One or two pads press harder than a thick stack.'},
+    {g:'Heavy bleeding', a:'embedded', t:'Something stuck in the wound? <b>Leave it in.</b> Put pads on each side of it and press on the pads.'},
+    {g:'Heavy bleeding', a:'tourniquet', t:'<b>Tourniquet</b>, only for life-threatening bleeding from an arm or leg that pressure can’t stop, and only if you have one and know how to use it. Put it above the wound (5 cm above if there are no instructions), tighten until the bleeding stops, <b>write down the time</b> and tell the paramedics. Don’t cover it.'},
+    {g:'Nosebleed', a:'nose', t:'Sit them up and lean them forward. Pinch the soft part of the nose, below the bony bridge, for <b>at least 10 minutes</b> (20 on a hot day or after exercise). Spit out blood rather than swallow it. Get medical help if it bleeds for more than 20 minutes.'}
+  ],
+  dont:['Don’t rely on raising the limb. There’s no evidence it controls bleeding.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding">Guideline 9.1.1, Bleeding</a> (approved April 2021, tourniquet advice reconfirmed July 2025).'
+},
+{
+  id:'anaphylaxis', sev:'crit', tag:'Life-threatening', title:'Anaphylaxis', short:'Severe allergic reaction', icon:'autoinjector',
+  k:'anaphylaxis allergy allergic epipen anapen adrenaline swelling hives peanut bee',
+  when:'<strong>Signs:</strong> difficult or noisy breathing, wheeze or persistent cough, swelling of the face, tongue or throat, hoarse voice or trouble talking, dizziness or collapse, a young child going pale and floppy. Vomiting, stomach pain, hives or welts can also be signs.',
+  steps:[
+    {a:'layflat', t:'<b>Lay them flat. Don’t let them stand or walk.</b> If breathing is hard, let them sit. Remove the trigger if you can.'},
+    {a:'autoinjector', t:'<b>Give their adrenaline autoinjector</b> (EpiPen or Anapen) into the outer thigh. Follow their ASCIA Action Plan if they have one.'},
+    {a:'phone', t:'<b>Call 000.</b>'},
+    {a:'puffer', t:'If they have asthma, give their reliever puffer for breathing symptoms, <b>after</b> the adrenaline.'},
+    {a:['timer','5 min'], t:'No improvement after <b>5 minutes</b>: give a second autoinjector if one is available.'},
+    {a:'compress', t:'If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.'}
+  ],
+  notes:['If someone with a known allergy and asthma suddenly has trouble breathing, ASCIA’s action plans say to give adrenaline first, then the asthma reliever.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis">Guideline 9.2.7, Anaphylaxis</a> (approved 2019); <a href="https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis">ASCIA first aid for anaphylaxis</a>.'
+},
+{
+  id:'heart', sev:'crit', tag:'Life-threatening', title:'Heart attack', short:'Chest pain, breathless, sweaty', icon:'chestpain',
+  k:'heart attack chest pain aspirin angina',
+  when:'<strong>Signs:</strong> pain or discomfort in the chest, neck, jaw or arms; shortness of breath; looking pale; sweating; nausea; dizziness. Women, older people, people with diabetes, and Aboriginal and Torres Strait Islander people may have mild or unusual symptoms, sometimes just breathlessness.',
+  steps:[
+    {a:'situp', t:'<b>Stop and rest</b> in whatever position is comfortable.'},
+    {a:'spray', t:'If they have prescribed angina medicine (tablet or spray), help them take it as directed.'},
+    {a:'phone', t:'<b>Call 000</b> if symptoms are severe, getting worse quickly, or have lasted more than 10 minutes. Stay with them.'},
+    {a:'aspirin', t:'For an adult with chest pain not caused by an injury, offer <b>300 mg aspirin</b>, unless they’re allergic to aspirin.'},
+    {a:'aedbox', t:'Find the nearest <b>AED</b> and bring it over.'},
+    {a:'compress', t:'If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.'}
+  ],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-1-recognition-and-first-aid-management-of-suspected-heart-attack">Guideline 9.2.1, Suspected heart attack</a> (approved April 2021).'
+},
+{
+  id:'stroke', sev:'crit', tag:'Life-threatening', title:'Stroke', short:'Think F.A.S.T.', icon:'fast',
+  k:'stroke fast face arm speech',
+  when:'<strong>Any of these signs, call 000 now.</strong> Other signs include sudden numbness, loss of balance, loss of vision, a sudden severe headache, confusion or drowsiness.',
+  steps:[
+    {g:'Check F.A.S.T.', a:'fast', t:'<b>Face:</b> ask them to smile. Is one side drooping?'},
+    {g:'Check F.A.S.T.', a:'arms', t:'<b>Arms:</b> can they lift both arms, or is one weak?'},
+    {g:'Check F.A.S.T.', a:'speech', t:'<b>Speech:</b> is it slurred, or are they confused by what you say?'},
+    {g:'Check F.A.S.T.', a:'phone', t:'<b>Time:</b> call 000 now, even if the signs went away.'},
+    {g:'While you wait', a:'recovery', t:'Unconscious but breathing: roll them onto their side and keep the airway clear.'},
+    {g:'While you wait', a:'compress', t:'Not breathing normally: start <a href="#cpr">CPR</a>.'}
+  ],
+  dont:['Don’t give them anything to eat or drink. They may not be able to swallow safely.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-2-stroke">Guideline 9.2.2, Stroke</a> (approved April 2021).'
+},
+{
+  id:'unconscious', sev:'crit', tag:'Needs an ambulance', title:'Unconscious, breathing', short:'Recovery position', icon:'recovery',
+  k:'unconscious breathing recovery position side passed out',
+  steps:[
+    {a:'recovery', t:'Gently get them onto the ground and <b>roll them onto their side</b>, keeping the head tilted back so the airway stays open. Don’t leave them sitting in a chair or with their head between their knees.'},
+    {a:'phone', t:'<b>Call 000.</b>'},
+    {a:'pressure', t:'Deal with any heavy bleeding.'},
+    {a:'breathing', t:'<b>Keep checking their breathing.</b> If they stop breathing normally, roll them onto their back and start <a href="#cpr">CPR</a>.'}
+  ],
+  notes:['If you think they’ve hurt their neck or back, move them as little as possible, but an open airway comes first.'],
+  src:'ANZCOR <a href="'+AZ+'basic-life-support/guideline-3-recognition-and-first-aid-management-of-the-unconscious-person">Guideline 3, The unconscious person</a> (approved April 2021).'
+},
+{
+  id:'snake', sev:'urgent', tag:'Urgent', title:'Snake bite', short:'Bandage, splint, keep still', icon:'bandage',
+  k:'snake bite pressure bandage immobilisation taipan brown',
+  when:'<strong>Call 000 for any suspected snake bite</strong>, even if there’s no pain or visible mark. Bites can show as a single scratch.',
+  steps:[
+    {a:'still', t:'<b>Keep them still and calm.</b> Don’t let them walk. Bring the ambulance to them.'},
+    {a:'bitewrap', t:'<b>Bandage the bite firmly.</b> Use a broad elastic or crepe bandage (10 to 15 cm wide is ideal; clothing or towels will do). Wrap it directly over the bite, firm enough that you can’t easily slide a finger under it.'},
+    {a:'bandage', t:'<b>Then bandage the whole limb.</b> Start at the fingers or toes and wrap upwards as far as you can go. Go over clothing rather than removing it.'},
+    {a:'splint', t:'<b>Splint the limb</b> so the joints either side of the bite can’t move. For an arm, add a sling. Leave the bandages and splint on until they’re assessed in hospital.'},
+    {a:'compress', t:'Watch closely. If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>. CPR won’t expose you to the venom.'}
+  ],
+  notes:['Bite on the body, head or neck: press firmly on the bite, but don’t restrict breathing or press on the neck or head.',
+    'Warning signs include headache, vomiting, blurred or double vision, drooping eyelids, trouble speaking, swallowing or breathing, and weakness. Collapse can happen 10 to 60 minutes after a bite. After some brown snake bites, a person collapses and then seems to recover. They still need hospital.',
+    'The same bandaging is used for funnel-web spider bites, blue-ringed octopus and cone shell stings.'],
+  dont:['Don’t wash, cut or suck the bite.','Don’t use a tourniquet.','Don’t try to catch or kill the snake. Take a photo only if it’s safe.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-4-1-first-aid-management-of-australian-snake-bite">Guideline 9.4.1, Snake bite</a> (approved April 2021) and <a href="'+AZ+'first-aid/guideline-9-4-8-envenomation-pressure-immobilisation-technique">Guideline 9.4.8, Pressure immobilisation</a>.'
+},
+{
+  id:'marine', sev:'urgent', tag:'Urgent in the tropics', title:'Jellyfish and marine stings', short:'Box jellyfish, Irukandji, bluebottle', icon:'vinegar',
+  k:'jellyfish box jellyfish irukandji stinger bluebottle vinegar stonefish stingray octopus cone shell marine beach',
+  when:'<strong>Tropical waters (Bundaberg north, across the Top End to Geraldton WA)</strong> have box jellyfish and Irukandji, which can kill. If you can’t be sure a sting is from a harmless jellyfish or a bluebottle, treat it as dangerous and watch the person closely.',
+  steps:[
+    {g:'Box jellyfish and Irukandji', a:'beach', t:'<b>Get them out of the water.</b> Get a lifeguard if there is one.'},
+    {g:'Box jellyfish and Irukandji', a:'phone', t:'<b>Call 000</b> if there’s more than one small sting, or they look or feel unwell.'},
+    {g:'Box jellyfish and Irukandji', a:'compress', t:'If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.'},
+    {g:'Box jellyfish and Irukandji', a:'vinegar', t:'<b>Pour vinegar on the sting for 30 seconds</b>, then pick off any tentacles. Picking them off is safe for you.'},
+    {g:'Box jellyfish and Irukandji', a:'seawater', t:'No vinegar? Pick off the tentacles and rinse with sea water. <b>Never fresh water</b>, which can make remaining stingers fire.'},
+    {g:'Box jellyfish and Irukandji', a:'coldpack', t:'Use a cold pack, or ice in a dry plastic bag, for pain.'},
+    {g:'Box jellyfish and Irukandji', a:['timer','Stay with them'], t:'<b>Stay with them.</b> Irukandji symptoms can start 5 to 40 minutes after a sting that seemed minor. Severe pain, sweating, vomiting or trouble breathing means call 000.'},
+    {g:'Bluebottle', a:'seawater', t:'Only if you’re sure it’s a bluebottle, the sting is small and the person is well. Pick off tentacles and rinse with sea water. <b>No vinegar</b>, and don’t rub.'},
+    {g:'Bluebottle', a:'hotwater', t:'Soak the area in <b>hot water, about 45°C, for 20 minutes</b>. Use water the person can tolerate without it burning them. No hot water, or it doesn’t help: use a cold pack.'},
+    {g:'Bluebottle', a:'phone', t:'<b>Call 000</b> if pain spreads or won’t settle, the sting covers half a limb or more, or it’s near the eye.'},
+    {g:'Stonefish and stingray', a:'phone', t:'<b>Call 000.</b>'},
+    {g:'Stonefish and stingray', a:'embedded', t:'Don’t pull out a barb or spine. Pad around it and press on the padding. A stingray wound to the chest or stomach can cause hidden bleeding: keep them still.'},
+    {g:'Stonefish and stingray', a:'hotwater', t:'For a limb, soak it in hot water, no hotter than you could comfortably keep your own hand in.'},
+    {g:'Blue-ringed octopus and cone shell', a:'splint', t:'<b>Call 000.</b> Apply the pressure bandage and splint as for a <a href="#snake">snake bite</a>, and keep them still.'},
+    {g:'Blue-ringed octopus and cone shell', a:'breathing', t:'The bite may be painless. Watch for numb lips and tongue and weakening breathing.'},
+    {g:'Blue-ringed octopus and cone shell', a:'breaths', t:'They may stop breathing yet still hear you. Reassure them and keep up CPR until paramedics take over, even for a long time.'}
+  ],
+  dont:['Don’t use fresh water on a jellyfish sting.','Don’t use vinegar on a bluebottle sting.','Don’t use a pressure bandage for stonefish or stingray.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-4-5-first-aid-management-of-marine-envenomation">Guideline 9.4.5, Marine envenomation</a> (approved June 2025); Irukandji warning signs from <a href="https://www.healthdirect.gov.au/jellyfish-stings">healthdirect, Jellyfish stings</a>.'
+},
+{
+  id:'asthma', sev:'urgent', tag:'Urgent', title:'Asthma attack', short:'4 puffs, 4 breaths, 4 minutes', icon:'puffer',
+  k:'asthma puffer ventolin asmol wheeze breathing spacer',
+  when:'<strong>Call 000 straight away</strong> if they can only say one or two words per breath, are gasping, have blue lips, are pale and sweaty, are getting drowsy, or the puffer isn’t helping. Then keep doing the steps.',
+  steps:[
+    {a:'situp', t:'<b>Sit them upright.</b> Stay calm and stay with them.'},
+    {a:'puffer', t:'Give <b>4 separate puffs</b> of a blue/grey reliever (like Ventolin or Asmol). Shake it, put 1 puff into a spacer, and have them take 4 breaths from the spacer. Repeat until 4 puffs are done. No spacer: use the puffer directly.'},
+    {a:['timer','4 min'], t:'<b>Wait 4 minutes.</b> Not better: give 4 more puffs.'},
+    {a:'phone', t:'Still not better: <b>call 000</b> and keep giving 4 puffs every 4 minutes until help arrives.'}
+  ],
+  notes:['Use their own puffer if possible, otherwise one from a first aid kit or borrowed from someone. If they have an Asthma Action Plan, follow that.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-5-first-aid-for-asthma">Guideline 9.2.5, Asthma</a> (approved July 2023).'
+},
+{
+  id:'burns', sev:'urgent', tag:'Urgent', title:'Burns and scalds', short:'20 minutes under cool running water', icon:['tap','20 min'],
+  k:'burn scald fire chemical electrical',
+  when:'<strong>Call 000</strong> for large or deep burns; burns to the face, hands, feet, genitals or a major joint; burns that go all the way round a limb; smoke, chemical or electrical burns; or burns on a baby or elderly person. <strong>Every burn on a child should be seen by a doctor.</strong>',
+  steps:[
+    {g:'Heat burns', a:'stopdrop', t:'<b>Stop the burning.</b> On fire: stop, drop, cover your face and roll, or smother the flames with a blanket.'},
+    {g:'Heat burns', a:['tap','20 min'], t:'<b>Cool the burn under cool running water for 20 minutes.</b> It still helps up to 3 hours after the burn.'},
+    {g:'Heat burns', a:'ring', t:'Take off rings, watches and wet or loose clothing near the burn, unless they’re stuck to it.'},
+    {g:'Heat burns', a:'cling', t:'<b>Cover loosely</b> with cling film or a non-stick dressing. Lay it on; don’t wrap it round a limb, and don’t use it on the face.'},
+    {g:'Heat burns', a:'blanket', t:'Keep the rest of them warm, especially small children, who chill quickly.'},
+    {g:'Chemical burns', a:['tap','20+ min'], t:'Brush off any powder, then flush with running water for <b>at least 20 minutes</b>. Call the Poisons Information Centre on <b>13 11 26</b>.'},
+    {g:'Electrical burns', a:'power', t:'<b>Turn off the power</b> before touching them. Stay at least 10 metres from fallen power lines.'}
+  ],
+  dont:['Don’t use ice or iced water.','Don’t put on creams, butter, ointments or powders.','Don’t break blisters or peel off anything stuck to the burn.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-1-3-first-aid-for-burns">Guideline 9.1.3, Burns</a> (approved March 2023).'
+},
+{
+  id:'seizure', sev:'urgent', tag:'Urgent', title:'Seizure', short:'Protect, time it, side position', icon:'seizure',
+  k:'seizure fit epilepsy convulsion',
+  when:'<strong>Call 000</strong> if the seizure lasts more than 5 minutes, another one starts, they don’t wake within 5 minutes, it happened in water, they’re injured or may be pregnant, it’s their first seizure, you don’t know them, or it’s different from their usual seizures.',
+  steps:[
+    {a:'seizure', t:'Ease their fall if you can and <b>move hard or sharp things away</b>. Put something soft and flat under their head, like a folded jumper. Follow their seizure plan if they have one.'},
+    {a:['timer','Time it'], t:'<b>Time the seizure.</b>'},
+    {a:'recovery', t:'Roll them onto their side when you can. When it stops, if they’re unresponsive but breathing, keep them in the <a href="#unconscious">recovery position</a> and reassure them as they come round.'}
+  ],
+  dont:['Don’t hold them down, unless it’s needed to stop an injury.','Don’t put anything in their mouth or force it open.','Don’t put a child in a bath to cool them.','No food or drink until they’re fully awake.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/9-2-4-first-aid-management-of-a-seizure">Guideline 9.2.4, Seizure</a> (approved June 2024).'
+},
+{
+  id:'heat', sev:'urgent', tag:'Urgent', title:'Heat illness', short:'Shade, then cool them fast', icon:'shade',
+  k:'heat stroke exhaustion hot sun dehydration hyperthermia',
+  when:'<strong>Call 000 early</strong> if they’re confused, very drowsy, having a seizure, have hot dry skin, or aren’t improving quickly. Don’t wait to cool them first. Early signs: hot, sweaty, breathless, dizzy or faint, nausea, can’t keep going.',
+  steps:[
+    {a:'shade', t:'<b>Move them into shade</b> or somewhere cool. Loosen or remove extra clothing.'},
+    {a:'coolwater', t:'<b>Cool them fast.</b> Best for anyone over 5: lie them in cold water up to the neck for 15 minutes.'},
+    {a:'icepacks', t:'No cold water bath? Wet them with a hose or shower, put ice packs on the groin, armpits, cheeks, palms and soles, keep wetting the skin and fan them non-stop.'},
+    {a:'icepacks', t:'Children 5 and under: sponge them in a lukewarm bath, or keep wetting the skin and fanning.'},
+    {a:'cup', t:'Fully awake and able to swallow: give cool water, or a sports drink after hard exercise.'},
+    {a:'breathing', t:'Keep checking they’re conscious and breathing. Not breathing normally: start <a href="#cpr">CPR</a>.'}
+  ],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-3-4-heat-induced-illness-hyperthermia">Guideline 9.3.4, Heat induced illness</a> (approved September 2020).'
+},
+{
+  id:'poison', sev:'urgent', tag:'Urgent', title:'Poisoning', short:'Call 13 11 26. Includes button batteries', icon:['phone','13 11 26'],
+  k:'poison poisoning swallowed overdose chemical button battery medicine',
+  when:'<strong>Poisons Information Centre: 13 11 26</strong>, 24 hours, for advice. <strong>Call 000</strong> if they’re drowsy, having trouble breathing, or you’re worried.',
+  steps:[
+    {g:'Poisons', a:'danger', t:'If it’s safe, move them away from the poison or the poison away from them.'},
+    {g:'Poisons', a:'cup', t:'<b>Swallowed:</b> have them rinse their mouth with water.'},
+    {g:'Poisons', a:['tap','Flush'], t:'<b>On the skin:</b> remove contaminated clothing and flush with running water.'},
+    {g:'Poisons', a:'eye', t:'<b>In the eye:</b> hold the eyelids open and flush with cold water for 15 minutes.'},
+    {g:'Poisons', a:'air', t:'<b>Breathed in:</b> get them into fresh air without breathing it yourself.'},
+    {g:'Poisons', a:'bottle', t:'Find out what, how much and when. <b>Take the container</b> to hospital with them.'},
+    {g:'Button battery', a:'hospital', t:'Suspect it if a device’s battery cover is open, or a child is drooling, vomiting or has chest pain. <b>Go to an emergency department or call 000 immediately.</b>'},
+    {g:'Button battery', a:['honey','Honey: 10 mL every 10 min'], t:'On the way, if they can breathe and swallow without trouble: <b>over 1 year</b>, 2 teaspoons (10 mL) of honey every 10 minutes. Use jam if there’s no honey.'},
+    {g:'Button battery', a:['honey','Jam: 10 mL every 10 min'], t:'<b>Under 1 year:</b> 2 teaspoons of jam every 10 minutes. <b>Never honey</b> for a baby. Nothing else by mouth, and don’t delay getting help to do this.'}
+  ],
+  dont:['Don’t make them vomit.','Don’t give anything to “neutralise” a chemical.'],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-5-1-first-aid-management-of-poisoning">Guideline 9.5.1, Poisoning</a> (approved June 2025, amended July 2026).'
+},
+{
+  id:'spider', sev:'calm', tag:'Usually not urgent', title:'Spider bite', short:'Funnel-web is the exception', icon:'spider',
+  k:'spider redback funnel-web funnel web bite',
+  steps:[
+    {g:'Funnel-web', a:'phone', t:'Big black spider, mainly NSW and south-east Queensland. <b>Call 000 straight away.</b> Effects can start within 10 minutes.'},
+    {g:'Funnel-web', a:'splint', t:'Apply the pressure bandage and splint as for a <a href="#snake">snake bite</a>, and keep them still.'},
+    {g:'Redback and all others', a:['coldpack','Up to 20 min'], t:'Use an ice or cold pack for pain, for <b>no more than 20 minutes</b> at a time.'},
+    {g:'Redback and all others', a:'nobandage', t:'<b>No pressure bandage.</b> It makes redback pain worse.'},
+    {g:'Redback and all others', a:'hospital', t:'Get medical help if it’s a young child, the pain is severe, or they become unwell or collapse.'}
+  ],
+  src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-4-2-first-aid-management-of-spider-bite">Guideline 9.4.2, Spider bite</a> (approved April 2021).'
+}
+];
+
+(function(){
+  var N = TOPICS.length;
+  var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(id){ return document.getElementById(id); };
+  var home = $('home'), view = $('topic');
+  var active = 0;
+
+  /* ---------- Home: 3D coverflow ---------- */
+  var stage = $('stage'), ring = $('ring');
+  TOPICS.forEach(function(t, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tcard ' + t.sev;
+    b.setAttribute('data-i', i);
+    b.innerHTML = ART.svg(t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
+    b.addEventListener('click', function(){
+      if (dragged) return;
+      if (reduce || i === active) go(t.id); else setActive(i);
+    });
+    ring.appendChild(b);
+  });
+  var cards = [].slice.call(ring.children);
+  if (reduce) stage.classList.add('flat');
+
+  function layout(){
+    if (reduce) return;
+    var w = stage.clientWidth;
+    var spread = Math.max(120, Math.min(200, w * 0.36));
+    cards.forEach(function(c, i){
+      var d = ((i - active) % N + N + Math.floor(N/2)) % N - Math.floor(N/2);
+      var a = Math.abs(d);
+      c.style.transform = 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
+      c.style.opacity = a > 2 ? 0 : (1 - a * 0.22);
+      c.style.visibility = a > 2 ? 'hidden' : 'visible';
+      c.style.zIndex = 10 - a;
+      c.setAttribute('aria-current', d === 0 ? 'true' : 'false');
+      c.tabIndex = d === 0 ? 0 : -1;
+    });
+  }
+  function setActive(i){
+    active = (i + N) % N;
+    layout();
+    $('cpos').textContent = (active + 1) + ' / ' + N;
+    $('openBtn').textContent = 'Open: ' + TOPICS[active].title;
+  }
+  $('prevBtn').addEventListener('click', function(){ setActive(active - 1); });
+  $('nextBtn').addEventListener('click', function(){ setActive(active + 1); });
+  $('openBtn').addEventListener('click', function(){ go(TOPICS[active].id); });
+  stage.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft'){ setActive(active - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight'){ setActive(active + 1); e.preventDefault(); }
+  });
+  var dragged = false;
+  swipe(stage, function(dir){ if (!reduce) setActive(active + dir); });
+  window.addEventListener('resize', layout);
+
+  function swipe(el, cb){
+    var x0 = null, y0 = 0;
+    el.addEventListener('pointerdown', function(e){ x0 = e.clientX; y0 = e.clientY; dragged = false; });
+    el.addEventListener('pointerup', function(e){
+      if (x0 === null) return;
+      var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+        dragged = true; cb(dx < 0 ? 1 : -1);
+        setTimeout(function(){ dragged = false; }, 50);
+      }
+    });
+    el.addEventListener('pointercancel', function(){ x0 = null; });
+  }
+
+  /* ---------- Home: search and chips ---------- */
+  var groups = [['Life-threatening', function(t){ return t.sev === 'crit'; }], ['Urgent and other', function(t){ return t.sev !== 'crit'; }]];
+  var idx = $('chipsWrap');
+  groups.forEach(function(g){
+    var d = document.createElement('div'); d.className = 'group';
+    d.innerHTML = '<h2>' + g[0] + '</h2><div class="chips">' + TOPICS.filter(g[1]).map(function(t){
+      return '<a class="' + (t.sev === 'crit' ? 'crit' : '') + '" href="#' + t.id + '" data-k="' + (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '') + '">' + t.title + '</a>';
+    }).join('') + '</div>';
+    idx.appendChild(d);
+  });
+  var chips = [].slice.call(idx.querySelectorAll('a'));
+  $('find').addEventListener('input', function(){
+    var q = this.value.trim().toLowerCase(), first = null, shown = 0;
+    chips.forEach(function(a){
+      var hit = !q || a.getAttribute('data-k').indexOf(q) > -1;
+      a.hidden = !hit;
+      if (hit){ shown++; if (!first) first = a.getAttribute('href').slice(1); }
+    });
+    [].forEach.call(idx.querySelectorAll('.group'), function(g){
+      g.hidden = ![].some.call(g.querySelectorAll('a'), function(a){ return !a.hidden; });
+    });
+    $('nomatch').hidden = shown > 0;
+    if (q && first) setActive(byId[first].i);
+  });
+
+  /* ---------- Topic view ---------- */
+  var cur = null, step = 0;
+  function go(id){ location.hash = id; }
+
+  function renderTopic(t){
+    stopBeat();
+    cur = t; step = 0;
+    var h = '<a class="back" href="#">← All topics</a>';
+    h += '<header class="thead ' + t.sev + '"><span class="tag">' + t.tag + '</span><h1 id="tTitle" tabindex="-1">' + t.title + '</h1></header>';
+    if (t.when) h += '<p class="when' + (t.sev !== 'calm' ? ' crit-when' : '') + '">' + t.when + '</p>';
+    if (t.extra === 'cpr') h += $('tplAges').innerHTML;
+    var gs = [];
+    t.steps.forEach(function(s){ if (s.g && gs.indexOf(s.g) < 0) gs.push(s.g); });
+    if (gs.length > 1) h += '<div class="gchips" id="gchips" role="group" aria-label="Jump to">' + gs.map(function(g){ return '<button type="button" data-g="' + g + '" aria-pressed="false">' + g + '</button>'; }).join('') + '</div>';
+    h += '<section class="player" id="player" aria-label="Steps" aria-roledescription="step cards">' +
+      '<div class="pmeta"><span class="pg" id="pg"></span><span id="pc"></span></div>' +
+      '<div class="pview" id="pview"><div class="pcard" id="pcard" aria-live="polite"></div></div>' +
+      '<div class="pctl"><button type="button" class="pbtn" id="pPrev">← Back</button><div class="dots" id="dots"></div><button type="button" class="pbtn next" id="pNext">Next →</button></div></section>';
+    h += '<ol class="list" id="list" hidden>' + listHtml(t) + '</ol>';
+    h += '<button type="button" class="toggle" id="toggle" aria-expanded="false">Show all steps as a list</button>';
+    if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
+    if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
+    if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
+    h += '<p class="src">Source: ' + t.src + '</p>';
+    var prev = TOPICS[(t.i - 1 + N) % N], next = TOPICS[(t.i + 1) % N];
+    h += '<nav class="nexttopic" aria-label="More topics"><a href="#' + prev.id + '">← ' + prev.title + '</a><a href="#' + next.id + '">' + next.title + ' →</a></nav>';
+    view.innerHTML = h;
+
+    if (t.steps.length <= 10) $('dots').innerHTML = t.steps.map(function(s, i){ return '<button type="button" aria-label="Step ' + (i+1) + '"></button>'; }).join('');
+    else $('dots').innerHTML = '<div class="prog" style="width:100%" aria-hidden="true"><span id="progBar"></span></div>';
+    if (!$('progBar')) [].forEach.call($('dots').children, function(b, i){ b.addEventListener('click', function(){ show(i, i > step ? 1 : -1); }); });
+    $('pPrev').addEventListener('click', function(){ show(step - 1, -1); });
+    $('pNext').addEventListener('click', function(){ show(step + 1, 1); });
+    $('player').addEventListener('keydown', function(e){
+      if (e.target.tagName === 'A') return;
+      if (e.key === 'ArrowLeft') show(step - 1, -1);
+      if (e.key === 'ArrowRight') show(step + 1, 1);
+    });
+    swipe($('pview'), function(dir){ show(step + dir, dir); });
+    if ($('gchips')) [].forEach.call($('gchips').children, function(b){
+      b.addEventListener('click', function(){
+        var g = b.getAttribute('data-g');
+        for (var i = 0; i < t.steps.length; i++) if (t.steps[i].g === g){ show(i, i >= step ? 1 : -1); break; }
+        if (!$('list').hidden){ var hd = $('list').querySelector('[data-g="' + g + '"]'); if (hd) hd.scrollIntoView({block:'start'}); }
+      });
+    });
+    $('toggle').addEventListener('click', function(){
+      var listOn = $('list').hidden;
+      $('list').hidden = !listOn; $('player').hidden = listOn;
+      this.textContent = listOn ? 'Show step by step' : 'Show all steps as a list';
+      this.setAttribute('aria-expanded', listOn ? 'true' : 'false');
+    });
+    if (t.extra === 'cpr') beatSetup();
+    show(0, 0);
+  }
+
+  function listHtml(t){
+    var out = '', lastG = null;
+    t.steps.forEach(function(s, i){
+      if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
+      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '.</span>' + s.t + '</p></li>';
+    });
+    return out;
+  }
+
+  function show(i, dir){
+    var t = cur; if (!t) return;
+    if (i < 0 || i >= t.steps.length) return;
+    step = i;
+    var s = t.steps[i], c = $('pcard');
+    c.className = 'pcard';
+    c.innerHTML = ART.svg(s.a) + '<div><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
+    if (dir){ void c.offsetWidth; c.className = 'pcard ' + (dir > 0 ? 'in-next' : 'in-prev'); }
+    $('pg').textContent = s.g || t.title;
+    $('pc').textContent = (i+1) + ' / ' + t.steps.length;
+    $('pPrev').disabled = i === 0;
+    var last = i === t.steps.length - 1;
+    $('pNext').disabled = last;
+    $('pNext').textContent = last ? 'Last step' : 'Next →';
+    if ($('progBar')) $('progBar').style.width = ((i+1) / t.steps.length * 100) + '%';
+    else [].forEach.call($('dots').children, function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
+  }
+
+  /* ---------- Routing ---------- */
+  function route(){
+    var id = location.hash.replace('#', '');
+    var t = byId[id];
+    if (t){
+      home.hidden = true; view.hidden = false;
+      if (cur !== t || view.innerHTML === '') renderTopic(t);
+      setActive(t.i);
+      window.scrollTo(0, 0);
+      var h = $('tTitle'); if (h) h.focus({preventScroll:true});
+      document.title = t.title + ' | First Aid Quick Guide';
+    } else {
+      stopBeat();
+      view.hidden = true; home.hidden = false; cur = null; view.innerHTML = '';
+      document.title = 'First Aid Quick Guide';
+      layout();
+    }
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- CPR beat ---------- */
+  var ctx = null, timer = null, n = 0, pauseUntil = 0, INTERVAL = 60000/110, BREATHS_MS = 4000;
+  function beep(freq, len){
+    if (!ctx) return;
+    try {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = freq; o.type = 'square';
+      g.gain.setValueAtTime(0.18, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + len);
+      o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + len);
+    } catch(e){}
+  }
+  function setCount(text, breathe){
+    var el = $('beatCount'); if (!el) return;
+    el.innerHTML = '<span class="pulse" id="pulse"></span>' + text;
+    el.classList.toggle('breathe', !!breathe);
+  }
+  function tick(){
+    var now = Date.now(); if (now < pauseUntil) return;
+    n++;
+    var p = $('pulse'); if (p){ p.classList.add('on'); setTimeout(function(){ p.classList.remove('on'); }, 120); }
+    if (n >= 30){ beep(520, 0.35); setCount('30: give 2 breaths', true); pauseUntil = now + BREATHS_MS; n = 0; }
+    else { beep(n === 1 ? 1100 : 880, 0.06); setCount(String(n), false); }
+  }
+  function stopBeat(){
+    if (timer){ clearInterval(timer); timer = null; }
+    var b = $('beatBtn'); if (b){ b.textContent = 'Start CPR beat'; b.setAttribute('aria-pressed', 'false'); setCount('Ready', false); }
+  }
+  function beatSetup(){
+    $('beatBtn').addEventListener('click', function(){
+      if (timer){ stopBeat(); return; }
+      try { var AC = window.AudioContext || window.webkitAudioContext; if (AC){ ctx = ctx || new AC(); if (ctx.state === 'suspended') ctx.resume(); } } catch(e){ ctx = null; }
+      if (!ctx) $('beatNote').textContent = 'Sound is blocked here. Follow the counter on screen instead.';
+      n = 0; pauseUntil = 0;
+      this.textContent = 'Stop'; this.setAttribute('aria-pressed', 'true');
+      setCount('Push', false);
+      timer = setInterval(tick, INTERVAL);
+    });
+  }
+
+  setActive(0);
+  route();
+})();
+
+</script>
+</body>
+</html>
