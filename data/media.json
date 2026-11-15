@@ -211,7 +211,7 @@
     {
       "slots": [],
       "decision": "rejected",
-      "decisionNote": "US FDA graphic: tells people to call 911. Australia is 000. Not used.",
+      "decisionNote": "A US FDA infographic. US FAST material ends with calling 911, not 000; the file was not downloaded to confirm its exact wording. Australia uses the Stroke Foundation’s F.A.S.T. with 000. Not used.",
       "file": null,
       "licence": null,
       "licenceUrl": null,
