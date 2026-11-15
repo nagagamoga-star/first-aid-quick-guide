@@ -100,6 +100,7 @@
 
   function renderTopic(t){
     stopBeat();
+    Anatomy.dispose();
     cur = t; step = 0;
     var h = '<a class="back" href="#">← All topics</a>';
     h += '<header class="thead ' + t.sev + '"><span class="tag">' + t.tag + '</span><h1 id="tTitle" tabindex="-1">' + t.title + '</h1></header>';
@@ -114,6 +115,13 @@
       '<div class="pctl"><button type="button" class="pbtn" id="pPrev">← Back</button><div class="dots" id="dots"></div><button type="button" class="pbtn next" id="pNext">Next →</button></div></section>';
     h += '<ol class="list" id="list" hidden>' + listHtml(t) + '</ol>';
     h += '<button type="button" class="toggle" id="toggle" aria-expanded="false">Show all steps as a list</button>';
+    if (t.body) h += '<section class="v3d" id="v3d" aria-labelledby="v3dh">' +
+      '<div class="v3d-head"><h2 id="v3dh">' + t.body.title + '</h2><span class="v3d-badge">3D</span></div>' +
+      '<p class="v3d-cap">' + t.body.caption + '</p>' +
+      '<div class="v3d-stage"><button type="button" class="v3d-load">Show in 3D</button></div>' +
+      '<div class="v3d-tools" hidden><button type="button" data-v="front">Front</button><button type="button" data-v="side">Side</button><button type="button" data-v="whole">Whole body</button></div>' +
+      '<p class="v3d-status" aria-live="polite">Loads a body model of about 0.5 MB.</p>' +
+      '<p class="v3d-credit">Anatomy: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, \u00a9 The Database Center for Life Science, CC BY 4.0, simplified from Human Atlas. The explanation is general anatomy, not part of the ANZCOR guidelines.</p></section>';
     if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
@@ -147,6 +155,10 @@
       this.setAttribute('aria-expanded', listOn ? 'true' : 'false');
     });
     if (t.extra === 'cpr') beatSetup();
+    if (t.body){
+      var lb = view.querySelector('.v3d-load');
+      lb.addEventListener('click', function(){ lb.hidden = true; Anatomy.mount($('v3d'), t.body, reduce); });
+    }
     show(0, 0);
   }
 
@@ -190,7 +202,7 @@
       var h = $('tTitle'); if (h) h.focus({preventScroll:true});
       document.title = t.title + ' | First Aid Quick Guide';
     } else {
-      stopBeat();
+      stopBeat(); Anatomy.dispose();
       view.hidden = true; home.hidden = false; cur = null; view.innerHTML = '';
       document.title = 'First Aid Quick Guide';
       layout();

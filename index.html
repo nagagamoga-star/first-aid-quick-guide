@@ -3,49 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#263b48">
+<link rel="icon" href="favicon.svg">
 <title>First Aid Quick Guide</title>
 <meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Layout idea: fixed emergency bar; home is a 3D coverflow of topics with fast chips below; each topic is a deck of illustrated step cards you flip through, with an "all steps" list for scanning. */
+/* Palette and type follow Human Atlas (cool clinical neutrals, slate primary, anatomy system colours, teal selection); emergency red stays for 000 and life-threatening items. */
 :root{
-  --ink:#13212d;
-  --muted:#4a5866;
-  --paper:#f2f5f6;
+  --ink:#20242b;
+  --muted:#68727d;
+  --paper:#f3f4f4;
   --card:#ffffff;
-  --line:#d6dde2;
+  --line:rgba(24,37,54,.11);
   --alarm:#c4122f;
   --alarm-ink:#ffffff;
-  --warn:#9a4a00;
-  --warn-bg:#fff3e2;
-  --calm:#0b6b63;
-  --calm-bg:#e3f2ef;
-  --chip:#e7ecef;
-  /* illustration palette */
-  --skin:#c98e6b; --skin-d:#a8714f; --pt:#6f8499; --res:#0f7c72; --water:#2f8fd6; --ice:#a9dbf7;
-  --amber:#f0a500; --wood:#b48a5a; --sand:#ecd9ad; --sting:#7a3db8; --leaf:#3a9a62; --bandage:#f6f1e6;
-  --font-display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --warn:#86610f;
+  --warn-bg:#f7f0dc;
+  --calm:#2b7a70;
+  --calm-bg:#e5f3f0;
+  --chip:#e9ecef;
+  --slate:#263b48;
+  --stage:#f2f3f3;
+  --select:#6bd9c7;
+  /* illustration palette, from Human Atlas system colours */
+  --skin:#c9a68a; --skin-d:#ab886c; --pt:#536875; --res:#3a9c8f; --water:#527c9f; --ice:#b0c8ce;
+  --amber:#d8b565; --wood:#b8916b; --sand:#e2d9ba; --sting:#8f6aa6; --leaf:#879f7c; --bandage:#f4f1e8; --act:#c05245;
+  --font-display:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --font-body:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#e8edf1; --muted:#a9b6c1; --paper:#0e161d; --card:#17222c; --line:#2b3a47;
-    --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#ffb866; --warn-bg:#2c1f0f;
-    --calm:#5fd0c3; --calm-bg:#0f2a28; --chip:#22303c;
-    --skin:#d9a383; --skin-d:#b9845f; --pt:#8ea4b9; --res:#3fb5a8; --water:#5aaeff; --ice:#5d9cc4;
-    --amber:#ffc23d; --wood:#c7a072; --sand:#6b5a35; --sting:#b48aff; --leaf:#4fbf7d; --bandage:#d9d3c4;
+    --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
+    --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
+    --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
+    --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
+    --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ink:#e8edf1; --muted:#a9b6c1; --paper:#0e161d; --card:#17222c; --line:#2b3a47;
-  --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#ffb866; --warn-bg:#2c1f0f;
-  --calm:#5fd0c3; --calm-bg:#0f2a28; --chip:#22303c;
-  --skin:#d9a383; --skin-d:#b9845f; --pt:#8ea4b9; --res:#3fb5a8; --water:#5aaeff; --ice:#5d9cc4;
-  --amber:#ffc23d; --wood:#c7a072; --sand:#6b5a35; --sting:#b48aff; --leaf:#4fbf7d; --bandage:#d9d3c4;
+  --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
+  --alarm:#ff4a5f; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
+  --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
+  --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
+  --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -53,13 +59,13 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--alarm);outline-offset:2px;border-radius:6px}
-h1,h2,h3{font-family:var(--font-display);line-height:1.12;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.15;text-wrap:balance;margin:0}
 p{margin:0}
 button{font:inherit;color:inherit}
 [hidden]{display:none !important}
 
 /* Emergency bar */
-.bar{position:sticky;top:0;z-index:20;background:#13212d;color:#f2f5f6;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px}
+.bar{position:sticky;top:0;z-index:20;background:var(--slate);color:#f2f5f6;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px}
 .brand{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:.02em;margin-right:auto;text-decoration:none}
 .call{display:inline-flex;align-items:baseline;gap:8px;text-decoration:none;font-weight:700;border-radius:10px;padding:8px 14px}
 .call.e{background:#d11a37;color:#fff;font-size:20px}
@@ -78,22 +84,23 @@ main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
 .stage{position:relative;height:350px;perspective:1100px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:18px;background:radial-gradient(ellipse at 50% 85%,color-mix(in srgb,var(--ink) 9%,transparent),transparent 70%)}
 .ring{position:absolute;inset:0;transform-style:preserve-3d}
 .tcard{position:absolute;left:50%;top:14px;width:236px;height:318px;margin-left:-118px;border:0;padding:0;text-align:left;cursor:pointer;
-  background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(10,20,30,.18);display:grid;grid-template-rows:6px auto 1fr;overflow:hidden;
+  background:var(--card);border-radius:18px;box-shadow:0 8px 24px rgba(24,37,54,.12);border:1px solid var(--line);display:grid;grid-template-rows:6px auto 1fr;overflow:hidden;
   transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s;backface-visibility:hidden}
 .tcard::before{content:"";background:var(--calm)}
 .tcard.crit::before{background:var(--alarm)}
 .tcard.urgent::before{background:var(--amber)}
+.tcard.calm::before{background:var(--select)}
 .tcard .art{padding:10px 12px 0;background:var(--card)}
 .tcard .tbody{padding:8px 16px 14px;display:grid;gap:4px;align-content:start}
 .tcard .tag{font-size:12px}
 .tcard h2{font-size:26px}
 .tcard p{font-size:15px;color:var(--muted)}
 .tcard .go{margin-top:6px;font-weight:700;font-size:15px;color:var(--alarm)}
-.tcard[aria-current="true"]{box-shadow:0 14px 40px rgba(10,20,30,.28),0 0 0 3px var(--ink)}
+.tcard[aria-current="true"]{box-shadow:0 14px 34px rgba(24,37,54,.2),0 0 0 3px var(--select)}
 .cctl{display:flex;align-items:center;justify-content:center;gap:12px}
 .round{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:var(--card);font-size:24px;font-weight:700;cursor:pointer;display:grid;place-items:center}
 .cpos{min-width:72px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
-.openbtn{font-weight:700;border:0;border-radius:12px;padding:13px 18px;background:var(--ink);color:var(--paper);cursor:pointer}
+.openbtn{font-weight:700;border:0;border-radius:12px;padding:13px 18px;background:var(--slate);color:#fff;cursor:pointer}
 
 /* Flat fallback (reduced motion) */
 .stage.flat{height:auto;perspective:none;overflow-x:auto;scroll-snap-type:x mandatory;background:none}
@@ -104,7 +111,7 @@ main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
 .index label{font-weight:700}
 .index input{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
 .group{display:grid;gap:8px}
-.group h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--font-body)}
+.group h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips a{text-decoration:none;background:var(--chip);border-radius:999px;padding:7px 14px;font-weight:700;font-size:15px;border:2px solid transparent}
 .chips a:hover{border-color:var(--ink)}
@@ -126,7 +133,7 @@ main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
 
 .gchips{display:flex;flex-wrap:wrap;gap:8px}
 .gchips button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px;cursor:pointer}
-.gchips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.gchips button[aria-pressed="true"]{background:var(--slate);color:#fff;border-color:var(--slate)}
 
 .player{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid}
 .pmeta{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--chip);font-size:14px;font-weight:700;color:var(--muted)}
@@ -151,7 +158,7 @@ main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
 .dots button{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
 .prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
 .prog span{display:block;height:100%;background:var(--alarm);transition:width .3s}
-.dots button[aria-current="true"]{background:var(--alarm);transform:scale(1.25)}
+.dots button[aria-current="true"]{background:var(--slate);transform:scale(1.25)}
 .toggle{justify-self:start;border:2px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer}
 
 .list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
@@ -199,8 +206,8 @@ footer ul{margin:0;padding-left:20px}
 .art .rsl{stroke:var(--res);fill:none;stroke-linecap:round;stroke-linejoin:round}
 .art .ln{stroke:var(--ink);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .art .dash{stroke:var(--ink);fill:none;stroke-width:2.5;stroke-dasharray:5 5;opacity:.6}
-.art .ar{stroke:var(--alarm);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
-.art .arf{fill:var(--alarm)}
+.art .ar{stroke:var(--act);fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.art .arf{fill:var(--act)}
 .art .ink{fill:var(--ink)}
 .art .wh{fill:var(--card)}
 .art .wh-l{stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round}
@@ -220,14 +227,14 @@ footer ul{margin:0;padding-left:20px}
 .art .sunl{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
 .art .leaf{fill:var(--leaf)}
 .art .honey{fill:var(--amber)}
-.art .burn{fill:var(--alarm);opacity:.4}
+.art .burn{fill:var(--act);opacity:.4}
 .art .film{fill:var(--water);fill-opacity:.15;stroke:var(--water);stroke-width:2.5;stroke-dasharray:7 5}
 .art .pillow{fill:var(--water);opacity:.5}
 .art .blanket{fill:var(--leaf);opacity:.7}
 .art .ringc{fill:var(--amber);stroke:var(--ink);stroke-width:1.5}
 .art .cl{fill:var(--calm-bg);stroke:var(--calm);stroke-width:4}
 .art .tx{fill:var(--ink);font-family:var(--font-display);font-weight:700}
-.art .txa{fill:var(--alarm);font-family:var(--font-display);font-weight:700}
+.art .txa{fill:var(--act);font-family:var(--font-display);font-weight:700}
 
 @media (max-width:620px){
   .pcard{grid-template-columns:1fr;gap:12px;padding:14px}
@@ -239,6 +246,22 @@ footer ul{margin:0;padding-left:20px}
   .beat{grid-template-columns:1fr}
   .pbtn{min-width:80px;padding:12px 14px}
 }
+
+/* 3D body viewer (Human Atlas) */
+.v3d{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px}
+.v3d-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.v3d-head h2{font-size:22px}
+.v3d-badge{font:700 12px var(--font-display);letter-spacing:.08em;background:var(--select);color:#0d2b27;border-radius:999px;padding:3px 10px}
+.v3d-cap{max-width:65ch}
+.v3d-stage{position:relative;height:clamp(300px,52vh,440px);border-radius:14px;overflow:hidden;display:grid;place-items:center;
+  background:radial-gradient(ellipse 34% 7% at 50% 84%,transparent 86%,rgba(140,150,159,.45) 88%,transparent 91%),radial-gradient(ellipse 28% 5.6% at 50% 84%,transparent 84%,rgba(164,174,184,.3) 87%,transparent 90%),var(--stage)}
+.v3d-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.v3d-load{border:0;border-radius:12px;padding:13px 22px;background:var(--slate);color:#fff;font-weight:700;font-size:17px;cursor:pointer}
+.v3d-tools{display:flex;flex-wrap:wrap;gap:8px}
+.v3d-tools button{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px;cursor:pointer}
+.v3d-status{font-size:14px;color:var(--muted)}
+.v3d-credit{font-size:13px;color:var(--muted)}
+.v3d-credit a{color:var(--muted)}
 
 </style>
 </head>
@@ -282,6 +305,7 @@ footer ul{margin:0;padding-left:20px}
       <footer>
         <h2>About this guide</h2>
         <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
+        <p>The 3D body views use anatomy from <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, © The Database Center for Life Science, licensed under CC Attribution 4.0 International, simplified from the Human Atlas viewer. The explanations beside them are general anatomy, not part of the ANZCOR guidelines.</p>
         <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
         <ul>
           <li>Ambulance, fire, police: <strong>000</strong></li>
@@ -599,6 +623,172 @@ var ART = (function(){
   return { svg: svg, keys: Object.keys(A) };
 })();
 
+/* 3D "where on the body" viewer.
+   Model: a small cut of BodyParts3D 4.0 taken from Human Atlas (see models/README.md).
+   BodyParts3D, (c) The Database Center for Life Science, licensed under CC Attribution 4.0 International.
+   Loaded only when someone taps "Show in 3D", so the steps stay fast. */
+var Anatomy = (function(){
+  var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js';
+  var ORBIT_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js';
+  var MODEL_URL = 'models/anatomy.b64.txt';
+  /* Human Atlas system colours */
+  var COLOURS = { skin:'#ba9b7d', ribcage:'#e2d9ba', sternum:'#e2d9ba', heart:'#b96760', larynx:'#b98991', bronchi:'#b98991', thigh:'#a85b50', brain:'#d8b565' };
+  var SELECT = '#6bd9c7';   /* Human Atlas selection teal */
+  var libs = null, model = null, current = null;
+
+  function script(src){
+    return new Promise(function(res, rej){
+      var s = document.createElement('script'); s.src = src; s.async = true;
+      s.onload = res; s.onerror = function(){ rej(new Error('Could not load the 3D library. Check your connection and try again.')); };
+      document.head.appendChild(s);
+    });
+  }
+  function loadLibs(){
+    if (!libs) libs = (window.THREE ? Promise.resolve() : script(THREE_URL)).then(function(){ return THREE.OrbitControls ? null : script(ORBIT_URL); });
+    return libs;
+  }
+  function loadModel(){
+    if (model) return model;
+    model = fetch(MODEL_URL).then(function(r){
+      if (!r.ok) throw new Error('Could not load the body model (' + r.status + ').');
+      return r.text();
+    }).then(function(txt){
+      var bin = atob(txt.trim()), bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    }).then(parse).catch(function(e){ model = null; throw e; });
+    return model;
+  }
+  function parse(buf){
+    var dv = new DataView(buf), hlen = dv.getUint32(0, true);
+    var head = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 4, hlen)));
+    var base = 4 + hlen, lo = head.min, hi = head.max, out = { bounds: head, groups: {} };
+    head.groups.forEach(function(g){
+      var q = new Uint16Array(buf.slice(base + g.voff, base + g.voff + g.v * 6));
+      var pos = new Float32Array(g.v * 3);
+      for (var i = 0; i < g.v * 3; i++){ var a = i % 3; pos[i] = lo[a] + q[i] / 65535 * (hi[a] - lo[a]); }
+      var idx = g.idx32 ? new Uint32Array(buf.slice(base + g.ioff, base + g.ioff + g.i * 4)) : new Uint16Array(buf.slice(base + g.ioff, base + g.ioff + g.i * 2));
+      out.groups[g.id] = { pos: pos, idx: idx };
+    });
+    return out;
+  }
+
+  function supported(){
+    if (typeof DecompressionStream === 'undefined') return false;
+    try { var c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch(e){ return false; }
+  }
+
+  function dispose(){
+    if (!current) return;
+    cancelAnimationFrame(current.raf);
+    if (current.ro) current.ro.disconnect();
+    current.controls.dispose();
+    current.scene.traverse(function(o){ if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+    current.renderer.dispose();
+    try { current.renderer.forceContextLoss(); } catch(e){}
+    current = null;
+  }
+
+  function mount(host, spec, reduce){
+    dispose();
+    var status = host.querySelector('.v3d-status');
+    var stageEl = host.querySelector('.v3d-stage');
+    if (!supported()){ status.textContent = '3D isn’t available in this browser. The steps above cover everything you need.'; return; }
+    status.textContent = 'Loading the body model (about 0.5 MB)…';
+    Promise.all([loadLibs(), loadModel()]).then(function(r){ build(host, stageEl, status, spec, r[1], reduce); })
+      .catch(function(e){ status.textContent = e.message + ' The steps above cover everything you need.'; host.querySelector('.v3d-load').hidden = false; });
+  }
+
+  function mix(a, b, t){ var c = new THREE.Color(a); return c.lerp(new THREE.Color(b), t); }
+
+  function build(host, stageEl, status, spec, M, reduce){
+    if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
+    var css = getComputedStyle(document.documentElement);
+    var bg = (css.getPropertyValue('--stage') || '#f2f3f3').trim();
+    var renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, innerWidth < 768 ? 1.5 : 2));
+    renderer.setClearColor(bg);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    stageEl.innerHTML = ''; stageEl.appendChild(renderer.domElement);
+
+    var scene = new THREE.Scene();
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa3a8, 0.85));
+    var key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(1.4, 2.6, 2.4); scene.add(key);
+    var fill = new THREE.DirectionalLight(0xffffff, 0.4); fill.position.set(-2, 1.4, -1.6); scene.add(fill);
+    [[0.63, 0x8c969f, 0.4], [0.55, 0xa4aeb8, 0.16]].forEach(function(r){
+      var ring = new THREE.Mesh(new THREE.RingGeometry(r[0], r[0] + 0.004, 128), new THREE.MeshBasicMaterial({ color: r[1], transparent: true, opacity: r[2], side: THREE.DoubleSide }));
+      ring.rotation.x = -Math.PI / 2; ring.position.y = 0.001; scene.add(ring);
+    });
+
+    var hiBox = new THREE.Box3(), hiMats = [], meshes = {};
+    function add(id, role){
+      var g = M.groups[id]; if (!g) return;
+      var geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(g.pos, 3));
+      geo.setIndex(new THREE.BufferAttribute(g.idx, 1));
+      geo.computeVertexNormals(); geo.computeBoundingBox();
+      var mat;
+      if (role === 'skin') mat = new THREE.MeshStandardMaterial({ color: COLOURS.skin, roughness: 0.55, metalness: 0.05, transparent: true, opacity: 0.1, depthWrite: false, side: THREE.DoubleSide });
+      else if (role === 'hi'){ mat = new THREE.MeshStandardMaterial({ color: mix(COLOURS[id], SELECT, 0.6), emissive: new THREE.Color(SELECT), emissiveIntensity: 0.06, roughness: 0.45, metalness: 0.06 }); hiMats.push(mat); hiBox.union(geo.boundingBox); }
+      else mat = new THREE.MeshStandardMaterial({ color: COLOURS[id], roughness: 0.55, metalness: 0.06, transparent: true, opacity: 0.5, depthWrite: false });
+      var m = new THREE.Mesh(geo, mat); m.renderOrder = role === 'skin' ? 3 : role === 'hi' ? 1 : 2;
+      scene.add(m); meshes[id] = m;
+    }
+    add('skin', 'skin');
+    (spec.show || []).forEach(function(id){ add(id, 'ctx'); });
+    (spec.hi || []).forEach(function(id){ add(id, 'hi'); });
+
+    if (spec.marker === 'sternum' && meshes.sternum){
+      var sb = meshes.sternum.geometry.boundingBox;
+      var ring = new THREE.Mesh(new THREE.TorusGeometry(0.03, 0.004, 12, 48), new THREE.MeshBasicMaterial({ color: '#c05245' }));
+      ring.position.set((sb.min.x + sb.max.x) / 2, sb.min.y + (sb.max.y - sb.min.y) * 0.3, sb.max.z + 0.035);
+      scene.add(ring); hiBox.expandByPoint(ring.position);
+    }
+
+    var camera = new THREE.PerspectiveCamera(32, 1, 0.01, 20);
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 0.12; controls.maxDistance = 3.2; controls.enablePan = false;
+    controls.autoRotate = !reduce; controls.autoRotateSpeed = 1.4;
+    renderer.domElement.addEventListener('pointerdown', function(){ controls.autoRotate = false; });
+
+    var whole = meshes.skin.geometry.boundingBox.clone();
+    function frame(box, dir){
+      var c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+      var r = Math.max(spec.minR || 0.14, Math.max(s.x, s.y, s.z) * 0.75);
+      var dist = r / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.05;
+      controls.target.copy(c);
+      camera.position.copy(c).add(dir.clone().normalize().multiplyScalar(dist));
+      controls.update();
+    }
+    var front = new THREE.Vector3(0.38, 0.12, 1), side = new THREE.Vector3(1, 0.1, 0.02);
+    function focus(dir){ frame(hiBox.isEmpty() ? whole : hiBox.clone().expandByScalar(0.05), dir); }
+    focus(front);
+    host.querySelector('[data-v="front"]').onclick = function(){ controls.autoRotate = false; focus(front); };
+    host.querySelector('[data-v="side"]').onclick = function(){ controls.autoRotate = false; focus(side); };
+    host.querySelector('[data-v="whole"]').onclick = function(){ controls.autoRotate = false; frame(whole, front); };
+
+    function size(){
+      var w = stageEl.clientWidth, h = stageEl.clientHeight;
+      renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    }
+    size();
+    var ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(stageEl);
+    var t0 = performance.now();
+    current = { renderer: renderer, scene: scene, controls: controls, ro: ro, raf: 0 };
+    (function loop(){
+      if (!current) return;
+      current.raf = requestAnimationFrame(loop);
+      if (!reduce){ var k = 0.04 + 0.1 * (1 + Math.sin((performance.now() - t0) / 450)) / 2; hiMats.forEach(function(m){ m.emissiveIntensity = k; }); }
+      controls.update(); renderer.render(scene, camera);
+    })();
+    status.textContent = 'Drag to turn, pinch or scroll to zoom.';
+    host.querySelector('.v3d-tools').hidden = false;
+  }
+
+  return { mount: mount, dispose: dispose };
+})();
+
 /* Content: every step summarised from the ANZCOR guidelines named in each topic's src. */
 var AZ = 'https://www.anzcor.org/home/';
 var TOPICS = [
@@ -617,7 +807,8 @@ var TOPICS = [
   src:'ANZCOR Basic Life Support Flowchart and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (approved April 2021).'
 },
 {
-  id:'cpr', sev:'crit', tag:'Life-threatening', title:'CPR', short:'Not responding and not breathing normally', icon:'compress', extra:'cpr',
+  id:'cpr',
+  body:{show:['ribcage','heart'], hi:['sternum'], marker:'sternum', minR:0.2, title:'Where your hands go', caption:'The breastbone is highlighted. The red ring marks the lower half, in the centre of the chest, where the heel of your hand goes. The heart sits just behind it.'}, sev:'crit', tag:'Life-threatening', title:'CPR', short:'Not responding and not breathing normally', icon:'compress', extra:'cpr',
   k:'cpr not breathing compressions heart stopped cardiac arrest resuscitation aed defibrillator',
   when:'<strong>Start CPR</strong> if the person isn’t responding and isn’t breathing normally. Occasional gasps are not normal breathing.',
   steps:[
@@ -632,7 +823,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'basic-life-support/guideline-6-compressions">Guideline 6, Compressions</a> and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (both approved April 2021).'
 },
 {
-  id:'choking', sev:'crit', tag:'Life-threatening', title:'Choking', short:'Can’t cough, breathe or speak', icon:'backblows',
+  id:'choking',
+  body:{show:['bronchi'], hi:['larynx'], title:'Where the blockage is', caption:'The windpipe (trachea) and voice box are highlighted. Something stuck here stops air reaching the lungs, which is why back blows and chest thrusts aim to force it out.'}, sev:'crit', tag:'Life-threatening', title:'Choking', short:'Can’t cough, breathe or speak', icon:'backblows',
   k:'choking can’t breathe food stuck airway baby',
   when:'<strong>Can cough, talk or cry?</strong> Encourage them to keep coughing and stay with them. Call 000 if it doesn’t clear. The steps below are for when they <strong>can’t</strong> cough, breathe or speak.',
   steps:[
@@ -662,7 +854,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding">Guideline 9.1.1, Bleeding</a> (approved April 2021, tourniquet advice reconfirmed July 2025).'
 },
 {
-  id:'anaphylaxis', sev:'crit', tag:'Life-threatening', title:'Anaphylaxis', short:'Severe allergic reaction', icon:'autoinjector',
+  id:'anaphylaxis',
+  body:{hi:['thigh'], title:'Where the autoinjector goes', caption:'The muscle on the outer side of each thigh is highlighted. That\u2019s where the adrenaline autoinjector goes.'}, sev:'crit', tag:'Life-threatening', title:'Anaphylaxis', short:'Severe allergic reaction', icon:'autoinjector',
   k:'anaphylaxis allergy allergic epipen anapen adrenaline swelling hives peanut bee',
   when:'<strong>Signs:</strong> difficult or noisy breathing, wheeze or persistent cough, swelling of the face, tongue or throat, hoarse voice or trouble talking, dizziness or collapse, a young child going pale and floppy. Vomiting, stomach pain, hives or welts can also be signs.',
   steps:[
@@ -677,7 +870,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis">Guideline 9.2.7, Anaphylaxis</a> (approved 2019); <a href="https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis">ASCIA first aid for anaphylaxis</a>.'
 },
 {
-  id:'heart', sev:'crit', tag:'Life-threatening', title:'Heart attack', short:'Chest pain, breathless, sweaty', icon:'chestpain',
+  id:'heart',
+  body:{show:['ribcage'], hi:['heart'], title:'Where the heart is', caption:'The heart is highlighted. It sits behind the breastbone, slightly to the left, which is why heart attack pain is often felt in the centre of the chest.'}, sev:'crit', tag:'Life-threatening', title:'Heart attack', short:'Chest pain, breathless, sweaty', icon:'chestpain',
   k:'heart attack chest pain aspirin angina',
   when:'<strong>Signs:</strong> pain or discomfort in the chest, neck, jaw or arms; shortness of breath; looking pale; sweating; nausea; dizziness. Women, older people, people with diabetes, and Aboriginal and Torres Strait Islander people may have mild or unusual symptoms, sometimes just breathlessness.',
   steps:[
@@ -691,7 +885,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-1-recognition-and-first-aid-management-of-suspected-heart-attack">Guideline 9.2.1, Suspected heart attack</a> (approved April 2021).'
 },
 {
-  id:'stroke', sev:'crit', tag:'Life-threatening', title:'Stroke', short:'Think F.A.S.T.', icon:'fast',
+  id:'stroke',
+  body:{hi:['brain'], title:'What a stroke affects', caption:'The brain is highlighted. A stroke happens when blood supply to part of the brain is blocked or a blood vessel bursts. Each side of the brain controls the opposite side of the body, which is why one side of the face or one arm can go weak.'}, sev:'crit', tag:'Life-threatening', title:'Stroke', short:'Think F.A.S.T.', icon:'fast',
   k:'stroke fast face arm speech',
   when:'<strong>Any of these signs, call 000 now.</strong> Other signs include sudden numbness, loss of balance, loss of vision, a sudden severe headache, confusion or drowsiness.',
   steps:[
@@ -760,7 +955,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-4-5-first-aid-management-of-marine-envenomation">Guideline 9.4.5, Marine envenomation</a> (approved June 2025); Irukandji warning signs from <a href="https://www.healthdirect.gov.au/jellyfish-stings">healthdirect, Jellyfish stings</a>.'
 },
 {
-  id:'asthma', sev:'urgent', tag:'Urgent', title:'Asthma attack', short:'4 puffs, 4 breaths, 4 minutes', icon:'puffer',
+  id:'asthma',
+  body:{show:['larynx'], hi:['bronchi'], title:'What asthma affects', caption:'The airways that branch into the lungs (bronchi) are highlighted. In an asthma attack they narrow and tighten, making it hard to breathe. The reliever puffer opens them up again.'}, sev:'urgent', tag:'Urgent', title:'Asthma attack', short:'4 puffs, 4 breaths, 4 minutes', icon:'puffer',
   k:'asthma puffer ventolin asmol wheeze breathing spacer',
   when:'<strong>Call 000 straight away</strong> if they can only say one or two words per breath, are gasping, have blue lips, are pale and sweaty, are getting drowsy, or the puffer isn’t helping. Then keep doing the steps.',
   steps:[
@@ -948,6 +1144,7 @@ var TOPICS = [
 
   function renderTopic(t){
     stopBeat();
+    Anatomy.dispose();
     cur = t; step = 0;
     var h = '<a class="back" href="#">← All topics</a>';
     h += '<header class="thead ' + t.sev + '"><span class="tag">' + t.tag + '</span><h1 id="tTitle" tabindex="-1">' + t.title + '</h1></header>';
@@ -962,6 +1159,13 @@ var TOPICS = [
       '<div class="pctl"><button type="button" class="pbtn" id="pPrev">← Back</button><div class="dots" id="dots"></div><button type="button" class="pbtn next" id="pNext">Next →</button></div></section>';
     h += '<ol class="list" id="list" hidden>' + listHtml(t) + '</ol>';
     h += '<button type="button" class="toggle" id="toggle" aria-expanded="false">Show all steps as a list</button>';
+    if (t.body) h += '<section class="v3d" id="v3d" aria-labelledby="v3dh">' +
+      '<div class="v3d-head"><h2 id="v3dh">' + t.body.title + '</h2><span class="v3d-badge">3D</span></div>' +
+      '<p class="v3d-cap">' + t.body.caption + '</p>' +
+      '<div class="v3d-stage"><button type="button" class="v3d-load">Show in 3D</button></div>' +
+      '<div class="v3d-tools" hidden><button type="button" data-v="front">Front</button><button type="button" data-v="side">Side</button><button type="button" data-v="whole">Whole body</button></div>' +
+      '<p class="v3d-status" aria-live="polite">Loads a body model of about 0.5 MB.</p>' +
+      '<p class="v3d-credit">Anatomy: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, \u00a9 The Database Center for Life Science, CC BY 4.0, simplified from Human Atlas. The explanation is general anatomy, not part of the ANZCOR guidelines.</p></section>';
     if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
@@ -995,6 +1199,10 @@ var TOPICS = [
       this.setAttribute('aria-expanded', listOn ? 'true' : 'false');
     });
     if (t.extra === 'cpr') beatSetup();
+    if (t.body){
+      var lb = view.querySelector('.v3d-load');
+      lb.addEventListener('click', function(){ lb.hidden = true; Anatomy.mount($('v3d'), t.body, reduce); });
+    }
     show(0, 0);
   }
 
@@ -1038,7 +1246,7 @@ var TOPICS = [
       var h = $('tTitle'); if (h) h.focus({preventScroll:true});
       document.title = t.title + ' | First Aid Quick Guide';
     } else {
-      stopBeat();
+      stopBeat(); Anatomy.dispose();
       view.hidden = true; home.hidden = false; cur = null; view.innerHTML = '';
       document.title = 'First Aid Quick Guide';
       layout();

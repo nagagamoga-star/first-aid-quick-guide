@@ -16,7 +16,8 @@ var TOPICS = [
   src:'ANZCOR Basic Life Support Flowchart and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (approved April 2021).'
 },
 {
-  id:'cpr', sev:'crit', tag:'Life-threatening', title:'CPR', short:'Not responding and not breathing normally', icon:'compress', extra:'cpr',
+  id:'cpr',
+  body:{show:['ribcage','heart'], hi:['sternum'], marker:'sternum', minR:0.2, title:'Where your hands go', caption:'The breastbone is highlighted. The red ring marks the lower half, in the centre of the chest, where the heel of your hand goes. The heart sits just behind it.'}, sev:'crit', tag:'Life-threatening', title:'CPR', short:'Not responding and not breathing normally', icon:'compress', extra:'cpr',
   k:'cpr not breathing compressions heart stopped cardiac arrest resuscitation aed defibrillator',
   when:'<strong>Start CPR</strong> if the person isn’t responding and isn’t breathing normally. Occasional gasps are not normal breathing.',
   steps:[
@@ -31,7 +32,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'basic-life-support/guideline-6-compressions">Guideline 6, Compressions</a> and <a href="'+AZ+'basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (both approved April 2021).'
 },
 {
-  id:'choking', sev:'crit', tag:'Life-threatening', title:'Choking', short:'Can’t cough, breathe or speak', icon:'backblows',
+  id:'choking',
+  body:{show:['bronchi'], hi:['larynx'], title:'Where the blockage is', caption:'The windpipe (trachea) and voice box are highlighted. Something stuck here stops air reaching the lungs, which is why back blows and chest thrusts aim to force it out.'}, sev:'crit', tag:'Life-threatening', title:'Choking', short:'Can’t cough, breathe or speak', icon:'backblows',
   k:'choking can’t breathe food stuck airway baby',
   when:'<strong>Can cough, talk or cry?</strong> Encourage them to keep coughing and stay with them. Call 000 if it doesn’t clear. The steps below are for when they <strong>can’t</strong> cough, breathe or speak.',
   steps:[
@@ -61,7 +63,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding">Guideline 9.1.1, Bleeding</a> (approved April 2021, tourniquet advice reconfirmed July 2025).'
 },
 {
-  id:'anaphylaxis', sev:'crit', tag:'Life-threatening', title:'Anaphylaxis', short:'Severe allergic reaction', icon:'autoinjector',
+  id:'anaphylaxis',
+  body:{hi:['thigh'], title:'Where the autoinjector goes', caption:'The muscle on the outer side of each thigh is highlighted. That\u2019s where the adrenaline autoinjector goes.'}, sev:'crit', tag:'Life-threatening', title:'Anaphylaxis', short:'Severe allergic reaction', icon:'autoinjector',
   k:'anaphylaxis allergy allergic epipen anapen adrenaline swelling hives peanut bee',
   when:'<strong>Signs:</strong> difficult or noisy breathing, wheeze or persistent cough, swelling of the face, tongue or throat, hoarse voice or trouble talking, dizziness or collapse, a young child going pale and floppy. Vomiting, stomach pain, hives or welts can also be signs.',
   steps:[
@@ -76,7 +79,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis">Guideline 9.2.7, Anaphylaxis</a> (approved 2019); <a href="https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis">ASCIA first aid for anaphylaxis</a>.'
 },
 {
-  id:'heart', sev:'crit', tag:'Life-threatening', title:'Heart attack', short:'Chest pain, breathless, sweaty', icon:'chestpain',
+  id:'heart',
+  body:{show:['ribcage'], hi:['heart'], title:'Where the heart is', caption:'The heart is highlighted. It sits behind the breastbone, slightly to the left, which is why heart attack pain is often felt in the centre of the chest.'}, sev:'crit', tag:'Life-threatening', title:'Heart attack', short:'Chest pain, breathless, sweaty', icon:'chestpain',
   k:'heart attack chest pain aspirin angina',
   when:'<strong>Signs:</strong> pain or discomfort in the chest, neck, jaw or arms; shortness of breath; looking pale; sweating; nausea; dizziness. Women, older people, people with diabetes, and Aboriginal and Torres Strait Islander people may have mild or unusual symptoms, sometimes just breathlessness.',
   steps:[
@@ -90,7 +94,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-2-1-recognition-and-first-aid-management-of-suspected-heart-attack">Guideline 9.2.1, Suspected heart attack</a> (approved April 2021).'
 },
 {
-  id:'stroke', sev:'crit', tag:'Life-threatening', title:'Stroke', short:'Think F.A.S.T.', icon:'fast',
+  id:'stroke',
+  body:{hi:['brain'], title:'What a stroke affects', caption:'The brain is highlighted. A stroke happens when blood supply to part of the brain is blocked or a blood vessel bursts. Each side of the brain controls the opposite side of the body, which is why one side of the face or one arm can go weak.'}, sev:'crit', tag:'Life-threatening', title:'Stroke', short:'Think F.A.S.T.', icon:'fast',
   k:'stroke fast face arm speech',
   when:'<strong>Any of these signs, call 000 now.</strong> Other signs include sudden numbness, loss of balance, loss of vision, a sudden severe headache, confusion or drowsiness.',
   steps:[
@@ -159,7 +164,8 @@ var TOPICS = [
   src:'ANZCOR <a href="'+AZ+'first-aid/guideline-9-4-5-first-aid-management-of-marine-envenomation">Guideline 9.4.5, Marine envenomation</a> (approved June 2025); Irukandji warning signs from <a href="https://www.healthdirect.gov.au/jellyfish-stings">healthdirect, Jellyfish stings</a>.'
 },
 {
-  id:'asthma', sev:'urgent', tag:'Urgent', title:'Asthma attack', short:'4 puffs, 4 breaths, 4 minutes', icon:'puffer',
+  id:'asthma',
+  body:{show:['larynx'], hi:['bronchi'], title:'What asthma affects', caption:'The airways that branch into the lungs (bronchi) are highlighted. In an asthma attack they narrow and tighten, making it hard to breathe. The reliever puffer opens them up again.'}, sev:'urgent', tag:'Urgent', title:'Asthma attack', short:'4 puffs, 4 breaths, 4 minutes', icon:'puffer',
   k:'asthma puffer ventolin asmol wheeze breathing spacer',
   when:'<strong>Call 000 straight away</strong> if they can only say one or two words per breath, are gasping, have blue lips, are pale and sweaty, are getting drowsy, or the puffer isn’t helping. Then keep doing the steps.',
   steps:[
