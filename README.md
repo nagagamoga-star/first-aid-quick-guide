@@ -59,12 +59,15 @@ tests/
   validate_structure.mjs  Topics, illustrations and question flow structure (no clinical judgement)
   validate_governance.mjs Source and review registers (completeness and approval rules)
   release_gate.mjs        Publication gate, not part of the build (fails until review is complete)
+.github/workflows/
+  clinical-release-gate.yml  Runs the release gate for clinical-content pull requests
   browser_tests.py        Browser regression and offline tests
 tools/
   build_anatomy.py  Rebuilds models/anatomy.b64.txt from Human Atlas model data
   make_icons.py     Renders the PNG app icons
   make_review_pack.py  Builds the clinical review pack (Markdown + PDF) from the app content
-docs/               Audit, PWA plan and acceptance report
+docs/               Audit, PWA plan, acceptance report and clinical governance
+  clinical-review/   Source check, reviewer pack, reviewer scope checklist and Stage 2 record
 ```
 
 ## Editing
@@ -83,6 +86,7 @@ The build stops without writing anything if a file is missing, a script has a sy
 node tests/validate_structure.mjs          # structure only, a few seconds
 node tests/validate_governance.mjs         # source and review records
 node tests/release_gate.mjs                # clinical publication gate (blocked until reviewed)
+# GitHub Actions also runs the clinical release gate for relevant pull requests
 python3 tests/browser_tests.py --pwa       # full browser suite, needs Playwright and Chrome
 ```
 
