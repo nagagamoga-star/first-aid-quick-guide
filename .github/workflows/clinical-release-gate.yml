@@ -1,0 +1,70 @@
+name: Clinical release gate
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-gate:
+    name: release-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Detect clinical content changes
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            echo "required=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git diff --name-only "$BASE_SHA...$HEAD_SHA" > changed-files.txt
+
+          if grep -Eq '^(src/topics\.js|src/flow\.js|src/art\.js)$' changed-files.txt; then
+            echo "required=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # src/app.js is included in the clinical hash only for CPR timing.
+          if grep -qx 'src/app.js' changed-files.txt; then
+            node <<'NODE'
+          const { execFileSync } = require('node:child_process');
+          const fs = require('node:fs');
+          const base = process.env.BASE_SHA;
+          const before = execFileSync('git', ['show', base + ':src/app.js'], { encoding: 'utf8' });
+          const after = fs.readFileSync('src/app.js', 'utf8');
+          const timing = s => (s.match(/60000\\s*\\/\\s*\\d+|BREATHS_MS\\s*=\\s*\\d+/g) || []).join(';');
+          const changed = timing(before) !== timing(after);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'required=' + (changed ? 'true' : 'false') + '\\n');
+          NODE
+            exit 0
+          fi
+
+          echo "required=false" >> "$GITHUB_OUTPUT"
+
+      - name: Run clinical publication gate
+        if: steps.scope.outputs.required == 'true'
+        run: node tests/release_gate.mjs
+
+      - name: Explain skipped gate
+        if: steps.scope.outputs.required != 'true'
+        run: echo "No clinical instructions, question-flow logic, illustrations or CPR timing changed. Clinical release gate not applicable to this pull request."
