@@ -5,12 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#263b48">
 <link rel="icon" href="favicon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="First Aid">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preload" href="fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <title>First Aid Quick Guide</title>
 <meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Self-hosted fonts (SIL OFL 1.1, see fonts/README.md) so the guide works offline */
+@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/inter-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/inter-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/inter-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:italic;font-weight:400;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:italic;font-weight:700;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-700-italic.woff2") format("woff2")}
 /* Layout idea: fixed emergency bar; home is a 3D coverflow of topics with fast chips below; each topic is a deck of illustrated step cards you flip through, with an "all steps" list for scanning. */
 /* Palette and type follow Human Atlas (cool clinical neutrals, slate primary, anatomy system colours, teal selection); emergency red stays for 000 and life-threatening items. */
 :root{
@@ -287,11 +299,21 @@ footer ul{margin:0;padding-left:20px}
 .fgo{justify-self:start;text-decoration:none;background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:13px 18px;font-weight:700;font-size:17px}
 .fnav{display:flex;flex-wrap:wrap;gap:10px}
 
+/* Offline, update and install (PWA) */
+.net{font:700 13px var(--font-body);background:#f2d68a;color:#2b2207;border-radius:999px;padding:5px 10px}
+.updbar{position:sticky;bottom:0;z-index:25;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;background:var(--slate);color:#fff;padding:10px 16px;font-weight:700;box-shadow:0 -6px 20px rgba(24,37,54,.18)}
+.updbar button{border:0;border-radius:10px;padding:10px 16px;background:var(--select);color:#0d2b27;font-weight:700;cursor:pointer;min-height:44px}
+.offline-info{display:grid;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--ink)}
+.offline-info h3{font-size:18px}
+.offline-info .saved{color:var(--calm);font-weight:700}
+.offline-info button{justify-self:start;border:0;border-radius:12px;padding:12px 18px;background:var(--slate);color:#fff;font-weight:700;cursor:pointer;min-height:44px}
+
 </style>
 </head>
 <body>
 <div class="bar" role="banner">
   <a class="brand" href="#">First Aid Quick Guide</a>
+  <span class="net" id="netStatus" role="status" hidden>Offline: using the saved copy</span>
   <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
   <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
 </div>
@@ -332,6 +354,13 @@ footer ul{margin:0;padding-left:20px}
         <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
         <p>The 3D body views use anatomy from <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, © The Database Center for Life Science, licensed under CC Attribution 4.0 International, simplified from the Human Atlas viewer. The explanations beside them are general anatomy, not part of the ANZCOR guidelines.</p>
         <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
+        <section class="offline-info" aria-labelledby="offH">
+          <h3 id="offH">Use it without signal</h3>
+          <p id="savedStatus">Open this page once with a connection and it saves itself to this device, so the steps work without signal.</p>
+          <button type="button" id="installBtn" hidden>Install the app</button>
+          <p id="iosHint" hidden>On iPhone or iPad: tap the Share button, then Add to Home Screen.</p>
+          <p class="note">3D views are saved the first time you open one with a connection.</p>
+        </section>
         <ul>
           <li>Ambulance, fire, police: <strong>000</strong></li>
           <li>Poisons Information Centre (24 hours): <strong>13 11 26</strong></li>
@@ -343,6 +372,8 @@ footer ul{margin:0;padding-left:20px}
   <div id="topic" hidden style="display:grid;gap:16px"></div>
   <div id="help" hidden style="display:grid;gap:16px"></div>
 </main>
+
+<div class="updbar" id="updBar" role="status" hidden><span>A new version of the guide is ready.</span><button type="button" id="updBtn">Reload</button></div>
 
 <template id="tplAges">
   <div class="ages">
@@ -654,8 +685,8 @@ var ART = (function(){
    BodyParts3D, (c) The Database Center for Life Science, licensed under CC Attribution 4.0 International.
    Loaded only when someone taps "Show in 3D", so the steps stay fast. */
 var Anatomy = (function(){
-  var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js';
-  var ORBIT_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js';
+  var THREE_URL = 'vendor/three/three.min.js';  /* three.js 0.147.0, MIT, self-hosted */
+  var ORBIT_URL = 'vendor/three/OrbitControls.js';
   var MODEL_URL = 'models/anatomy.b64.txt';
   /* Human Atlas system colours */
   var COLOURS = { skin:'#ba9b7d', ribcage:'#e2d9ba', sternum:'#e2d9ba', heart:'#b96760', larynx:'#b98991', bronchi:'#b98991', thigh:'#a85b50', brain:'#d8b565' };
@@ -675,7 +706,7 @@ var Anatomy = (function(){
   }
   function loadModel(){
     if (model) return model;
-    model = fetch(MODEL_URL).then(function(r){
+    model = fetch(MODEL_URL).catch(function(){ throw new Error('Could not load the body model. Check your connection and try again.'); }).then(function(r){
       if (!r.ok) throw new Error('Could not load the body model (' + r.status + ').');
       return r.text();
     }).then(function(txt){
@@ -722,7 +753,7 @@ var Anatomy = (function(){
     if (!supported()){ status.textContent = '3D isn’t available in this browser. The steps above cover everything you need.'; return; }
     status.textContent = 'Loading the body model (about 0.5 MB)…';
     Promise.all([loadLibs(), loadModel()]).then(function(r){ build(host, stageEl, status, spec, r[1], reduce); })
-      .catch(function(e){ status.textContent = e.message + ' The steps above cover everything you need.'; host.querySelector('.v3d-load').hidden = false; });
+      .catch(function(e){ status.textContent = (navigator.onLine === false ? 'You\u2019re offline, and this 3D view hasn\u2019t been saved yet. It needs a connection the first time.' : e.message) + ' The steps above cover everything you need.'; host.querySelector('.v3d-load').hidden = false; });
   }
 
   function mix(a, b, t){ var c = new THREE.Color(a); return c.lerp(new THREE.Color(b), t); }
@@ -1451,6 +1482,74 @@ var FLOW = {
   fixNumbers(document.body);
   setActive(0);
   route();
+})();
+
+/* Offline support: service worker registration, offline label, update bar and optional install.
+   Everything here is optional. If any of it fails (old browser, Claude artifact frame, file://),
+   the guide works exactly as before. */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var net = $('netStatus'), upd = $('updBar'), saved = $('savedStatus'), installBtn = $('installBtn'), iosHint = $('iosHint');
+
+  /* Offline label. It only reports the connection; it says nothing about how current the content is. */
+  function setNet(){ if (net) net.hidden = navigator.onLine !== false; }
+  window.addEventListener('online', setNet);
+  window.addEventListener('offline', setNet);
+  setNet();
+
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+
+  /* Install: only offered when the browser offers it. No pop-ups, nothing repeats. */
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault(); deferred = e;
+    if (installBtn && !standalone) installBtn.hidden = false;
+  });
+  if (installBtn) installBtn.addEventListener('click', function(){
+    if (!deferred) return;
+    installBtn.hidden = true;
+    try { deferred.prompt(); } catch(e){}
+    deferred = null;
+  });
+  window.addEventListener('appinstalled', function(){ if (installBtn) installBtn.hidden = true; });
+  var ua = navigator.userAgent || '';
+  var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (ios && !standalone && iosHint) iosHint.hidden = false;
+
+  /* Service worker */
+  var canSW = 'serviceWorker' in navigator && window.isSecureContext && /^https?:$/.test(location.protocol);
+  if (!canSW) return;
+  var wantReload = false;
+
+  function showUpdate(worker){
+    if (!upd) return;
+    upd.hidden = false;
+    $('updBtn').onclick = function(){ wantReload = true; worker.postMessage('SKIP_WAITING'); };
+  }
+  function markSaved(){
+    if (saved && navigator.serviceWorker.controller){
+      saved.innerHTML = '<span class="saved">Saved on this device.</span> The steps work without signal.';
+    }
+  }
+
+  try {
+    navigator.serviceWorker.addEventListener('controllerchange', function(){
+      markSaved();
+      if (wantReload){ wantReload = false; location.reload(); }
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(reg){
+      if (reg.waiting && navigator.serviceWorker.controller) showUpdate(reg.waiting);
+      reg.addEventListener('updatefound', function(){
+        var w = reg.installing; if (!w) return;
+        w.addEventListener('statechange', function(){
+          if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdate(w);
+          if (w.state === 'activated') markSaved();
+        });
+      });
+      window.addEventListener('online', function(){ reg.update().catch(function(){}); });
+      markSaved();
+    }).catch(function(){ /* blocked (e.g. inside the Claude artifact frame): carry on without it */ });
+  } catch(e){}
 })();
 
 </script>

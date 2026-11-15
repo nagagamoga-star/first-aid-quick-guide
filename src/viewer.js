@@ -3,8 +3,8 @@
    BodyParts3D, (c) The Database Center for Life Science, licensed under CC Attribution 4.0 International.
    Loaded only when someone taps "Show in 3D", so the steps stay fast. */
 var Anatomy = (function(){
-  var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js';
-  var ORBIT_URL = 'https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js';
+  var THREE_URL = 'vendor/three/three.min.js';  /* three.js 0.147.0, MIT, self-hosted */
+  var ORBIT_URL = 'vendor/three/OrbitControls.js';
   var MODEL_URL = 'models/anatomy.b64.txt';
   /* Human Atlas system colours */
   var COLOURS = { skin:'#ba9b7d', ribcage:'#e2d9ba', sternum:'#e2d9ba', heart:'#b96760', larynx:'#b98991', bronchi:'#b98991', thigh:'#a85b50', brain:'#d8b565' };
@@ -24,7 +24,7 @@ var Anatomy = (function(){
   }
   function loadModel(){
     if (model) return model;
-    model = fetch(MODEL_URL).then(function(r){
+    model = fetch(MODEL_URL).catch(function(){ throw new Error('Could not load the body model. Check your connection and try again.'); }).then(function(r){
       if (!r.ok) throw new Error('Could not load the body model (' + r.status + ').');
       return r.text();
     }).then(function(txt){
@@ -71,7 +71,7 @@ var Anatomy = (function(){
     if (!supported()){ status.textContent = '3D isn’t available in this browser. The steps above cover everything you need.'; return; }
     status.textContent = 'Loading the body model (about 0.5 MB)…';
     Promise.all([loadLibs(), loadModel()]).then(function(r){ build(host, stageEl, status, spec, r[1], reduce); })
-      .catch(function(e){ status.textContent = e.message + ' The steps above cover everything you need.'; host.querySelector('.v3d-load').hidden = false; });
+      .catch(function(e){ status.textContent = (navigator.onLine === false ? 'You\u2019re offline, and this 3D view hasn\u2019t been saved yet. It needs a connection the first time.' : e.message) + ' The steps above cover everything you need.'; host.querySelector('.v3d-load').hidden = false; });
   }
 
   function mix(a, b, t){ var c = new THREE.Color(a); return c.lerp(new THREE.Color(b), t); }
