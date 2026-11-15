@@ -25,55 +25,26 @@ jobs:
         with:
           node-version: 20
 
-      - name: Detect clinical content changes
-        id: scope
+      - name: Built site matches source
+        # GitHub Pages serves index.html and sw.js, not src/. If either was edited
+        # by hand, or not rebuilt after a src change, the gate below would be
+        # checking text that is not what users see.
+        run: |
+          python3 src/build.py
+          git diff --exit-code -- index.html sw.js || { echo "::error::index.html or sw.js does not match src/. Run python3 src/build.py and commit the result."; exit 1; }
+
+      - name: Clinical publication gate
         env:
           EVENT_NAME: ${{ github.event_name }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        shell: bash
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            echo "required=true" >> "$GITHUB_OUTPUT"
-            exit 0
+            # Manual run: is the whole guide cleared for clinical publication?
+            node tests/release_gate.mjs
+          else
+            # Pull request: every topic, flow node, caption or drawing whose content
+            # or approval record changed must be approved and match its approved hash.
+            # Unchanged items don't need approval yet, so technical work and single
+            # reviewed fixes can merge while the rest of the review is pending.
+            node tests/release_gate.mjs --changed-since "$BASE_SHA"
           fi
-
-          git diff --name-only "$BASE_SHA...HEAD" > changed-files.txt
-
-          if grep -Eq '^(src/topics\.js|src/flow\.js|src/art\.js)$' changed-files.txt; then
-            echo "required=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # CPR timing is the only clinical content hashed from src/app.js.
-          if grep -qx 'src/app.js' changed-files.txt; then
-            node <<'NODE'
-          const { execFileSync } = require('node:child_process');
-          const fs = require('node:fs');
-          const base = process.env.BASE_SHA;
-          const before = execFileSync('git', ['show', base + ':src/app.js'], { encoding: 'utf8' });
-          const after = fs.readFileSync('src/app.js', 'utf8');
-          const timing = s => (s.match(/60000\s*\/\s*\d+|BREATHS_MS\s*=\s*\d+/g) || []).join(';');
-          const changed = timing(before) !== timing(after);
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'required=' + (changed ? 'true' : 'false') + '\n');
-          NODE
-            exit 0
-          fi
-
-          # The initial governance files are unreviewed and must not block Stage 2.
-          # Once any item is approved, changes to the review/source registers run the gate.
-          if grep -Eq '^data/(topic-reviews|source-findings|clinical-sources)\.json$' changed-files.txt; then
-            if node -e "const r=require('./data/topic-reviews.json'); process.exit(r.items.some(i => i.status === 'APPROVED FOR PUBLICATION') ? 0 : 1)"; then
-              echo "required=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-          fi
-
-          echo "required=false" >> "$GITHUB_OUTPUT"
-
-      - name: Run clinical publication gate
-        if: steps.scope.outputs.required == 'true'
-        run: node tests/release_gate.mjs
-
-      - name: Explain skipped gate
-        if: steps.scope.outputs.required != 'true'
-        run: echo "No clinical instructions, question-flow logic, illustrations, CPR timing or approved publication record changed. Clinical release gate not applicable to this pull request."
