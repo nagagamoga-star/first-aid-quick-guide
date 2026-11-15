@@ -1,6 +1,8 @@
 # First Aid Quick Guide
 
-An illustrated, step-by-step first aid guide for Australia. It's a single web page with no dependencies apart from Google Fonts.
+An illustrated, step-by-step first aid guide for Australia, built as a single web page.
+
+**Live site:** https://nagagamoga-star.github.io/first-aid-quick-guide/
 
 - A 3D carousel of 16 topics, with search and quick links for when speed matters
 - Illustrated step cards for each topic (swipe, tap or use the arrow keys), plus a list view
