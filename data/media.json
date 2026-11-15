@@ -364,8 +364,8 @@
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
+      "decision": "accepted",
+      "decisionNote": "Outer middle third of the thigh, clearly marked. Matches ANZCOR 9.2.7 and ASCIA for injectors. Anatomical style with the muscle name (vastus lateralis) printed on it. Doesn’t cover neffy nasal spray (finding F01).",
       "file": "assets/diagrams/autoinjector-site.webp",
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
@@ -383,13 +383,15 @@
       "commons": "File:Injection Sites Intramuscular Thigh Adult.png",
       "alt": "Illustration: the injection site on the outer middle of the thigh.",
       "caption": "Where an adrenaline injector goes: outer mid-thigh",
-      "anzcor": "ANZCOR 9.2.7 and ASCIA: outer mid-thigh, through light clothing. See finding F01 (four device types; neffy is nasal)."
+      "anzcor": "ANZCOR 9.2.7 and ASCIA: outer mid-thigh, through light clothing. See finding F01 (four device types; neffy is nasal).",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
-      "file": "assets/diagrams/autoinjector-use.webp",
+      "decision": "rejected",
+      "decisionNote": "Line drawing of hands pressing an injector into a thigh, but the folds of clothing make it hard to read at phone size. Not used.",
+      "file": null,
       "licence": "CC0",
       "licenceUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
       "author": "Baedr-9439",
@@ -404,13 +406,15 @@
       "commons": "File:Epinephrine-injection.png",
       "alt": "Illustration: an adrenaline autoinjector pressed into the outer thigh.",
       "caption": "Using an adrenaline autoinjector",
-      "anzcor": "ANZCOR 9.2.7, ASCIA device instructions."
+      "anzcor": "ANZCOR 9.2.7, ASCIA device instructions.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     },
     {
       "slots": [],
-      "decision": "candidate",
-      "decisionNote": "",
-      "file": "assets/diagrams/tourniquet.svg",
+      "decision": "rejected",
+      "decisionNote": "A windlass tourniquet placed just below the knee. ANZCOR wording on placement should be checked by the reviewer, and a below-knee picture could mislead. Not used.",
+      "file": null,
       "licence": "CC BY-SA 4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "author": "Bizhan Khodabandeh",
@@ -427,7 +431,9 @@
       "commons": "File:Applying tourniquet.svg",
       "alt": "Drawing: a tourniquet tightened around the upper arm above a wound.",
       "caption": "Tourniquet above the wound",
-      "anzcor": "ANZCOR 9.1.1: for life-threatening limb bleeding not controlled by direct pressure; wide band high on the limb above the wound; note the time."
+      "anzcor": "ANZCOR 9.1.1: for life-threatening limb bleeding not controlled by direct pressure; wide band high on the limb above the wound; note the time.",
+      "checkedBy": "Claude (AI), visual check against the ANZCOR step only. Not a clinical review.",
+      "checkedAt": "2026-11-16"
     }
   ],
   "gaps": [
