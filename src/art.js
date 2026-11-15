@@ -37,17 +37,24 @@ var ART = (function(){
         '<rect class="bub" x="120" y="12" width="114" height="36" rx="10"/><path class="bub" d="M140 48l-10 12 22-12"/>' + T(177, 35, 12, 'Can you hear me?');
     },
     airway: function(){
-      return G + '<rect class="pt" x="116" y="90" width="112" height="36" rx="16"/><circle class="sk" cx="90" cy="106" r="30"/><circle class="sk" cx="100" cy="76" r="6"/>' +
-        '<path class="skl" stroke-width="10" d="M40 12L74 74M170 18L116 80"/><ellipse class="sk" cx="76" cy="78" rx="14" ry="7"/><ellipse class="sk" cx="114" cy="83" rx="10" ry="6"/>' +
-        '<path class="ar" d="M58 56Q34 62 30 92M22 84L30 95L38 85"/>' + T(184, 66, 14, 'Tilt head back');
+      // Side view: one hand on the forehead, fingertips under the chin; the head tilts back
+      // and the chin lifts, opening the airway.
+      return G + '<rect class="pt" x="88" y="100" width="148" height="32" rx="14"/>' +
+        '<circle class="sk" cx="68" cy="114" r="19"/><path class="sk" d="M58 100L38 90L46 116Z"/><circle class="sk" cx="58" cy="97" r="4"/>' +
+        '<path class="skl" stroke-width="10" d="M140 28L92 92"/><ellipse class="sk" cx="82" cy="97" rx="15" ry="6" transform="rotate(-20 82 97)"/>' +
+        '<path class="skl" stroke-width="10" d="M12 32L38 98"/><ellipse class="sk" cx="42" cy="100" rx="8" ry="5" transform="rotate(-25 42 100)"/>' +
+        '<path class="ar" d="M96 72Q76 60 58 76M62 66L56 78L68 80"/>' + T(184, 66, 14, 'Tilt head back');
     },
     breathing: function(){
       return G + '<path class="rsl" stroke-width="22" d="M80 72L132 58L156 96"/><circle class="sk" cx="64" cy="80" r="13"/>' + LY() +
         '<path class="wtl" d="M44 96q-6-6 0-12M36 99q-9-9 0-18"/><path class="dash" d="M72 86L104 104"/>' + T(150, 26, 15, 'Look, listen, feel');
     },
     compress: function(){
-      return G + RB + LY() + '<path class="skl" stroke-width="9" d="M110 58L96 100"/><ellipse class="sk" cx="96" cy="101" rx="12" ry="6"/>' +
-        down(70, 50, 90) + T(180, 34, 18, '100–120', 'txa') + T(180, 52, 13, 'a minute');
+      // Kneeling beside them, shoulders straight over the hands, arms straight,
+      // heel of the hand on the centre of the chest; the arrow shows the push straight down.
+      return G + '<path class="rsl" stroke-width="18" d="M122 84L150 98"/><path class="rsl" stroke-width="24" d="M98 50L122 86"/><circle class="sk" cx="96" cy="28" r="13"/>' +
+        LY() + '<path class="skl" stroke-width="11" d="M98 52L94 96"/><ellipse class="sk" cx="94" cy="100" rx="13" ry="6"/><ellipse class="skd" cx="94" cy="97" rx="9" ry="4"/>' +
+        down(64, 54, 92) + T(180, 34, 18, '100–120', 'txa') + T(180, 52, 13, 'a minute');
     },
     breaths: function(){
       return G + '<path class="rsl" stroke-width="22" d="M68 82L128 64L156 98"/><circle class="sk" cx="52" cy="90" r="13"/>' + LY() +
@@ -65,16 +72,22 @@ var ART = (function(){
         '<path class="arf" d="M124 56L110 80H122L116 96L134 72H122L128 56Z"/>' + T(120, 146, 22, 'AED');
     },
     recovery: function(){
-      return G + '<circle class="sk" cx="50" cy="112" r="14"/><path class="ptl" stroke-width="28" d="M74 116H138"/>' +
-        '<path class="ptl" stroke-width="13" d="M140 112L170 96L196 126M140 124L214 130"/><path class="skl" stroke-width="8" d="M86 108L66 96L44 102"/>' +
+      // Lying on their side: lower leg straight, top leg bent at hip and knee so they
+      // can't roll forward, top hand under the cheek, head tilted back.
+      return G + '<path class="ptl" stroke-width="12" d="M138 128L214 130"/><ellipse class="sk" cx="220" cy="130" rx="8" ry="6"/>' +
+        '<path class="ptl" stroke-width="26" d="M72 120L138 122"/>' +
+        '<path class="ptl" stroke-width="14" d="M136 116L172 94L194 128"/><ellipse class="sk" cx="200" cy="130" rx="9" ry="6"/>' +
+        '<circle class="sk" cx="50" cy="114" r="16"/><path class="sk" d="M38 104L24 96L30 114Z"/><path class="pt" d="M54 98a16 16 0 0 1 12 20l-6-1a10 10 0 0 0-8-13Z"/>' +
+        '<path class="ptl" stroke-width="11" d="M82 114L72 132"/><path class="skl" stroke-width="8" d="M72 132H44"/><ellipse class="sk" cx="40" cy="132" rx="9" ry="5"/>' +
         T(120, 40, 14, 'On their side, head tilted back');
     },
     backblows: function(){
-      return G + '<path class="ptl" stroke-width="12" d="M150 138V100M162 138V100"/><path class="ptl" stroke-width="28" d="M156 98L106 74"/>' +
-        '<circle class="sk" cx="88" cy="72" r="13"/><path class="skl" stroke-width="8" d="M124 84L114 114"/>' +
-        '<circle class="sk" cx="206" cy="28" r="13"/><path class="rsl" stroke-width="24" d="M206 48V100"/><path class="rsl" stroke-width="12" d="M200 100V138M212 100V138"/>' +
-        '<path class="skl" stroke-width="9" d="M200 58L150 58L136 66"/><ellipse class="sk" cx="132" cy="68" rx="11" ry="6"/>' +
-        '<path class="ar" d="M120 50l-6-10M132 48l2-12M108 58l-12-4"/>' + T(52, 34, 18, 'Up to 5', 'txa');
+      // Person leaning well forward; heel of the hand strikes between the shoulder blades.
+      return G + '<path class="ptl" stroke-width="12" d="M146 138V102M158 138V102"/><path class="ptl" stroke-width="28" d="M152 100L108 76"/>' +
+        '<circle class="sk" cx="90" cy="76" r="13"/><path class="skl" stroke-width="8" d="M114 84L108 116"/>' +
+        '<circle class="sk" cx="204" cy="28" r="13"/><path class="rsl" stroke-width="24" d="M204 48V100"/><path class="rsl" stroke-width="12" d="M198 100V138M210 100V138"/>' +
+        '<path class="skl" stroke-width="9" d="M198 58L170 52L140 64"/><ellipse class="sk" cx="134" cy="66" rx="11" ry="6" transform="rotate(28 134 66)"/>' +
+        '<path class="ar" d="M126 52l-6-10M138 50l2-12M114 60l-12-6"/>' + T(52, 34, 18, 'Up to 5', 'txa');
     },
     handpos: function(){
       return '<circle class="sk" cx="120" cy="26" r="16"/><rect class="pt" x="66" y="44" width="108" height="100" rx="34"/>' +
@@ -87,11 +100,15 @@ var ART = (function(){
         '<path class="ar" d="M98 34Q120 18 142 34M134 26L144 35L132 38M142 126Q120 142 98 126M106 134L96 125L108 122"/>';
     },
     infant: function(){
-      return '<path class="rsl" stroke-width="28" d="M36 114L200 100"/><path class="rsl" stroke-width="22" d="M200 100V144"/>' +
-        '<path class="ptl" stroke-width="20" d="M86 92L150 82"/><circle class="sk" cx="72" cy="96" r="12"/>' +
-        '<path class="ptl" stroke-width="8" d="M150 82L174 84M150 86L172 94"/>' +
-        '<path class="skl" stroke-width="9" d="M150 18L128 64"/><ellipse class="sk" cx="126" cy="68" rx="12" ry="6"/>' +
-        '<path class="ar" d="M112 54l-8-8M124 48v-12M136 52l8-8"/>' + T(52, 40, 14, 'Head lower', 'tx');
+      // Seated, baby face down along the forearm on the thigh, head lower than the body,
+      // jaw supported by one hand; the heel of the other hand gives back blows.
+      return '<circle class="sk" cx="210" cy="20" r="12"/><path class="rsl" stroke-width="24" d="M208 38L204 96"/>' +
+        '<path class="rsl" stroke-width="26" d="M204 100L64 118"/><path class="rsl" stroke-width="22" d="M60 118V154"/>' +
+        '<path class="skl" stroke-width="9" d="M168 98L92 108"/>' +
+        '<path class="ptl" stroke-width="18" d="M154 82L98 94"/><path class="ptl" stroke-width="7" d="M154 82L178 80M154 86L176 90"/>' +
+        '<circle class="sk" cx="84" cy="100" r="12"/><ellipse class="sk" cx="82" cy="112" rx="9" ry="5"/>' +
+        '<path class="skl" stroke-width="9" d="M204 50L132 68"/><ellipse class="sk" cx="126" cy="72" rx="11" ry="6" transform="rotate(-12 126 72)"/>' +
+        '<path class="ar" d="M114 60l-8-8M126 56v-12M138 60l8-8"/>' + T(52, 40, 14, 'Head lower', 'tx');
     },
     twofinger: function(){
       return G + '<circle class="sk" cx="70" cy="122" r="12"/><rect class="pt" x="82" y="112" width="56" height="22" rx="11"/>' +
@@ -143,8 +160,14 @@ var ART = (function(){
         bandageOn(104, 160, 100).replace('class="band"', 'class="band" opacity=".9"') + T(130, 40, 15, 'Firm, over the bite first');
     },
     bandage: function(){
-      return '<path class="skl" stroke-width="36" d="M16 100H186"/><path class="skl" stroke-width="30" d="M186 100L206 70"/>' +
-        bandageOn(24, 196, 100) + '<path class="ar" d="M196 52H44M54 42L42 52L54 62"/>' + T(120, 146, 15, 'Start at the toes, wrap upwards');
+      // Bandage wound from the toes up the leg, each turn overlapping the last.
+      // The roll is at the leading edge; the arrow shows the direction.
+      var s = '<path class="skl" stroke-width="36" d="M16 100H186"/><path class="skl" stroke-width="30" d="M186 100L206 70"/>' +
+        '<path class="band" d="M74 79H176L196 46L226 62L196 121H74Z"/><path class="bandl" stroke-width="2" d="';
+      for (var x = 92; x < 190; x += 16) s += 'M' + x + ' 79l-12 42';
+      return s + 'M190 64l16 12M198 52l16 12"/>' +
+        '<ellipse class="band" cx="70" cy="100" rx="10" ry="23"/><ellipse class="bandl" stroke-width="2" cx="70" cy="100" rx="4" ry="9"/>' +
+        '<path class="ar" d="M178 40H70M80 30L68 40L80 50"/>' + T(120, 146, 15, 'Start at the toes, wrap upwards');
     },
     splint: function(){
       return '<rect class="board" x="18" y="122" width="186" height="12" rx="3"/><path class="skl" stroke-width="36" d="M16 100H186"/><path class="skl" stroke-width="30" d="M186 100L206 70"/>' +

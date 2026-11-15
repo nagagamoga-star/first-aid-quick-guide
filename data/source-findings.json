@@ -487,6 +487,18 @@
       "proposal": "Reviewer to approve each drawing used in a step.",
       "status": "open",
       "basis": "judgement"
+    },
+    {
+      "id": "F41",
+      "topic": "illustrations",
+      "item": "recovery, airway, compress, backblows, infant, bandage",
+      "severity": "MEDIUM",
+      "type": "not-in-source",
+      "source": null,
+      "finding": "Six drawings were redrawn on 15 November 2026 (pull request \"Illustrations: redraw six weak drawings\"). Labels are unchanged. What changed: recovery position now shows the top leg bent at hip and knee and the top hand under the cheek; head tilt shows one hand on the forehead and fingertips under the chin; CPR compressions now show straight arms with shoulders over the hands (the old drawing had angled arms); adult back blows show the heel of the hand between the shoulder blades; infant back blows show the baby face down along the forearm on the thigh, head lower, jaw supported; the pressure bandage shows turns overlapping from the toes up, with the roll at the leading edge.",
+      "proposal": "Reviewer to approve each of the six against current ANZCOR technique, or mark what to change. If any is rejected, the previous drawing can be restored from git history.",
+      "status": "open",
+      "basis": "judgement"
     }
   ],
   "basis": {
