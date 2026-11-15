@@ -361,6 +361,73 @@
       "anzcor": "",
       "checkedBy": "Owner decision",
       "checkedAt": "2026-11-16"
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "autoinjector-site",
+      "keys": [
+        "autoinjector"
+      ],
+      "commons": "File:Injection Sites Intramuscular Thigh Adult.png",
+      "alt": "Illustration: the injection site on the outer middle of the thigh.",
+      "caption": "Where an adrenaline injector goes: outer mid-thigh",
+      "anzcor": "ANZCOR 9.2.7 and ASCIA: outer mid-thigh, through light clothing. See finding F01 (four device types; neffy is nasal)."
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "autoinjector-use",
+      "keys": [],
+      "commons": "File:Epinephrine-injection.png",
+      "alt": "Illustration: an adrenaline autoinjector pressed into the outer thigh.",
+      "caption": "Using an adrenaline autoinjector",
+      "anzcor": "ANZCOR 9.2.7, ASCIA device instructions."
+    },
+    {
+      "slots": [],
+      "decision": "candidate",
+      "decisionNote": "",
+      "file": null,
+      "licence": null,
+      "licenceUrl": null,
+      "author": null,
+      "credit": null,
+      "sourceUrl": null,
+      "sha256": null,
+      "width": null,
+      "height": null,
+      "fetchedAt": null,
+      "id": "tourniquet",
+      "keys": [
+        "tourniquet"
+      ],
+      "commons": "File:Applying tourniquet.svg",
+      "alt": "Drawing: a tourniquet tightened around the upper arm above a wound.",
+      "caption": "Tourniquet above the wound",
+      "anzcor": "ANZCOR 9.1.1: for life-threatening limb bleeding not controlled by direct pressure; wide band high on the limb above the wound; note the time."
     }
   ],
   "gaps": [
