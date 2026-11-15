@@ -60,6 +60,24 @@ jobs:
             exit 0
           fi
 
+          # Governance records trigger the gate once publication approval is being recorded.
+          # Initial Stage 2 registers are new and entirely unreviewed, so they do not block this PR.
+          if grep -Eq '^data/(topic-reviews|source-findings|clinical-sources)\\.json
+
+      - name: Run clinical publication gate
+        if: steps.scope.outputs.required == 'true'
+        run: node tests/release_gate.mjs
+
+      - name: Explain skipped gate
+        if: steps.scope.outputs.required != 'true'
+        run: echo "No clinical instructions, question-flow logic, illustrations or CPR timing changed. Clinical release gate not applicable to this pull request."
+ changed-files.txt; then
+            if node -e "const r=require('./data/topic-reviews.json'); process.exit(r.items.some(i => i.status === 'APPROVED FOR PUBLICATION') ? 0 : 1)"; then
+              echo "required=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
           echo "required=false" >> "$GITHUB_OUTPUT"
 
       - name: Run clinical publication gate
