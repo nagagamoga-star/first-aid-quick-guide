@@ -2,8 +2,9 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#263b48">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c2c3a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12161b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -14,29 +15,74 @@
 <link rel="preload" href="fonts/inter-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <title>First Aid Quick Guide</title>
 <meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
+<script>document.documentElement.classList.add('js')</script>
 <style>
 /*CSS*/
 </style>
 </head>
 <body>
-<div class="bar" role="banner">
-  <a class="brand" href="#">First Aid Quick Guide</a>
-  <span class="net" id="netStatus" role="status" hidden>Offline: using the saved copy</span>
-  <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
-  <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="dock" role="banner">
+  <div class="dock-top">
+    <a class="brand" href="#" aria-label="First Aid Quick Guide, home">
+      <svg class="brand-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.5v13M5.5 12h13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>First Aid</span>
+    </a>
+    <button type="button" class="jump" id="jumpBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="palette" aria-keyshortcuts="Control+K Meta+K" aria-label="Find a topic">
+      <svg class="marksvg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="line"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></g></svg>
+      <span class="jump-label">Topics</span>
+      <kbd class="jump-kbd">Ctrl K</kbd>
+    </button>
+    <span class="net" id="netStatus" role="status" hidden>Offline: using the saved copy</span>
+  </div>
+  <div class="dock-calls">
+    <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
+    <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+  </div>
+</header>
+
+<div id="palette" class="palette" hidden>
+  <button type="button" class="palette-scrim" id="paletteScrim" aria-label="Close topics"></button>
+  <div class="palette-panel" role="dialog" aria-modal="true" aria-labelledby="paletteLabel">
+    <div class="palette-search">
+      <label id="paletteLabel" for="paletteQ">Jump to a topic</label>
+      <div class="palette-row">
+        <input id="paletteQ" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="paletteList" aria-activedescendant="" autocomplete="off" placeholder="Try jellyfish, burn, CPR" enterkeyhint="search">
+        <button type="button" class="palette-x" id="paletteClose">Close</button>
+      </div>
+    </div>
+    <ul id="paletteList" class="palette-list" role="listbox" aria-label="Topics"></ul>
+    <p class="palette-empty" id="paletteEmpty" hidden>No topic matches. Call 000 and describe what is happening.</p>
+  </div>
 </div>
 
-<main>
+<main id="main">
   <div id="home">
-    <div style="display:grid;gap:20px">
+    <div class="home-grid">
+      <a class="panic" href="#cpr">
+        <span class="panic-go">Start CPR</span>
+        <span class="panic-copy">Not responding and not breathing normally</span>
+      </a>
+
       <section class="intro" aria-labelledby="t">
         <h1 id="t">What to do in an emergency</h1>
-        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
         <p class="first">If someone is seriously hurt or unwell, call 000 first. The call-taker will talk you through what to do.</p>
         <a class="askcta" href="#help"><span class="askq">Not sure what to do?</span><span class="aska">Answer a few quick questions &rarr;</span></a>
+        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
+        <p class="nojs-hint">The topic buttons need JavaScript. Every topic’s steps are written out at the bottom of this page.</p>
       </section>
 
-      <section class="carousel" aria-label="Choose a topic">
+      <nav class="index" aria-label="All topics">
+        <div class="find">
+          <label for="find">Filter topics</label>
+          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
+        </div>
+        <div id="chipsWrap"></div>
+        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
+      </nav>
+
+      <section class="carousel" aria-labelledby="flipH">
+        <h2 id="flipH">Or flip through</h2>
         <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
           <div class="ring" id="ring"></div>
         </div>
@@ -48,21 +94,16 @@
         <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
       </section>
 
-      <nav class="index" aria-label="All topics">
-        <div>
-          <label for="find">Or find a topic</label>
-          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
-        </div>
-        <div id="chipsWrap" style="display:grid;gap:14px"></div>
-        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
-      </nav>
-
       <footer>
         <h2>About this guide</h2>
         <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
         <p>The 3D body views use anatomy from <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, © The Database Center for Life Science, licensed under CC Attribution 4.0 International, simplified from the Human Atlas viewer. The explanations beside them are general anatomy, not part of the ANZCOR guidelines.</p>
         <p>Each topic shows its review status: whether a qualified first aid trainer or clinician has reviewed it, and when. Until then, check anything you're unsure of with a first aid course or the source guideline.</p>
         <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
+        <section class="licences" aria-labelledby="licH">
+          <h3 id="licH">Symbols and type</h3>
+          <p>Menu symbols are original drawings for this guide: a 2px geometric stroke and a light duotone fill, in the manner of <a href="https://healthicons.org/">Health Icons</a>, which are published under CC0. These marks are not copied from that set. Type is Inter and Atkinson Hyperlegible, self-hosted under the SIL Open Font License 1.1.</p>
+        </section>
         <section class="offline-info" aria-labelledby="offH">
           <h3 id="offH">Use it without signal</h3>
           <p id="savedStatus">Open this page once with a connection and it saves itself to this device, so the steps work without signal.</p>
@@ -78,8 +119,9 @@
     </div>
   </div>
 
-  <div id="topic" hidden style="display:grid;gap:16px"></div>
-  <div id="help" hidden style="display:grid;gap:16px"></div>
+  <div id="topic" hidden></div>
+  <div id="help" hidden></div>
+  <!--NOJS-->
 </main>
 
 <div class="updbar" id="updBar" role="status" hidden><span>A new version of the guide is ready.</span><button type="button" id="updBtn">Reload</button></div>

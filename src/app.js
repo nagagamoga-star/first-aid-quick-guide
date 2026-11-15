@@ -8,11 +8,26 @@
     var d = document.createElement('div');
     d.innerHTML = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>' +
       rad('skin', 'skin') + rad('skind', 'skin-d') + lin('pt', 'pt') + lin('water', 'water') + lin('ice', 'ice') +
-      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber') + '</defs></svg>';
+      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber-fill') + '</defs></svg>';
     document.body.insertBefore(d.firstChild, document.body.firstChild);
   })();
   var N = TOPICS.length;
   var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
+  /* Navigation only. Does not add or change a first-aid instruction. */
+  var CATS = [
+    ['Life-threatening', ['collapse','cpr','choking','bleeding','anaphylaxis','heart','stroke','unconscious']],
+    ['Bites & stings', ['snake','marine','spider']],
+    ['Injuries & burns', ['burns']],
+    ['Medical', ['asthma','seizure','heat','poison']]
+  ];
+  (function(){
+    var seen = {};
+    CATS.forEach(function(c){ c[1].forEach(function(id){
+      if (!byId[id] || seen[id]) throw new Error('topic map ' + id);
+      seen[id] = 1;
+    }); });
+    if (Object.keys(seen).length !== N) throw new Error('topic map is missing a topic');
+  })();
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function(id){ return document.getElementById(id); };
   var home = $('home'), view = $('topic');
@@ -25,7 +40,7 @@
     b.type = 'button';
     b.className = 'tcard ' + t.sev;
     b.setAttribute('data-i', i);
-    b.innerHTML = ART.svg(t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
+    b.innerHTML = picture(t.id, 'icon', t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
     b.addEventListener('click', function(){
       if (dragged) return;
       if (reduce || i === active) go(t.id); else setActive(i);
@@ -115,14 +130,17 @@
     el.addEventListener('pointercancel', function(){ x0 = null; });
   }
 
-  /* ---------- Home: search and chips ---------- */
-  var groups = [['Life-threatening', function(t){ return t.sev === 'crit'; }], ['Urgent and other', function(t){ return t.sev !== 'crit'; }]];
+  /* ---------- Home: search and category tiles ---------- */
   var idx = $('chipsWrap');
-  groups.forEach(function(g){
+  CATS.forEach(function(g){
     var d = document.createElement('div'); d.className = 'group';
-    d.innerHTML = '<h2>' + g[0] + '</h2><div class="chips">' + TOPICS.filter(g[1]).map(function(t){
-      return '<a class="' + (t.sev === 'crit' ? 'crit' : '') + '" href="#' + t.id + '" data-k="' + (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '') + '">' + t.title + '</a>';
-    }).join('') + '</div>';
+    var links = g[1].map(function(id){
+      var t = byId[id];
+      var dk = (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '');
+      var tag = String(t.tag).replace(/"/g, '');
+      return '<a class="tile ' + t.sev + '" href="#' + t.id + '" data-tag="' + tag + '" data-k="' + dk + '">' + MARKS.svg(t.id) + '<span class="tile-title">' + t.title + '</span></a>';
+    }).join('');
+    d.innerHTML = '<h2>' + g[0] + '</h2><div class="chips">' + links + '</div>';
     idx.appendChild(d);
   });
   var chips = [].slice.call(idx.querySelectorAll('a'));
@@ -169,12 +187,17 @@
     var gs = [];
     t.steps.forEach(function(s){ if (s.g && gs.indexOf(s.g) < 0) gs.push(s.g); });
     if (gs.length > 1) h += '<div class="gchips" id="gchips" role="group" aria-label="Jump to">' + gs.map(function(g){ return '<button type="button" data-g="' + g + '" aria-pressed="false">' + g + '</button>'; }).join('') + '</div>';
-    h += '<section class="player" id="player" aria-label="Steps" aria-roledescription="step cards">' +
+    h += '<div class="deck-row"><div class="deck-main">';
+    h += '<section class="player" id="player" tabindex="0" aria-label="Steps" aria-roledescription="step cards" aria-describedby="deckHint">' +
+      '<div class="rail" id="rail" role="progressbar" aria-valuemin="1" aria-valuemax="' + t.steps.length + '" aria-valuenow="1" aria-label="Progress through the steps"><span id="railFill"></span></div>' +
+      '<p class="sr-only" id="deckHint">Arrow keys move between steps. You can also swipe the drawing.</p>' +
       '<div class="pmeta"><span class="pg" id="pg"></span><span id="pc"></span></div>' +
       '<div class="pview" id="pview"><div class="pcard" id="pcard" aria-live="polite"></div></div>' +
       '<div class="pctl"><button type="button" class="pbtn" id="pPrev">← Back</button><div class="dots" id="dots"></div><button type="button" class="pbtn next" id="pNext">Next →</button></div></section>';
     h += '<ol class="list" id="list" hidden>' + listHtml(t) + '</ol>';
     h += '<button type="button" class="toggle" id="toggle" aria-expanded="false">Show all steps as a list</button>';
+    h += '<p class="inkey"><span><i class="swatch pt"></i>Person</span><span><i class="swatch rs"></i>Helper</span></p>';
+    h += '</div>';
     if (t.body) h += '<section class="v3d" id="v3d" aria-labelledby="v3dh">' +
       '<div class="v3d-head"><h2 id="v3dh">' + t.body.title + '</h2><span class="v3d-badge">3D</span></div>' +
       '<p class="v3d-cap">' + t.body.caption + '</p>' +
@@ -182,6 +205,7 @@
       '<div class="v3d-tools" hidden><button type="button" data-v="front">Front</button><button type="button" data-v="side">Side</button><button type="button" data-v="whole">Whole body</button></div>' +
       '<p class="v3d-status" aria-live="polite">Loads a body model of about 0.5 MB.</p>' +
       '<p class="v3d-credit">Anatomy: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, \u00a9 The Database Center for Life Science, CC BY 4.0, simplified from Human Atlas. The explanation is general anatomy, not part of the ANZCOR guidelines.</p></section>';
+    h += '</div>';
     if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
@@ -198,9 +222,18 @@
     $('pPrev').addEventListener('click', function(){ show(step - 1, -1); });
     $('pNext').addEventListener('click', function(){ show(step + 1, 1); });
     $('player').addEventListener('keydown', function(e){
-      if (e.target.tagName === 'A') return;
-      if (e.key === 'ArrowLeft') show(step - 1, -1);
-      if (e.key === 'ArrowRight') show(step + 1, 1);
+      if (e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+      if (e.key === 'ArrowLeft'){ show(step - 1, -1); e.preventDefault(); }
+      if (e.key === 'ArrowRight'){ show(step + 1, 1); e.preventDefault(); }
+      if (e.key === 'Home'){ show(0, -1); e.preventDefault(); }
+      if (e.key === 'End'){ show(t.steps.length - 1, 1); e.preventDefault(); }
+    });
+    $('rail').addEventListener('click', function(e){
+      var rect = this.getBoundingClientRect();
+      if (!rect.width) return;
+      var ratio = (e.clientX - rect.left) / rect.width;
+      var i = Math.min(t.steps.length - 1, Math.max(0, Math.floor(ratio * t.steps.length)));
+      show(i, i > step ? 1 : -1);
     });
     swipe($('pview'), function(dir){ show(step + dir, dir); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){
@@ -228,7 +261,7 @@
     var out = '', lastG = null;
     t.steps.forEach(function(s, i){
       if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
-      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
+      out += '<li class="li">' + picture(t.id, i, s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
     });
     return out;
   }
@@ -239,7 +272,7 @@
     step = i;
     var s = t.steps[i], c = $('pcard');
     c.className = 'pcard';
-    c.innerHTML = ART.svg(s.a) + '<div><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
+    c.innerHTML = picture(t.id, i, s.a) + '<div class="pbody"><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
     if (dir){ void c.offsetWidth; c.className = 'pcard ' + (dir > 0 ? 'in-next' : 'in-prev'); }
     $('pg').textContent = s.g || t.title;
     $('pc').textContent = (i+1) + ' / ' + t.steps.length;
@@ -248,6 +281,12 @@
     $('pNext').disabled = last;
     $('pNext').textContent = last ? 'Last step' : 'Next →';
     if ($('progBar')) $('progBar').style.width = ((i+1) / t.steps.length * 100) + '%';
+    var rail = $('rail'), fill = $('railFill');
+    if (rail && fill){
+      rail.setAttribute('aria-valuenow', String(i + 1));
+      rail.setAttribute('aria-valuetext', 'Step ' + (i + 1) + ' of ' + t.steps.length);
+      fill.style.width = ((i + 1) / t.steps.length * 100) + '%';
+    }
     else [].forEach.call($('dots').children, function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
   }
@@ -305,8 +344,15 @@
   }
   function focusFlow(){ window.scrollTo(0, 0); var q = help.querySelector('.fq'); if (q){ q.tabIndex = -1; q.focus({preventScroll:true}); } }
 
+  /* A step picture. The slot id is the contract; the markup around it is layout. */
+  function picture(topicId, stepIndex, spec){
+    var s = Illustrate.slot(topicId, stepIndex, spec);
+    return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+  }
+
   /* ---------- Routing ---------- */
   function route(){
+    if (typeof closePalette === 'function') closePalette(true);
     var id = location.hash.replace('#', '');
     var t = byId[id];
     if (id === 'help'){
@@ -373,6 +419,147 @@
       timer = setInterval(tick, INTERVAL);
     });
   }
+
+  /* ---------- Command palette ---------- */
+  var palette = $('palette'), pQ = $('paletteQ'), pList = $('paletteList'), pEmpty = $('paletteEmpty');
+  var jumpBtn = $('jumpBtn');
+  var options = [], visible = [], closeToken = 0;
+
+  function fuzzy(q, hay){
+    q = q.toLowerCase().trim();
+    if (!q) return 1;
+    var at = hay.indexOf(q);
+    if (at === 0) return 120;
+    if (at > 0) return 90 - Math.min(at, 30);
+    var qi = 0, score = 0, prev = -2, run = 0;
+    for (var n = 0; n < hay.length && qi < q.length; n++){
+      if (hay[n] === q[qi]){
+        run = (n === prev + 1) ? run + 1 : 1;
+        score += 2 + run;
+        if (n === 0 || hay[n - 1] === ' ') score += 3;
+        prev = n; qi++;
+      }
+    }
+    return qi === q.length ? score : 0;
+  }
+  CATS.forEach(function(g){
+    var group = document.createElement('li');
+    group.className = 'palette-group';
+    group.setAttribute('role', 'presentation');
+    var hid = 'cat-' + g[0].toLowerCase().replace(/[^a-z]+/g, '');
+    group.innerHTML = '<div class="palette-cat" id="' + hid + '">' + g[0] + '</div><ul role="group" aria-labelledby="' + hid + '"></ul>';
+    var ul = group.querySelector('ul');
+    g[1].forEach(function(id){
+      var t = byId[id];
+      var li = document.createElement('li');
+      li.id = 'opt-' + t.id;
+      li.className = 'opt ' + t.sev;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', 'false');
+      li.dataset.id = t.id;
+      li.innerHTML = MARKS.svg(t.id) + '<span class="opt-copy"><span class="opt-title"></span><span class="opt-short"></span></span>';
+      li.querySelector('.opt-title').textContent = t.title;
+      li.querySelector('.opt-short').textContent = t.short;
+      ul.appendChild(li);
+      options.push({ el: li, group: group, t: t, hay: (t.title + ' ' + t.short + ' ' + t.tag + ' ' + t.k + ' ' + t.id).toLowerCase() });
+    });
+    pList.appendChild(group);
+  });
+  function setActiveOpt(o){
+    options.forEach(function(x){
+      var on = x === o;
+      x.el.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    pQ.setAttribute('aria-activedescendant', o ? o.el.id : '');
+    if (o) o.el.scrollIntoView({ block: 'nearest' });
+  }
+  function applyFilter(q){
+    var best = null, bestS = -1, shown = 0;
+    options.forEach(function(o){
+      var s = fuzzy(q, o.hay);
+      o.el.hidden = !s;
+      if (s){ shown++; if (s > bestS){ bestS = s; best = o; } }
+    });
+    [].forEach.call(pList.children, function(g){
+      g.hidden = ![].some.call(g.querySelectorAll('[role="option"]'), function(o){ return !o.hidden; });
+    });
+    pEmpty.hidden = shown > 0;
+    visible = options.filter(function(o){ return !o.el.hidden; });
+    setActiveOpt((q.trim() && best) ? best : (visible[0] || null));
+  }
+  function moveOpt(d){
+    if (!visible.length) return;
+    var i = 0;
+    visible.forEach(function(o, k){ if (o.el.getAttribute('aria-selected') === 'true') i = k; });
+    setActiveOpt(visible[(i + d + visible.length) % visible.length]);
+  }
+  function chosen(){
+    for (var i = 0; i < visible.length; i++) if (visible[i].el.getAttribute('aria-selected') === 'true') return visible[i];
+    return null;
+  }
+  function goActive(){
+    var o = chosen(); if (!o) return;
+    closePalette(true);
+    if (location.hash === '#' + o.t.id) route();
+    else location.hash = o.t.id;
+  }
+  function typingTarget(el){
+    if (!el || !el.tagName) return false;
+    var tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
+  }
+  function openPalette(){
+    closeToken++;
+    palette.hidden = false;
+    document.body.classList.add('palette-open');
+    jumpBtn.setAttribute('aria-expanded', 'true');
+    pQ.setAttribute('aria-expanded', 'true');
+    pQ.value = '';
+    applyFilter('');
+    requestAnimationFrame(function(){ palette.classList.add('open'); });
+    pQ.focus();
+  }
+  function closePalette(silent){
+    if (!palette || (palette.hidden && !palette.classList.contains('open'))) return;
+    var token = ++closeToken;
+    palette.classList.remove('open');
+    document.body.classList.remove('palette-open');
+    jumpBtn.setAttribute('aria-expanded', 'false');
+    pQ.setAttribute('aria-expanded', 'false');
+    var finish = function(){ if (token === closeToken) palette.hidden = true; };
+    if (reduce) finish(); else setTimeout(finish, 240);
+    if (!silent) jumpBtn.focus();
+  }
+  jumpBtn.addEventListener('click', function(){ palette.hidden ? openPalette() : closePalette(); });
+  $('paletteClose').addEventListener('click', function(){ closePalette(); });
+  $('paletteScrim').addEventListener('click', function(){ closePalette(); });
+  pQ.addEventListener('input', function(){ applyFilter(pQ.value); });
+  pQ.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown'){ e.preventDefault(); moveOpt(1); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); moveOpt(-1); }
+    else if (e.key === 'Home'){ e.preventDefault(); setActiveOpt(visible[0] || null); }
+    else if (e.key === 'End'){ e.preventDefault(); setActiveOpt(visible[visible.length - 1] || null); }
+    else if (e.key === 'Enter'){ e.preventDefault(); goActive(); }
+    else if (e.key === 'Escape'){ e.preventDefault(); closePalette(); }
+  });
+  pList.addEventListener('click', function(e){
+    var li = e.target.closest('[role="option"]');
+    if (!li || li.hidden) return;
+    closePalette(true);
+    if (location.hash === '#' + li.dataset.id) route();
+    else location.hash = li.dataset.id;
+  });
+  pList.addEventListener('mousemove', function(e){
+    var li = e.target.closest('[role="option"]');
+    if (!li || li.hidden) return;
+    for (var i = 0; i < options.length; i++) if (options[i].el === li){ setActiveOpt(options[i]); break; }
+  });
+  document.addEventListener('keydown', function(e){
+    var k = e.key.toLowerCase();
+    if ((e.metaKey || e.ctrlKey) && k === 'k'){ e.preventDefault(); palette.hidden ? openPalette() : closePalette(); return; }
+    if (e.key === '/' && palette.hidden && !typingTarget(e.target)){ e.preventDefault(); openPalette(); }
+    else if (e.key === 'Escape' && !palette.hidden){ closePalette(); }
+  });
 
   fixNumbers(document.body);
   setActive(0);

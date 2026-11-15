@@ -2,8 +2,9 @@
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#263b48">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c2c3a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12161b" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -14,8 +15,12 @@
 <link rel="preload" href="fonts/inter-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <title>First Aid Quick Guide</title>
 <meta name="description" content="Illustrated, step-by-step first aid for Australia, following the ANZCOR guidelines. CPR, choking, bleeding, burns, snake bite, jellyfish stings, anaphylaxis, asthma and more.">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-/* Self-hosted fonts (SIL OFL 1.1, see fonts/README.md) so the guide works offline */
+/* Self-hosted fonts (SIL OFL 1.1, see fonts/README.md). Atkinson Hyperlegible for
+   instructions, Inter for headings and phone numbers. Figtree / Fraunces are not
+   shipped: two more families would grow the offline cache, and a display serif
+   is a poor face for steps read in a hurry. See docs/design/REDESIGN.md. */
 @font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/inter-latin-500-normal.woff2") format("woff2")}
 @font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/inter-latin-600-normal.woff2") format("woff2")}
 @font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/inter-latin-700-normal.woff2") format("woff2")}
@@ -23,216 +28,446 @@
 @font-face{font-family:"Atkinson Hyperlegible";font-style:italic;font-weight:400;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2")}
 @font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2")}
 @font-face{font-family:"Atkinson Hyperlegible";font-style:italic;font-weight:700;font-display:swap;src:url("fonts/atkinson-hyperlegible-latin-700-italic.woff2") format("woff2")}
-/* Layout idea: fixed emergency bar; home is a 3D coverflow of topics with fast chips below; each topic is a deck of illustrated step cards you flip through, with an "all steps" list for scanning. */
-/* Palette and type follow Human Atlas (cool clinical neutrals, slate primary, anatomy system colours, teal selection); emergency red stays for 000 and life-threatening items. */
+
 :root{
-  --ink:#20242b;
-  --muted:#5b6570; /* was #68727d: 4.44:1 on paper, below AA; now 5.4:1 */
-  --paper:#f3f4f4;
-  --card:#ffffff;
-  --line:rgba(24,37,54,.11);
+  --ink:#1c1917;
+  --muted:#5c564c;
+  --paper:#f4f0e6;
+  --card:#fffdf8;
+  --line:rgba(28,25,23,.14);
   --alarm:#c4122f;
   --alarm-ink:#ffffff;
-  --warn:#86610f;
-  --warn-bg:#f7f0dc;
-  --calm:#2b7a70;
-  --calm-bg:#e5f3f0;
-  --chip:#e9ecef;
-  --slate:#263b48;
-  --stage:#f2f3f3;
-  --select:#6bd9c7;
-  /* illustration palette, from Human Atlas system colours */
-  --skin:#c9a68a; --skin-d:#ab886c; --pt:#536875; --res:#3a9c8f; --water:#527c9f; --ice:#b0c8ce;
-  --amber:#d8b565; --wood:#b8916b; --sand:#e2d9ba; --sting:#8f6aa6; --leaf:#879f7c; --bandage:#f4f1e8; --act:#c05245;
+  --warn:#7a5610;
+  --warn-bg:#f8f1dc;
+  --calm:#0f5e56;
+  --calm-bg:#e7f3f1;
+  --chip:#efeae0;
+  --slate:#1c2c3a;
+  --dock:#1c2c3a;
+  --dock-ink:#f7f4ee;
+  --stage:#e7e2d6;
+  --select:#0f5e56;
+  --focus:#0b5cab;
+  --amber:#c48a12;
+  /* casualty clay, helper teal. Skin stays skin. Paths are unchanged. */
+  --skin:#c9a68a; --skin-d:#ab886c; --pt:#7a5346; --res:#0e7c72; --water:#527c9f; --ice:#b0c8ce;
+  --amber-fill:#d8b565; --wood:#b8916b; --sand:#e2d9ba; --sting:#8f6aa6; --leaf:#879f7c; --bandage:#f4f1e8; --act:#c05245;
   --font-display:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --font-body:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   color-scheme:light;
-  /* Depth system. Light comes from above: a bright top edge (--hl) and a soft
-     shadow below. Three heights: resting (card), raised (key), floating. */
-  --ease-spring:cubic-bezier(.22,1,.36,1);
-  --hl:inset 0 1px 0 rgba(255,255,255,.95);
-  --shadow-card:0 1px 2px rgba(16,28,38,.06),0 4px 14px rgba(16,28,38,.08);
-  --shadow-key:0 1px 0 rgba(16,28,38,.22),0 3px 8px rgba(16,28,38,.12);
-  --shadow-floating:0 2px 6px rgba(16,28,38,.10),0 18px 40px rgba(16,28,38,.20);
-  --shadow-pressed:inset 0 2px 5px rgba(16,28,38,.20);
-  --well:inset 0 2px 5px rgba(16,28,38,.10),inset 0 0 0 1px var(--line);
-  --bezel:#dfe3e6;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --hl:inset 0 1px 0 rgba(255,255,255,.9);
+  --shadow-card:0 1px 2px rgba(28,24,18,.06),0 8px 20px rgba(28,24,18,.07);
+  --shadow-key:0 1px 0 rgba(16,20,28,.28),0 4px 10px rgba(16,20,28,.14);
+  --shadow-floating:0 10px 28px rgba(16,20,28,.22),0 2px 6px rgba(16,20,28,.12);
+  --shadow-pressed:inset 0 2px 5px rgba(16,20,28,.22);
+  --well:inset 0 8px 16px rgba(16,28,38,.16),inset 0 0 0 1px rgba(16,28,38,.16);
+  --bezel-hi:#f4f7f8; --bezel:#c5ced4; --bezel-lo:#8e9aa3;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
-    --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
-    --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
-    --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
-    --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
+    --ink:#f4efe6; --muted:#c8bfb2; --paper:#12161b; --card:#1c222a; --line:rgba(244,239,230,.14);
+    --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#2a2412;
+    --calm:#6bd9c7; --calm-bg:#12302c; --chip:#2a3138; --slate:#0e141b; --dock:#1c2c3a; --dock-ink:#f7f4ee;
+    --stage:#1a2128; --select:#6bd9c7; --focus:#9dccff; --amber:#e2c47a;
+    --skin:#d2b096; --skin-d:#b8937a; --pt:#d2a08e; --res:#5dcec2; --water:#7ba3c6; --ice:#6f9aa6;
+    --amber-fill:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
     color-scheme:dark;
     --hl:inset 0 1px 0 rgba(255,255,255,.08);
-    --shadow-card:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.30);
-    --shadow-key:0 1px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
-    --shadow-floating:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.55);
-    --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.5);
-    --well:inset 0 2px 6px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);
-    --bezel:#0c1216;
+    --shadow-card:0 1px 2px rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.28);
+    --shadow-key:0 1px 0 rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.35);
+    --shadow-floating:0 12px 32px rgba(0,0,0,.5);
+    --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.55);
+    --well:inset 0 8px 18px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.08);
+    --bezel-hi:#2c3640; --bezel:#12181e; --bezel-lo:#070b0e;
   }
 }
 :root[data-theme="dark"]{
-  --ink:#e6eaee; --muted:#9ba7b2; --paper:#11171c; --card:#1a2229; --line:rgba(230,236,240,.12);
-  --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#29230f;
-  --calm:#6bd9c7; --calm-bg:#12302c; --chip:#242e36; --slate:#0f1a21; --stage:#1d262d;
-  --skin:#d2b096; --skin-d:#b8937a; --pt:#8ea3b2; --res:#5cc4b6; --water:#7ba3c6; --ice:#6f9aa6;
-  --amber:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
+  --ink:#f4efe6; --muted:#c8bfb2; --paper:#12161b; --card:#1c222a; --line:rgba(244,239,230,.14);
+  --alarm:#ff6170; --alarm-ink:#16070a; --warn:#e6c06a; --warn-bg:#2a2412;
+  --calm:#6bd9c7; --calm-bg:#12302c; --chip:#2a3138; --slate:#0e141b; --dock:#1c2c3a; --dock-ink:#f7f4ee;
+  --stage:#1a2128; --select:#6bd9c7; --focus:#9dccff; --amber:#e2c47a;
+  --skin:#d2b096; --skin-d:#b8937a; --pt:#d2a08e; --res:#5dcec2; --water:#7ba3c6; --ice:#6f9aa6;
+  --amber-fill:#e2c47a; --wood:#c7a37f; --sand:#6d6449; --sting:#b896d0; --leaf:#9fb894; --bandage:#d8d3c6; --act:#e0705f;
   color-scheme:dark;
   --hl:inset 0 1px 0 rgba(255,255,255,.08);
-  --shadow-card:0 1px 2px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.30);
-  --shadow-key:0 1px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
-  --shadow-floating:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.55);
-  --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.5);
-  --well:inset 0 2px 6px rgba(0,0,0,.45),inset 0 0 0 1px var(--line);
-  --bezel:#0c1216;
+  --shadow-card:0 1px 2px rgba(0,0,0,.35),0 8px 20px rgba(0,0,0,.28);
+  --shadow-key:0 1px 0 rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.35);
+  --shadow-floating:0 12px 32px rgba(0,0,0,.5);
+  --shadow-pressed:inset 0 2px 6px rgba(0,0,0,.55);
+  --well:inset 0 8px 18px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.08);
+  --bezel-hi:#2c3640; --bezel:#12181e; --bezel-lo:#070b0e;
 }
+
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.5}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--alarm);outline-offset:2px;border-radius:6px}
-h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.15;text-wrap:balance;margin:0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.15;text-wrap:balance;margin:0;scroll-margin-top:140px}
+#player,.panic,.back{scroll-margin-top:140px}
 p{margin:0}
-button{font:inherit;color:inherit}
+button,input{font:inherit;color:inherit}
 [hidden]{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-48px;z-index:80;background:var(--card);color:var(--ink);padding:10px 14px;border-radius:10px;font-weight:700}
+.skip:focus{top:12px}
 
-/* Emergency bar */
-.bar{position:sticky;top:0;z-index:20;background:var(--slate);color:#f2f5f6;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px}
-.brand{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:.02em;margin-right:auto;text-decoration:none}
+/* Dock: floating frosted glass. Text sits on 94% slate so it stays legible
+   over whatever scrolls behind. Opaque if blur is missing or reduced. */
+.dock{
+  position:sticky;top:max(8px,env(safe-area-inset-top));z-index:40;
+  width:min(1040px,calc(100% - 16px));margin:8px auto 0;padding:10px;
+  border-radius:22px;color:var(--dock-ink);background:var(--dock);
+  box-shadow:var(--shadow-floating),inset 0 1px 0 rgba(255,255,255,.16);
+}
+@supports ((backdrop-filter:blur(16px)) or (-webkit-backdrop-filter:blur(16px))){
+  .dock{background:color-mix(in srgb,var(--dock) 94%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.35);backdrop-filter:blur(16px) saturate(1.35)}
+}
+@media (prefers-reduced-transparency:reduce){
+  .dock{background:var(--dock);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+.dock-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-right:auto;text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.brand-svg{width:28px;height:28px;flex:none;padding:2px;border-radius:8px;background:rgba(255,255,255,.1)}
+.jump{
+  display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 10px;
+  border:0;border-radius:999px;background:rgba(255,255,255,.1);color:var(--dock-ink);
+  font-weight:700;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+}
+.jump .marksvg{width:20px;height:20px}
+.jump-kbd{font-family:var(--font-display);font-size:12px;font-weight:600;opacity:.75;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:2px 6px}
+.net{font:700 13px var(--font-body);background:#f2d68a;color:#2b2207;border-radius:999px;padding:6px 10px}
+.dock-calls{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .num,.call{font-family:var(--font-display);font-variant-numeric:tabular-nums}
-.call{display:inline-flex;align-items:baseline;gap:8px;text-decoration:none;font-weight:700;border-radius:10px;padding:8px 14px}
-.call.e{background:#d11a37;color:#fff;font-size:20px}
-.call.p{color:#f2f5f6;border:2px solid currentColor;font-size:15px}
-.call small{font-weight:400;font-size:13px;opacity:.9}
+.call{
+  display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;
+  border-radius:14px;min-height:48px;padding:10px 16px;position:relative;
+}
+.call.e{background:#c4122f;color:#fff;font-size:22px;min-height:56px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 3px 0 #8e0f23,0 8px 16px rgba(0,0,0,.28)}
+.call.p{color:var(--dock-ink);background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(247,244,238,.85),0 3px 0 rgba(0,0,0,.35);font-size:18px}
+.call small{font-weight:500;font-size:14px;opacity:.92}
+.call:active{transform:translateY(2px)}
+.call.e:active{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 #8e0f23}
+.call.p:active{box-shadow:inset 0 0 0 2px rgba(247,244,238,.85),0 1px 0 rgba(0,0,0,.35)}
+@media (min-width:840px){
+  .dock{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;width:min(1040px,calc(100% - 32px))}
+  .dock-top{flex:1}
+  .dock-calls{flex-direction:row;margin-top:0;flex:none}
+  .call.e{min-width:200px}
+  .call.p{min-width:150px}
+}
+@media (max-width:420px){.jump-kbd{display:none}}
 
-main{max-width:900px;margin:0 auto;padding:18px 16px 48px;display:grid;gap:20px}
+main{max-width:1040px;margin:0 auto;padding:16px 16px 64px}
+.home-grid,#topic,#help{display:grid;gap:16px}
 
-/* Home */
-.intro{display:grid;gap:10px}
-.intro h1{font-size:clamp(30px,6vw,44px)}
-.intro p{max-width:65ch;color:var(--muted)}
-.intro .first{background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:12px 16px;font-weight:700;font-size:17px;max-width:none}
+/* Panic CPR: strong, but the red 000 key above it stays the loudest control. */
+.panic{
+  display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:72px;padding:14px 18px;
+  text-decoration:none;background:var(--card);color:var(--ink);border-radius:18px;
+  box-shadow:var(--hl),var(--shadow-card),inset 4px 0 0 var(--alarm);
+}
+.panic-go{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.03em;color:var(--alarm)}
+.panic-copy{color:var(--muted);font-size:16px}
+.panic:active{transform:translateY(2px);box-shadow:var(--shadow-pressed),inset 4px 0 0 var(--alarm)}
 
-.carousel{display:grid;gap:12px}
-.stage{position:relative;height:350px;perspective:1100px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:18px;background:radial-gradient(ellipse at 50% 85%,color-mix(in srgb,var(--ink) 9%,transparent),transparent 70%)}
+.intro{display:grid;gap:12px}
+.intro h1{font-size:clamp(32px,6vw,48px)}
+.intro p{max-width:62ch;color:var(--muted)}
+.intro .first{background:var(--alarm);color:var(--alarm-ink);border-radius:14px;padding:14px 16px;font-weight:700;font-size:18px;max-width:none}
+.js .nojs-hint{display:none}
+html:not(.js) .carousel,html:not(.js) .index{display:none}
+
+.askcta{display:grid;gap:2px;text-decoration:none;background:var(--slate);color:#fff;border-radius:16px;padding:14px 18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),var(--shadow-key)}
+.askq{font-family:var(--font-display);font-weight:700;font-size:20px}
+.aska{color:#9eefe4;font-weight:700}
+.askcta:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+
+/* Category grid */
+.index{display:grid;gap:18px}
+.find{display:grid;gap:6px}
+.find label,.index label{font-weight:700}
+.find input,.index input{
+  width:100%;font:inherit;padding:12px 14px;min-height:48px;border:0;border-radius:14px;
+  background:var(--card);color:var(--ink);box-shadow:var(--well);
+}
+.find input:focus,.index input:focus{outline:none;box-shadow:var(--well),0 0 0 3px var(--focus)}
+.group{display:grid;gap:8px}
+.group h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.chips{display:grid;gap:8px}
+@media (min-width:720px){.chips{grid-template-columns:1fr 1fr}}
+.tile{
+  display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 12px;
+  text-decoration:none;background:var(--card);border-radius:16px;
+  box-shadow:var(--hl),var(--shadow-card);color:var(--ink);
+}
+.tile .marksvg{width:40px;height:40px;flex:none;padding:6px;border-radius:12px;background:color-mix(in srgb,currentColor 14%,var(--card))}
+.tile-title{font-weight:700;font-size:17px;line-height:1.25;color:var(--ink)}
+.tile.crit{color:var(--alarm);box-shadow:var(--hl),var(--shadow-card),inset 4px 0 0 var(--alarm)}
+.tile.urgent{color:var(--warn);box-shadow:var(--hl),var(--shadow-card),inset 4px 0 0 var(--amber)}
+.tile.calm{color:var(--calm);box-shadow:var(--hl),var(--shadow-card),inset 4px 0 0 var(--calm)}
+.tile::after{
+  content:attr(data-tag);margin-left:auto;flex:none;max-width:42%;
+  font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 8px;text-align:center;line-height:1.2;
+}
+@media (max-width:419px){.tile::after{display:none}}
+.tile:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.nomatch{color:var(--muted)}
+
+/* Menu symbols */
+.marksvg{display:block;width:24px;height:24px}
+.marksvg .duo{fill:currentColor;opacity:.22}
+.marksvg .line,.marksvg .line *{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Secondary flip-through */
+.carousel{display:grid;gap:10px}
+.carousel h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.stage{
+  position:relative;height:300px;perspective:1100px;overflow:hidden;touch-action:pan-y;
+  user-select:none;border-radius:18px;
+  background:radial-gradient(ellipse at 50% 88%,color-mix(in srgb,var(--ink) 10%,transparent),transparent 70%);
+}
 .ring{position:absolute;inset:0;transform-style:preserve-3d}
-.tcard{position:absolute;left:50%;top:14px;width:236px;height:318px;margin-left:-118px;border:0;padding:0;text-align:left;cursor:pointer;
-  background:var(--card);border-radius:18px;box-shadow:0 8px 24px rgba(24,37,54,.12);border:1px solid var(--line);display:grid;grid-template-rows:6px auto 1fr;overflow:hidden;
-  transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s;backface-visibility:hidden}
+.tcard{
+  position:absolute;left:50%;top:12px;width:210px;height:270px;margin-left:-105px;border:0;padding:0;text-align:left;cursor:pointer;
+  background:var(--card);border-radius:16px;display:grid;grid-template-rows:6px auto 1fr;overflow:hidden;
+  box-shadow:var(--hl),var(--shadow-card);transition:transform .55s var(--ease),opacity .4s,box-shadow .4s;
+}
 .tcard::before{content:"";background:var(--calm)}
 .tcard.crit::before{background:var(--alarm)}
 .tcard.urgent::before{background:var(--amber)}
 .tcard.calm::before{background:var(--select)}
-.tcard .art{padding:10px 12px 0;background:var(--card)}
-.tcard .tbody{padding:8px 16px 14px;display:grid;gap:4px;align-content:start}
-.tcard .tag{font-size:12px}
-.tcard h2{font-size:26px}
-.tcard p{font-size:15px;color:var(--muted)}
-.tcard .go{margin-top:6px;font-weight:700;font-size:15px;color:var(--alarm)}
-.tcard[aria-current="true"]{box-shadow:0 14px 34px rgba(24,37,54,.2),0 0 0 3px var(--select)}
-.cctl{display:flex;align-items:center;justify-content:center;gap:12px}
-.round{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:var(--card);font-size:24px;font-weight:700;cursor:pointer;display:grid;place-items:center}
-.cpos{min-width:72px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
-.openbtn{font-weight:700;border:0;border-radius:12px;padding:13px 18px;background:var(--slate);color:#fff;cursor:pointer}
-
-/* Flat fallback (reduced motion) */
+.tcard .art{padding:6px 8px 0;background:var(--card)}
+.tcard .tbody{padding:6px 12px 12px;display:grid;gap:2px;align-content:start}
+.tcard h2{font-size:20px;text-transform:none;letter-spacing:-.02em;color:var(--ink)}
+.tcard p{font-size:14px;color:var(--muted)}
+.tcard .go{margin-top:4px;font-weight:700;font-size:14px;color:var(--alarm)}
+.tcard .tag{font-size:11px}
+.tcard[aria-current="true"]{box-shadow:var(--hl),var(--shadow-floating),0 0 0 3px var(--select)}
+.stage.dragging .tcard[aria-current="true"],.stage.tilting .tcard[aria-current="true"]{transition:transform .12s ease-out,opacity .4s}
 .stage.flat{height:auto;perspective:none;overflow-x:auto;scroll-snap-type:x mandatory;background:none}
-.stage.flat .ring{position:static;display:flex;gap:12px;padding:8px 2px 14px}
-.stage.flat .tcard{position:static;margin:0;flex:0 0 236px;scroll-snap-align:center;transform:none !important;opacity:1 !important;visibility:visible !important;transition:none}
+.stage.flat .ring{position:static;display:flex;gap:12px;padding:4px 2px 12px}
+.stage.flat .tcard{position:static;margin:0;flex:0 0 210px;scroll-snap-align:center;transform:none !important;opacity:1 !important;visibility:visible !important;transition:none}
+.cctl{display:flex;align-items:center;justify-content:center;gap:12px}
+.round{width:48px;height:48px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:26px;font-weight:700;cursor:pointer;display:grid;place-items:center;box-shadow:var(--hl),0 0 0 2px var(--ink),var(--shadow-key)}
+.round:active{transform:translateY(2px);box-shadow:0 0 0 2px var(--ink),var(--shadow-pressed)}
+.cpos{min-width:72px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
+.openbtn{font-weight:700;border:0;border-radius:12px;padding:12px 18px;min-height:48px;background:var(--slate);color:#fff;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),var(--shadow-key)}
+.openbtn:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
 
-.index{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px}
-.index label{font-weight:700}
-.index input{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
-.group{display:grid;gap:8px}
-.group h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips a{text-decoration:none;background:var(--chip);border-radius:999px;padding:7px 14px;font-weight:700;font-size:15px;border:2px solid transparent}
-.chips a:hover{border-color:var(--ink)}
-.chips a.crit{background:var(--alarm);color:var(--alarm-ink)}
-.nomatch{color:var(--muted)}
+/* Command palette */
+.palette{position:fixed;inset:0;z-index:70;display:grid;align-items:end;justify-items:center}
+.palette-scrim{position:absolute;inset:0;border:0;background:rgba(12,14,18,.48);cursor:pointer}
+.palette-panel{
+  position:relative;width:min(560px,calc(100% - 16px));max-height:min(78vh,680px);
+  margin:0 0 max(8px,env(safe-area-inset-bottom));
+  background:var(--card);color:var(--ink);border-radius:20px;
+  box-shadow:var(--shadow-floating);display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(16px);opacity:0;
+}
+.palette.open .palette-panel{transform:none;opacity:1}
+.palette-search{display:grid;gap:6px;padding:14px 14px 8px}
+.palette-search label{font-family:var(--font-display);font-weight:700;font-size:14px}
+.palette-row{display:flex;gap:8px}
+.palette-row input{
+  flex:1;min-width:0;min-height:48px;border:0;border-radius:12px;padding:10px 12px;
+  background:var(--paper);color:var(--ink);box-shadow:var(--well);
+}
+.palette-row input:focus{outline:none;box-shadow:var(--well),0 0 0 3px var(--focus)}
+.palette-x{min-height:48px;min-width:72px;border:0;border-radius:12px;background:var(--chip);font-weight:700;cursor:pointer}
+.palette-x:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.palette-list{list-style:none;margin:0;padding:4px 8px 12px;overflow:auto;overscroll-behavior:contain}
+.palette-group{display:grid;gap:2px;margin:0 0 8px}
+.palette-cat{font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px}
+.palette-group ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.palette-list [role="option"]{
+  display:flex;align-items:center;gap:10px;min-height:52px;padding:6px 10px;border-radius:12px;cursor:pointer;
+}
+.palette-list [role="option"] .marksvg{width:32px;height:32px;flex:none}
+.opt-copy{display:grid;min-width:0}
+.opt-title{font-weight:700;line-height:1.2}
+.opt-short{color:var(--muted);font-size:14px;line-height:1.3}
+.palette-list [role="option"].crit{color:var(--alarm)}
+.palette-list [role="option"].urgent{color:var(--warn)}
+.palette-list [role="option"].calm{color:var(--calm)}
+.opt-title,.opt-short{color:var(--ink)}
+.opt-short{color:var(--muted)}
+.palette-list [role="option"][aria-selected="true"]{background:var(--chip);box-shadow:inset 0 0 0 2px var(--focus)}
+.palette-empty{padding:4px 16px 16px;color:var(--muted)}
+@media (min-width:800px){
+  .palette{align-items:start;padding-top:10vh}
+  .palette-panel{transform:translateY(-8px) scale(.98)}
+  .palette.open .palette-panel{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .palette-panel,.palette.open .palette-panel{transform:none;opacity:1;transition:none}
+}
 
 /* Topic */
-.back{justify-self:start;text-decoration:none;font-weight:700;border:2px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--card)}
+.back{justify-self:start;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 16px;min-height:44px;background:var(--card);box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key);display:inline-flex;align-items:center}
 .thead{display:grid;gap:4px;border-left:8px solid var(--calm);padding-left:12px}
 .thead.crit{border-left-color:var(--alarm)}
 .thead.urgent{border-left-color:var(--amber)}
-.thead h1{font-size:clamp(30px,6vw,42px)}
+.thead h1{font-size:clamp(32px,6vw,46px)}
 .tag{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.crit .tag{color:var(--alarm)}
-.urgent .tag{color:var(--warn)}
-.when{background:var(--calm-bg);border-radius:12px;padding:12px 14px}
+.crit .tag,.thead.crit .tag{color:var(--alarm)}
+.urgent .tag,.thead.urgent .tag{color:var(--warn)}
+.when{background:var(--calm-bg);border-radius:14px;padding:12px 14px}
 .crit-when{background:color-mix(in srgb,var(--alarm) 12%,var(--card))}
 .when strong{color:var(--alarm)}
-
 .gchips{display:flex;flex-wrap:wrap;gap:8px}
-.gchips button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px;cursor:pointer}
-.gchips button[aria-pressed="true"]{background:var(--slate);color:#fff;border-color:var(--slate)}
+.gchips button{border:0;background:var(--card);border-radius:999px;padding:10px 14px;min-height:44px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key)}
+.gchips button[aria-pressed="true"]{background:var(--slate);color:#fff;box-shadow:var(--shadow-pressed)}
+.gchips button:active{transform:translateY(1px)}
 
-.player{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid}
-.pmeta{display:flex;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--chip);font-size:14px;font-weight:700;color:var(--muted)}
-.pmeta .pg{color:var(--ink)}
-.pview{perspective:1200px;touch-action:pan-y}
-.pcard{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:center;padding:18px;transform-origin:50% 50%}
-.pcard .art{background:color-mix(in srgb,var(--chip) 60%,var(--card));border-radius:14px;padding:8px}
-.pnum{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--alarm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.ptext{font-size:19px;line-height:1.5;max-width:40ch}
-.ptext a{font-weight:700}
-@media (prefers-reduced-motion: no-preference){
-  .pcard.in-next{animation:flipNext .42s cubic-bezier(.2,.7,.2,1)}
-  .pcard.in-prev{animation:flipPrev .42s cubic-bezier(.2,.7,.2,1)}
+.deck-row{display:grid;gap:18px}
+@media (min-width:980px){
+  .deck-row:has(.v3d){grid-template-columns:minmax(0,1.35fr) minmax(260px,.7fr);align-items:start}
+  .deck-row .v3d{position:sticky;top:108px}
 }
-@keyframes flipNext{from{transform:rotateY(-38deg) translateX(40px);opacity:.2}to{transform:none;opacity:1}}
-@keyframes flipPrev{from{transform:rotateY(38deg) translateX(-40px);opacity:.2}to{transform:none;opacity:1}}
-.pctl{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 16px 16px}
-.pbtn{border:0;border-radius:12px;padding:13px 20px;font-weight:700;font-size:17px;cursor:pointer;background:var(--chip);min-width:96px}
-.pbtn.next{background:var(--alarm);color:var(--alarm-ink)}
-.pbtn:disabled{opacity:.35;cursor:default}
-.dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.dots button{width:12px;height:12px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
-.prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
-.prog span{display:block;height:100%;background:var(--alarm);transition:width .3s}
-.dots button[aria-current="true"]{background:var(--slate);transform:scale(1.25)}
-.toggle{justify-self:start;border:2px solid var(--ink);background:transparent;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer}
+.deck-main{display:grid;gap:14px;min-width:0}
+/* The step is one flowing sheet: the drawing runs edge to edge, the words
+   sit in the same surface. No bezel, no inset panel. */
+.player{
+  position:relative;display:grid;overflow:hidden;
+  background:
+    radial-gradient(90% 55% at 0% 0%, color-mix(in srgb, var(--calm) 20%, transparent), transparent 68%),
+    radial-gradient(80% 50% at 100% 100%, color-mix(in srgb, var(--alarm) 12%, transparent), transparent 70%),
+    var(--card);
+  border-radius:36px 44px 30px 38px;
+  box-shadow:0 16px 40px rgba(28,24,18,.06);
+}
+.rail{position:relative;height:44px;margin:4px 18px 0;cursor:pointer}
+.rail::before{content:"";position:absolute;left:0;right:0;top:20px;height:4px;border-radius:99px;background:color-mix(in srgb, var(--ink) 12%, transparent)}
+#railFill{position:absolute;left:0;top:20px;height:4px;width:0;border-radius:99px;background:var(--alarm)}
+.pmeta{display:flex;justify-content:space-between;gap:10px;padding:4px 20px 0;font-size:14px;font-weight:700;color:var(--muted)}
+.pmeta .pg{color:var(--ink)}
+.pview{touch-action:pan-y}
+.pcard{display:grid;gap:4px;padding:0 0 8px}
+.pnum{display:inline-block;background:var(--alarm);color:var(--alarm-ink);border-radius:8px;padding:4px 10px;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 55%,#000)}
+.pbody{padding:4px 22px 8px;max-width:68ch}
+.ptext{font-size:20px;line-height:1.45;max-width:40ch}
+.ptext a{font-weight:700}
+.pctl{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:4px 16px 16px}
+.pbtn{border:0;border-radius:12px;padding:12px 18px;min-height:48px;font-weight:700;font-size:17px;cursor:pointer;background:var(--chip);min-width:96px;box-shadow:var(--hl),var(--shadow-key)}
+.pbtn.next{background:var(--alarm);color:var(--alarm-ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),var(--shadow-key)}
+.pbtn:disabled{opacity:.4;cursor:default;box-shadow:none}
+.pbtn:active:not(:disabled){transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.dots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center}
+.dots button{width:24px;height:24px;border:0;padding:0;background:none;display:grid;place-items:center;cursor:pointer}
+.dots button::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots button[aria-current="true"]::before{background:var(--alarm);transform:scale(1.35)}
+.prog{height:8px;border-radius:99px;background:var(--line);overflow:hidden;box-shadow:inset 0 1px 2px rgba(16,28,38,.2)}
+.prog span{display:block;height:100%;background:var(--alarm)}
+.toggle{justify-self:start;border:2px solid var(--ink);background:transparent;border-radius:999px;padding:10px 16px;min-height:44px;font-weight:700;cursor:pointer}
+.inkey{display:flex;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:14px;margin:0}
+.inkey span{display:inline-flex;align-items:center;gap:6px}
+.swatch{width:14px;height:14px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(16,28,38,.25)}
+.swatch.pt{background:var(--pt)}
+.swatch.rs{background:var(--res)}
 
-.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
-.list h3{font-size:22px;margin-top:6px}
-.list .li{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
-.list .li .art{background:color-mix(in srgb,var(--chip) 60%,var(--card));border-radius:10px}
-.list .li p{max-width:60ch}
-.list .n{font-family:var(--font-display);font-weight:700;color:var(--alarm);margin-right:6px}
+.list{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.list h3{font-size:22px;margin:14px 0 6px}
+.list .li{display:grid;grid-template-columns:minmax(112px,34%) 1fr;gap:12px;align-items:center;padding:12px 0;background:transparent;border-bottom:1px solid var(--line)}
+.list .n{display:inline-grid;place-items:center;min-width:28px;height:28px;margin-right:8px;border-radius:8px;background:var(--alarm);color:var(--alarm-ink);font-family:var(--font-display);font-weight:700}
+.illust{display:block;line-height:0}
+.illust .art{display:block;width:100%;height:auto;background:transparent}
+.player .illust{margin:0}
+.list .illust{border-radius:46% 54% 48% 52% / 42% 38% 62% 58%;overflow:hidden;background:color-mix(in srgb, var(--calm) 12%, var(--card))}
+.tcard .illust{background:transparent}
+@media (max-width:640px){
+  .ptext{font-size:19px}
+  .pbody{padding:4px 16px 8px}
+  .list .li{grid-template-columns:96px 1fr}
+  .pctl{grid-template-columns:1fr 1fr}
+  .pctl .dots,.pctl .prog{grid-column:1/-1;order:-1}
+  .pctl .pbtn.next{justify-self:end}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pcard.in-next{animation:flipNext .38s var(--ease)}
+  .pcard.in-prev{animation:flipPrev .38s var(--ease)}
+  #railFill,.prog span{transition:width .25s var(--ease)}
+  .palette-panel{transition:transform .22s var(--ease),opacity .22s var(--ease)}
+  .call,.jump,.panic,.tile,.pbtn,.round,.openbtn,.askcta,.fbtn,.palette-x{transition:transform .16s var(--ease),box-shadow .16s var(--ease)}
+}
+@keyframes flipNext{from{transform:translateX(28px);opacity:.35}to{transform:none;opacity:1}}
+@keyframes flipPrev{from{transform:translateX(-28px);opacity:.35}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .tcard,#railFill,.prog span,.palette-panel{transition:none}
+}
 
-.dont{background:var(--warn-bg);border-radius:12px;padding:12px 16px}
-.dont h2{font-size:20px;color:var(--warn);margin-bottom:4px}
+.dont{background:var(--warn-bg);border-radius:14px;padding:12px 16px}
+.dont h2,.dont h3,.dont h4{font-size:20px;color:var(--warn);margin-bottom:4px}
 .dont ul,.notes{margin:0;padding-left:20px;display:grid;gap:4px}
-.notes{color:var(--ink)}
-.src{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.src{font-size:15px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
 .src a{color:var(--muted)}
-.nexttopic{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.nexttopic a{font-weight:700;text-decoration:none;border-bottom:2px solid var(--alarm)}
+.nexttopic{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.nexttopic a{font-weight:700;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;border-bottom:2px solid var(--alarm)}
+.rstatus{font-size:15px;border-left:4px solid var(--amber);background:var(--warn-bg);color:var(--ink);border-radius:8px;padding:8px 12px}
+.rstatus.ok{border-left-color:var(--calm);background:var(--calm-bg)}
 
-/* CPR extras */
+/* CPR */
 .ages{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-.age{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:6px;align-content:start}
+.age{background:var(--card);border-radius:14px;padding:12px;display:grid;gap:6px;align-content:start;box-shadow:var(--hl),var(--shadow-card)}
 .age h3{font-size:20px}
 .age .depth{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--alarm);font-variant-numeric:tabular-nums}
-.beat{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
-.beat button{border:0;border-radius:12px;padding:14px 18px;background:var(--alarm);color:var(--alarm-ink);font-weight:700;font-size:18px;cursor:pointer;min-width:150px}
+.beat{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--hl),var(--shadow-card)}
+.beat button{border:0;border-radius:12px;padding:14px 18px;min-height:52px;background:var(--alarm);color:var(--alarm-ink);font-weight:700;font-size:18px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),var(--shadow-key)}
 .beat button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.beat button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
 .count{font-family:var(--font-display);font-weight:700;font-size:34px;font-variant-numeric:tabular-nums;line-height:1}
 .count.breathe{color:var(--alarm)}
 .pulse{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--alarm);margin-right:8px;vertical-align:middle;opacity:.25}
 .pulse.on{opacity:1}
 .note{color:var(--muted);font-size:15px}
+@media (max-width:420px){.beat{grid-template-columns:1fr}}
 
-footer{display:grid;gap:10px;color:var(--muted);font-size:15px;border-top:1px solid var(--line);padding-top:16px}
+footer{display:grid;gap:10px;color:var(--muted);font-size:16px;border-top:1px solid var(--line);padding-top:16px}
 footer h2{font-size:22px;color:var(--ink)}
+footer h3{font-size:18px;color:var(--ink)}
 footer ul{margin:0;padding-left:20px}
+footer a{color:var(--muted)}
+.licences{display:grid;gap:6px}
+.offline-info{display:grid;gap:8px;background:var(--card);border-radius:14px;padding:14px 16px;color:var(--ink);box-shadow:var(--hl),var(--shadow-card)}
+.offline-info h3{font-size:18px}
+.offline-info .saved{color:var(--calm);font-weight:700}
+.offline-info button{justify-self:start;border:0;border-radius:12px;padding:12px 18px;min-height:44px;background:var(--slate);color:#fff;font-weight:700;cursor:pointer}
 
-/* Illustrations */
+/* No-JS reading copy */
+.nojs{display:grid;gap:14px;margin-top:8px}
+.nojs-topic{display:grid;gap:8px;background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--hl),var(--shadow-card)}
+.nojs-topic ol{margin:0;padding-left:1.2em;display:grid;gap:8px}
+.nojs-topic li{padding-left:.2em}
+.nojs-cat{margin-top:8px}
+
+/* Question flow */
+.fhead{display:grid;gap:4px;border-left:8px solid var(--select);padding-left:12px}
+.fhead h1{font-size:clamp(30px,6vw,42px)}
+.fcard{background:var(--card);border-radius:18px;padding:18px;display:grid;gap:14px;box-shadow:var(--hl),var(--shadow-card)}
+.fresult{border-left:8px solid var(--alarm)}
+.fq{font-size:clamp(22px,4.6vw,28px);max-width:30ch}
+.fq:focus{outline:none}
+.fq:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.fnote,.fp{max-width:60ch}
+.fnote{color:var(--muted)}
+.fp{font-size:19px}
+.fcall{background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:12px 14px;font-size:18px}
+.fcall.soft{background:color-mix(in srgb,var(--alarm) 12%,var(--card));color:var(--ink);font-size:17px}
+.fans{display:grid;gap:10px}
+.fbtn{text-align:left;border:0;background:var(--chip);border-radius:14px;padding:14px 16px;min-height:52px;font-weight:700;font-size:18px;cursor:pointer;line-height:1.35;box-shadow:var(--hl),0 0 0 2px var(--line),var(--shadow-key)}
+.fbtn.alarm{box-shadow:var(--hl),0 0 0 2px color-mix(in srgb,var(--alarm) 50%,var(--line)),var(--shadow-key)}
+.fbtn:active{transform:translateY(2px);box-shadow:0 0 0 2px var(--line),var(--shadow-pressed)}
+.fgo{justify-self:start;text-decoration:none;background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:14px 18px;min-height:48px;font-weight:700;font-size:17px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),var(--shadow-key)}
+.fgo:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.fnav{display:flex;flex-wrap:wrap;gap:10px}
+
+.updbar{position:sticky;bottom:0;z-index:50;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;background:var(--slate);color:#fff;padding:10px 16px;font-weight:700;box-shadow:0 -6px 20px rgba(16,20,28,.25)}
+.updbar button{border:0;border-radius:10px;padding:10px 16px;min-height:44px;background:var(--select);color:#04221e;font-weight:700;cursor:pointer}
+body.palette-open{overflow:hidden}
+
+/* Illustrations. Geometry is src/art.js. This only paints fills. */
 .art{display:block;width:100%;height:auto}
 .art .gr{stroke:var(--line);stroke-width:4;fill:none;stroke-linecap:round}
 .art .sk{fill:var(--skin)}
@@ -257,230 +492,41 @@ footer ul{margin:0;padding-left:20px}
 .art .wt{fill:var(--water)}
 .art .wtl{stroke:var(--water);fill:none;stroke-width:3;stroke-linecap:round}
 .art .calmf{fill:var(--water)}
-.art .pen{fill:var(--amber);stroke:var(--ink);stroke-width:2}
+.art .pen{fill:var(--amber-fill);stroke:var(--ink);stroke-width:2}
 .art .sting{stroke:var(--sting);stroke-width:4;fill:none;stroke-linecap:round}
 .art .sand{fill:var(--sand)}
-.art .sun{fill:var(--amber)}
-.art .sunl{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
+.art .sun{fill:var(--amber-fill)}
+.art .sunl{stroke:var(--amber-fill);stroke-width:4;stroke-linecap:round}
 .art .leaf{fill:var(--leaf)}
-.art .honey{fill:var(--amber)}
+.art .honey{fill:var(--amber-fill)}
 .art .burn{fill:var(--act);opacity:.4}
 .art .film{fill:var(--water);fill-opacity:.15;stroke:var(--water);stroke-width:2.5;stroke-dasharray:7 5}
 .art .pillow{fill:var(--water);opacity:.5}
 .art .blanket{fill:var(--leaf);opacity:.7}
-.art .ringc{fill:var(--amber);stroke:var(--ink);stroke-width:1.5}
+.art .ringc{fill:var(--amber-fill);stroke:var(--ink);stroke-width:1.5}
 .art .cl{fill:var(--calm-bg);stroke:var(--calm);stroke-width:4}
 .art .tx{fill:var(--ink);font-family:var(--font-display);font-weight:700}
 .art .txa{fill:var(--act);font-family:var(--font-display);font-weight:700}
 
-@media (max-width:620px){
-  .pcard{grid-template-columns:1fr;gap:12px;padding:14px}
-  .ptext{font-size:18px}
-  .list .li{grid-template-columns:96px 1fr}
-}
-@media (max-width:420px){
-  .brand{width:100%}
-  .beat{grid-template-columns:1fr}
-  .pbtn{min-width:80px;padding:12px 14px}
-}
-
-/* 3D body viewer (Human Atlas) */
-.v3d{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px}
-.v3d-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.v3d-head h2{font-size:22px}
-.v3d-badge{font:700 12px var(--font-display);letter-spacing:.08em;background:var(--select);color:#0d2b27;border-radius:999px;padding:3px 10px}
-.v3d-cap{max-width:65ch}
-.v3d-stage{position:relative;height:clamp(300px,52vh,440px);border-radius:14px;overflow:hidden;display:grid;place-items:center;
-  background:radial-gradient(ellipse 34% 7% at 50% 84%,transparent 86%,rgba(140,150,159,.45) 88%,transparent 91%),radial-gradient(ellipse 28% 5.6% at 50% 84%,transparent 84%,rgba(164,174,184,.3) 87%,transparent 90%),var(--stage)}
-.v3d-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
-.v3d-load{border:0;border-radius:12px;padding:13px 22px;background:var(--slate);color:#fff;font-weight:700;font-size:17px;cursor:pointer}
-.v3d-tools{display:flex;flex-wrap:wrap;gap:8px}
-.v3d-tools button{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px;cursor:pointer}
-.v3d-status{font-size:14px;color:var(--muted)}
-.v3d-credit{font-size:13px;color:var(--muted)}
-.v3d-credit a{color:var(--muted)}
-
-/* Question flow */
-.askcta{display:grid;gap:2px;text-decoration:none;background:var(--slate);color:#fff;border-radius:14px;padding:14px 18px;border:2px solid transparent}
-.askcta:hover{border-color:var(--select)}
-.askq{font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.01em}
-.aska{color:var(--select);font-weight:700}
-.fhead{display:grid;gap:4px;border-left:8px solid var(--select);padding-left:12px}
-.fhead h1{font-size:clamp(30px,6vw,42px)}
-.fcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:14px}
-.fresult{border-left:8px solid var(--alarm)}
-.fq{font-size:clamp(22px,4.6vw,28px);max-width:30ch}
-.fq:focus{outline:none}
-.fnote,.fp{max-width:60ch}
-.fnote{color:var(--muted)}
-.fp{font-size:19px}
-.fcall{background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:12px 14px;font-size:18px}
-.fcall.soft{background:color-mix(in srgb,var(--alarm) 12%,var(--card));color:var(--ink);font-size:17px}
-.fans{display:grid;gap:10px}
-.fbtn{text-align:left;border:2px solid var(--line);background:var(--chip);border-radius:14px;padding:15px 16px;font-weight:700;font-size:18px;cursor:pointer;line-height:1.35}
-.fbtn:hover{border-color:var(--slate)}
-.fbtn.alarm{border-color:color-mix(in srgb,var(--alarm) 45%,var(--line));background:color-mix(in srgb,var(--alarm) 8%,var(--card))}
-.fgo{justify-self:start;text-decoration:none;background:var(--alarm);color:var(--alarm-ink);border-radius:12px;padding:13px 18px;font-weight:700;font-size:17px}
-.fnav{display:flex;flex-wrap:wrap;gap:10px}
-
-/* Offline, update and install (PWA) */
-.net{font:700 13px var(--font-body);background:#f2d68a;color:#2b2207;border-radius:999px;padding:5px 10px}
-.updbar{position:sticky;bottom:0;z-index:25;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;background:var(--slate);color:#fff;padding:10px 16px;font-weight:700;box-shadow:0 -6px 20px rgba(24,37,54,.18)}
-.updbar button{border:0;border-radius:10px;padding:10px 16px;background:var(--select);color:#0d2b27;font-weight:700;cursor:pointer;min-height:44px}
-.offline-info{display:grid;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--ink)}
-.offline-info h3{font-size:18px}
-.offline-info .saved{color:var(--calm);font-weight:700}
-.offline-info button{justify-self:start;border:0;border-radius:12px;padding:12px 18px;background:var(--slate);color:#fff;font-weight:700;cursor:pointer;min-height:44px}
-
-/* Clinical review status */
-.rstatus{font-size:14px;border-left:4px solid var(--amber);background:var(--warn-bg);color:var(--ink);border-radius:8px;padding:8px 12px}
-.rstatus.ok{border-left-color:var(--calm);background:var(--calm-bg)}
-
-/* ==========================================================================
-   Tactile spatial layer
-   Depth is drawn with light, not decoration: every raised surface has a bright
-   top edge (--hl) and a shadow below; pressing moves it 2px down and swaps the
-   drop shadow for an inset one, so it reads as pushed in. Critical text always
-   sits on an opaque surface. Motion only runs when the user hasn't asked for
-   reduced motion; the flat layout and instant states stay for everyone else.
-   ========================================================================== */
-
-/* Emergency bar: a floating dock. 94% opaque with a blur behind, so scrolled
-   content only tints it faintly; white text stays at 8.8:1 or better.
-   Fully opaque where blur isn't supported or reduced transparency is asked for. */
-.bar{background:var(--slate);box-shadow:inset 0 -1px 0 rgba(255,255,255,.07),0 6px 18px rgba(10,20,28,.22);border-bottom:0}
-@supports ((backdrop-filter:blur(12px)) or (-webkit-backdrop-filter:blur(12px))){
-  .bar{background:color-mix(in srgb,var(--slate) 94%,transparent);-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3)}
-}
-@media (prefers-reduced-transparency:reduce){ .bar{background:var(--slate);-webkit-backdrop-filter:none;backdrop-filter:none} }
-
-/* Call buttons as physical keys: highlight on the top edge, a darker 3px base
-   below (the key's side), and a drop shadow. :active sinks the key onto its base. */
-.call{min-height:48px;align-items:center;position:relative}
-.call.e{background:#d11a37;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 3px 0 #8e0f23,0 6px 14px rgba(0,0,0,.35)}
-.call.p{border:0;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 2px rgba(242,245,246,.85),inset 0 2px 0 rgba(255,255,255,.12),0 3px 0 rgba(0,0,0,.35)}
-.call:active{transform:translateY(2px)}
-.call.e:active{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 #8e0f23,0 2px 6px rgba(0,0,0,.35)}
-.call.p:active{box-shadow:inset 0 0 0 2px rgba(242,245,246,.85),0 1px 0 rgba(0,0,0,.35)}
-.call:focus-visible{outline:3px solid var(--select);outline-offset:3px}
-
-/* Generic key: shared by buttons that should feel pressable. */
-.round,.openbtn,.pbtn,.fgo,.v3d-load,.beat button,.offline-info button,.updbar button{box-shadow:var(--hl),var(--shadow-key)}
-.round:active,.openbtn:active,.pbtn:active:not(:disabled),.fgo:active,.v3d-load:active,.beat button:active,.offline-info button:active,.updbar button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
-.round{border:0;background:var(--card);box-shadow:var(--hl),0 0 0 2px var(--ink),var(--shadow-key)}
-.round:active{box-shadow:0 0 0 2px var(--ink),var(--shadow-pressed)}
-.openbtn,.v3d-load{box-shadow:inset 0 1px 0 rgba(255,255,255,.14),var(--shadow-key)}
-.pbtn.next,.fgo,.beat button{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),var(--shadow-key)}
-.pbtn:disabled{box-shadow:none}
-
-/* Coverflow deck. The ring keeps preserve-3d so each card's translateZ places it
-   in one shared 3D space; app.js sets each card's transform. The active card is
-   pushed 40px towards the viewer and floats; the others sit back, turned and
-   dimmed. On a mouse, app.js tilts the active card up to about 5 degrees towards
-   the pointer (--rx, --ry); on touch it leans with your drag (--dx, --ry) before
-   the swipe completes. The transition gives both a damped, springy follow. */
-.stage{height:374px}
-.tcard{top:20px;box-shadow:var(--hl),var(--shadow-card);transition:transform .55s var(--ease-spring),opacity .4s,box-shadow .4s}
-.tcard[aria-current="true"]{box-shadow:var(--hl),var(--shadow-floating),0 0 0 3px var(--select)}
-.stage.dragging .tcard[aria-current="true"],.stage.tilting .tcard[aria-current="true"]{transition:transform .12s ease-out,opacity .4s,box-shadow .4s}
-.stage.flat .tcard{box-shadow:var(--hl),var(--shadow-card)}
-.stage.flat .tcard:active{transform:translateY(2px) !important;box-shadow:var(--shadow-pressed)}
-
-/* Topic index: the search box is a recessed well; the focus ring lifts out of it.
-   Chips are small keys that rise on hover and sink when pressed. */
-.index{box-shadow:var(--hl),var(--shadow-card)}
-.index input{border:0;background:var(--paper);box-shadow:var(--well);padding:12px 14px;min-height:48px}
-.index input:focus{outline:none;box-shadow:var(--well),0 0 0 3px var(--select),0 6px 16px rgba(16,28,38,.12)}
-.chips a{border:0;background:var(--card);box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key);padding:9px 15px;min-height:40px;display:inline-flex;align-items:center}
-.chips a.crit{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 60%,#000),0 3px 8px rgba(16,28,38,.14)}
-.chips a:hover{border:0}
-.chips a:active{transform:translateY(2px);box-shadow:0 0 0 1px var(--line),var(--shadow-pressed)}
-
-/* Step cards: each step is a raised instruction tile with a keycap badge. */
-.player{box-shadow:var(--hl),var(--shadow-card)}
-.pnum{display:inline-block;background:var(--alarm);color:var(--alarm-ink);border-radius:8px;padding:4px 10px;font-size:14px;margin-bottom:10px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 55%,#000)}
-.pcard .art{box-shadow:var(--well)}
-.list .li{box-shadow:var(--hl),var(--shadow-card)}
-.list .li .art{box-shadow:var(--well)}
-.list .n{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 6px;margin-right:10px;border-radius:8px;vertical-align:1px;
-  background:var(--alarm);color:var(--alarm-ink);font-size:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 0 color-mix(in srgb,var(--alarm) 55%,#000)}
-/* Step dots: 24px targets (WCAG 2.5.8) with the visible dot drawn inside. */
-.dots{gap:2px}
-.dots button{width:24px;height:24px;background:none;display:grid;place-items:center}
-.dots button::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--line);box-shadow:inset 0 1px 2px rgba(16,28,38,.25)}
-.dots button[aria-current="true"]{transform:none;background:none}
-.dots button[aria-current="true"]::before{background:var(--slate);transform:scale(1.25);box-shadow:none}
-.prog{box-shadow:inset 0 1px 2px rgba(16,28,38,.2)}
-.gchips button{border:0;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key)}
-.gchips button[aria-pressed="true"]{box-shadow:var(--shadow-pressed);transform:translateY(1px)}
-.age,.beat,.fcard,.offline-info{box-shadow:var(--hl),var(--shadow-card)}
-.fbtn{border:0;box-shadow:var(--hl),0 0 0 2px var(--line),var(--shadow-key)}
-.fbtn:hover{box-shadow:var(--hl),0 0 0 2px var(--slate),var(--shadow-key)}
-.fbtn.alarm{box-shadow:var(--hl),0 0 0 2px color-mix(in srgb,var(--alarm) 45%,var(--line)),var(--shadow-key)}
-.fbtn:active{transform:translateY(2px);box-shadow:0 0 0 2px var(--line),var(--shadow-pressed)}
-.askcta{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),var(--shadow-key)}
-.askcta:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
-
-/* 3D anatomy: the model sits in a recessed viewport. A 6px bezel frames it,
-   and an inner shadow makes the screen look set into the card. The view
-   buttons are pills that stay pressed in for the current view. */
-.v3d{box-shadow:var(--hl),var(--shadow-card)}
-.v3d-stage{border:6px solid var(--bezel);box-shadow:inset 0 3px 10px rgba(16,28,38,.22),inset 0 0 0 1px rgba(16,28,38,.12)}
-.v3d-tools button{border:0;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key);min-height:40px;padding:8px 16px}
-.v3d-tools button[aria-pressed="true"]{background:var(--slate);color:#fff;box-shadow:var(--shadow-pressed);transform:translateY(1px)}
-.v3d-tools button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
-
-/* Narrow screens: dots get their own row so each keeps a 24px target. */
-@media (max-width:620px){
-  .pctl{grid-template-columns:1fr 1fr;row-gap:8px}
-  .pctl .dots{grid-column:1/-1;order:-1}
-  .pctl .pbtn.next{justify-self:end}
-  .pctl .pbtn:not(.next){justify-self:start}
-}
-
-/* Motion: springy transitions only when motion is welcome. */
-@media (prefers-reduced-motion:no-preference){
-  .call,.round,.openbtn,.pbtn,.fgo,.v3d-load,.beat button,.chips a,.fbtn,.askcta,.gchips button,.v3d-tools button,.offline-info button{transition:transform .18s var(--ease-spring),box-shadow .18s var(--ease-spring)}
-  @media (hover:hover){
-    .chips a:hover,.fbtn:hover,.v3d-tools button:hover:not([aria-pressed="true"]){transform:translateY(-2px)}
-    .chips a:hover{box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-floating)}
-  }
-}
-@media (prefers-reduced-motion:reduce){
-  .tcard,.prog span{transition:none}
-}
-/* Windows high contrast: shadows vanish there, so keep real borders. */
-@media (forced-colors:active){
-  .call,.chips a,.fbtn,.round,.pbtn,.v3d-tools button,.index input,.tcard{border:2px solid CanvasText}
-}
-
-/* ==========================================================================
-   Illustration lighting (2.5D)
-   The drawings themselves are unchanged (src/art.js, reviewed content). This
-   only changes how their fills are painted: each filled shape gets a gradient
-   lit from the upper left, so heads read as spheres and bodies, bandages,
-   water and signs read as solid objects. Gradients are defined once in a
-   hidden <svg> that app.js adds to the page (#fa-g-*), and every fill keeps
-   its flat colour as a fallback. Strokes (limbs, arrows, outlines) stay flat:
-   a bounding-box gradient on a straight line has no height and would vanish.
-   ========================================================================== */
 :root{
-  --skin-hi:#dec8b6; --skin-lo:#a98b74; --skin-d-hi:#cbb5a4; --skin-d-lo:#90725b; --pt-hi:#94a1a9; --pt-lo:#465762;
+  --skin-hi:#dec8b6; --skin-lo:#a98b74; --skin-d-hi:#cbb5a4; --skin-d-lo:#90725b;
+  --pt-hi:#a67a68; --pt-lo:#5c3b32;
   --water-hi:#94aec3; --water-lo:#456886; --ice-hi:#cedde1; --ice-lo:#94a8ad; --wood-hi:#d3bba3; --wood-lo:#9b7a5a;
-  --bandage-hi:#ffffff; --bandage-lo:#d9d5cb; --act-hi:#cf6a5e; --act-lo:#a1453a; --amber-hi:#e7d1a0; --amber-lo:#b59855;
+  --bandage-hi:#ffffff; --bandage-lo:#d9d5cb; --act-hi:#cf6a5e; --act-lo:#a1453a; --amber-fill-hi:#e7d1a0; --amber-fill-lo:#b59855;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f; --pt-hi:#a7b7c3; --pt-lo:#6f7f8b;
+    --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f;
+    --pt-hi:#e4c2b2; --pt-lo:#a87b6c;
     --water-hi:#98b7d3; --water-lo:#607f9a; --ice-hi:#8fb0ba; --ice-lo:#577881; --wood-hi:#d3b79b; --wood-lo:#9b7f63;
-    --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-hi:#e8d197; --amber-lo:#b0995f;
+    --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-fill-hi:#e8d197; --amber-fill-lo:#b0995f;
   }
 }
 :root[data-theme="dark"]{
-  --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f; --pt-hi:#a7b7c3; --pt-lo:#6f7f8b;
+  --skin-hi:#dcc1ad; --skin-lo:#a48975; --skin-d-hi:#c8ab97; --skin-d-lo:#90735f;
+  --pt-hi:#e4c2b2; --pt-lo:#a87b6c;
   --water-hi:#98b7d3; --water-lo:#607f9a; --ice-hi:#8fb0ba; --ice-lo:#577881; --wood-hi:#d3b79b; --wood-lo:#9b7f63;
-  --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-hi:#e8d197; --amber-lo:#b0995f;
+  --bandage-hi:#e9e6de; --bandage-lo:#a8a59a; --act-hi:#e98174; --act-lo:#af574a; --amber-fill-hi:#e8d197; --amber-fill-lo:#b0995f;
 }
 .art .sk{fill:url(#fa-g-skin) var(--skin)}
 .art .skd{fill:url(#fa-g-skind) var(--skin-d)}
@@ -490,14 +536,29 @@ footer ul{margin:0;padding-left:20px}
 .art .board,.art .trunk{fill:url(#fa-g-wood) var(--wood)}
 .art .band{fill:url(#fa-g-band) var(--bandage)}
 .art .arf{fill:url(#fa-g-act) var(--act)}
-.art .pen,.art .honey,.art .sun{fill:url(#fa-g-amber) var(--amber)}
-/* The ground line becomes a soft contact shadow under the figures. */
-.art .gr{stroke:color-mix(in srgb,var(--ink) 10%,transparent);stroke-width:5}
-@media (forced-colors:active){ .art *{fill-opacity:1} }
+.art .pen,.art .honey,.art .sun{fill:url(#fa-g-amber) var(--amber-fill)}
+.art .gr{stroke:color-mix(in srgb,var(--ink) 14%,transparent);stroke-width:5}
 
-/* 3D colour key: a swatch per colour in the model, so the view still makes
-   sense on a small screen where the highlight is only a few pixels wide.
-   Swatches use the model's own colours; names come from BodyParts3D parts. */
+/* 3D body */
+.v3d{background:var(--card);border-radius:36px 28px 40px 32px;padding:16px;display:grid;gap:10px;box-shadow:0 16px 40px rgba(28,24,18,.06)}
+.v3d-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.v3d-head h2{font-size:22px}
+.v3d-badge{font:700 12px var(--font-display);letter-spacing:.08em;background:var(--select);color:#04221e;border-radius:999px;padding:4px 10px}
+.v3d-cap{max-width:65ch}
+.v3d-stage{
+  position:relative;height:clamp(280px,48vh,420px);border-radius:28px 36px 24px 32px;overflow:hidden;display:grid;place-items:center;
+  background:radial-gradient(ellipse 40% 18% at 50% 86%,color-mix(in srgb, var(--ink) 16%, transparent), transparent 70%),var(--stage);
+}
+.v3d-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.v3d-load{border:0;border-radius:12px;padding:13px 22px;min-height:48px;background:var(--slate);color:#fff;font-weight:700;font-size:17px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),var(--shadow-key)}
+.v3d-load:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.v3d-tools{display:flex;flex-wrap:wrap;gap:8px}
+.v3d-tools button{border:0;background:var(--chip);border-radius:999px;padding:8px 16px;min-height:44px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:var(--hl),0 0 0 1px var(--line),var(--shadow-key)}
+.v3d-tools button[aria-pressed="true"]{background:var(--slate);color:#fff;box-shadow:var(--shadow-pressed)}
+.v3d-tools button:active{transform:translateY(2px);box-shadow:var(--shadow-pressed)}
+.v3d-status{font-size:14px;color:var(--muted)}
+.v3d-credit{font-size:13px;color:var(--muted)}
+.v3d-credit a{color:var(--muted)}
 .v3d-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;line-height:1.3}
 .v3d-legend li{display:flex;align-items:center;gap:8px}
 .v3d-legend b{font-weight:700}
@@ -507,29 +568,77 @@ footer ul{margin:0;padding-left:20px}
 .v3d-legend .ctx .sw{opacity:.7}
 .v3d-legend .mk .sw{background:none;border-radius:50%;box-shadow:inset 0 0 0 3px var(--sw)}
 .v3d-legend .skin .sw{background:none;box-shadow:inset 0 0 0 2px var(--sw)}
-@media (max-width:420px){ .v3d-legend{flex-direction:column;gap:6px} }
+@media (max-width:420px){.v3d-legend{flex-direction:column;gap:6px}}
+@media (forced-colors:active){
+  .dock,.call,.tile,.panic,.round,.pbtn,.fbtn,.jump,.palette-panel,.index input,.find input,.tcard{border:2px solid CanvasText}
+  .art *{fill-opacity:1}
+}
 
 </style>
 </head>
 <body>
-<div class="bar" role="banner">
-  <a class="brand" href="#">First Aid Quick Guide</a>
-  <span class="net" id="netStatus" role="status" hidden>Offline: using the saved copy</span>
-  <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
-  <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+<a class="skip" href="#main">Skip to content</a>
+<header class="dock" role="banner">
+  <div class="dock-top">
+    <a class="brand" href="#" aria-label="First Aid Quick Guide, home">
+      <svg class="brand-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5.5v13M5.5 12h13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>First Aid</span>
+    </a>
+    <button type="button" class="jump" id="jumpBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="palette" aria-keyshortcuts="Control+K Meta+K" aria-label="Find a topic">
+      <svg class="marksvg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g class="line"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></g></svg>
+      <span class="jump-label">Topics</span>
+      <kbd class="jump-kbd">Ctrl K</kbd>
+    </button>
+    <span class="net" id="netStatus" role="status" hidden>Offline: using the saved copy</span>
+  </div>
+  <div class="dock-calls">
+    <a class="call e" href="tel:000">Call 000 <small>Ambulance</small></a>
+    <a class="call p" href="tel:131126">13 11 26 <small>Poisons</small></a>
+  </div>
+</header>
+
+<div id="palette" class="palette" hidden>
+  <button type="button" class="palette-scrim" id="paletteScrim" aria-label="Close topics"></button>
+  <div class="palette-panel" role="dialog" aria-modal="true" aria-labelledby="paletteLabel">
+    <div class="palette-search">
+      <label id="paletteLabel" for="paletteQ">Jump to a topic</label>
+      <div class="palette-row">
+        <input id="paletteQ" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="paletteList" aria-activedescendant="" autocomplete="off" placeholder="Try jellyfish, burn, CPR" enterkeyhint="search">
+        <button type="button" class="palette-x" id="paletteClose">Close</button>
+      </div>
+    </div>
+    <ul id="paletteList" class="palette-list" role="listbox" aria-label="Topics"></ul>
+    <p class="palette-empty" id="paletteEmpty" hidden>No topic matches. Call 000 and describe what is happening.</p>
+  </div>
 </div>
 
-<main>
+<main id="main">
   <div id="home">
-    <div style="display:grid;gap:20px">
+    <div class="home-grid">
+      <a class="panic" href="#cpr">
+        <span class="panic-go">Start CPR</span>
+        <span class="panic-copy">Not responding and not breathing normally</span>
+      </a>
+
       <section class="intro" aria-labelledby="t">
         <h1 id="t">What to do in an emergency</h1>
-        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
         <p class="first">If someone is seriously hurt or unwell, call 000 first. The call-taker will talk you through what to do.</p>
         <a class="askcta" href="#help"><span class="askq">Not sure what to do?</span><span class="aska">Answer a few quick questions &rarr;</span></a>
+        <p>Illustrated, step-by-step first aid for Australia, summarised from the ANZCOR guidelines that Australian first aid courses teach. Each topic links to its source.</p>
+        <p class="nojs-hint">The topic buttons need JavaScript. Every topic’s steps are written out at the bottom of this page.</p>
       </section>
 
-      <section class="carousel" aria-label="Choose a topic">
+      <nav class="index" aria-label="All topics">
+        <div class="find">
+          <label for="find">Filter topics</label>
+          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
+        </div>
+        <div id="chipsWrap"></div>
+        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
+      </nav>
+
+      <section class="carousel" aria-labelledby="flipH">
+        <h2 id="flipH">Or flip through</h2>
         <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
           <div class="ring" id="ring"></div>
         </div>
@@ -541,21 +650,16 @@ footer ul{margin:0;padding-left:20px}
         <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
       </section>
 
-      <nav class="index" aria-label="All topics">
-        <div>
-          <label for="find">Or find a topic</label>
-          <input id="find" type="search" placeholder="e.g. jellyfish, choking, burn" autocomplete="off">
-        </div>
-        <div id="chipsWrap" style="display:grid;gap:14px"></div>
-        <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
-      </nav>
-
       <footer>
         <h2>About this guide</h2>
         <p>Every step is summarised from the guidelines of ANZCOR, the Australian and New Zealand Committee on Resuscitation, as published on anzcor.org and checked in November 2026. Each topic shows the guideline it comes from and when that guideline was approved. The illustrations are simplified diagrams, not exact technique.</p>
         <p>The 3D body views use anatomy from <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, © The Database Center for Life Science, licensed under CC Attribution 4.0 International, simplified from the Human Atlas viewer. The explanations beside them are general anatomy, not part of the ANZCOR guidelines.</p>
         <p>Each topic shows its review status: whether a qualified first aid trainer or clinician has reviewed it, and when. Until then, check anything you're unsure of with a first aid course or the source guideline.</p>
         <p>This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice for a particular person. In an emergency, call 000 and follow the call-taker's instructions.</p>
+        <section class="licences" aria-labelledby="licH">
+          <h3 id="licH">Symbols and type</h3>
+          <p>Menu symbols are original drawings for this guide: a 2px geometric stroke and a light duotone fill, in the manner of <a href="https://healthicons.org/">Health Icons</a>, which are published under CC0. These marks are not copied from that set. Type is Inter and Atkinson Hyperlegible, self-hosted under the SIL Open Font License 1.1.</p>
+        </section>
         <section class="offline-info" aria-labelledby="offH">
           <h3 id="offH">Use it without signal</h3>
           <p id="savedStatus">Open this page once with a connection and it saves itself to this device, so the steps work without signal.</p>
@@ -571,8 +675,10 @@ footer ul{margin:0;padding-left:20px}
     </div>
   </div>
 
-  <div id="topic" hidden style="display:grid;gap:16px"></div>
-  <div id="help" hidden style="display:grid;gap:16px"></div>
+  <div id="topic" hidden></div>
+  <div id="help" hidden></div>
+  <noscript><div class="nojs"><h2>All topics, written out</h2><p>The buttons and the question flow need JavaScript. The steps themselves are below, in the same words as the guide.</p><h2 class="nojs-cat">Life-threatening</h2><section class="nojs-topic" id="collapse"><p class="tag">Life-threatening</p><h3>Someone has collapsed</h3><ol><li value="1"><b>D: Danger.</b> Check it’s safe for you, bystanders and the person. Don’t put yourself at risk.</li><li value="2"><b>R: Response.</b> Say their name loudly and squeeze their shoulders. If they respond, make them comfortable and keep watching them.</li><li value="3"><b>S: Send for help.</b> No response: call 000, or get someone else to call. Stay on the line and follow the call-taker.</li><li value="4"><b>A: Airway.</b> Open their mouth. If you can see something in it, roll them onto their side and remove it. Then tilt the head back gently to open the airway.</li><li value="5"><b>B: Breathing.</b> Look, listen and feel. Not breathing normally, or only occasional gasps: start CPR. Breathing normally: put them in the <a href="#unconscious">recovery position</a>.</li><li value="6"><b>C: CPR.</b> 30 chest compressions, then 2 breaths. Keep going. <a href="#cpr">How to do CPR</a>.</li><li value="7"><b>D: Defibrillation.</b> Attach an AED (defibrillator) as soon as one arrives and follow its voice prompts.</li></ol><p class="src">Source: ANZCOR Basic Life Support Flowchart and <a href="https://www.anzcor.org/home/basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="cpr"><p class="tag">Life-threatening</p><h3>CPR</h3><div class="when"><strong>Start CPR</strong> if the person isn’t responding and isn’t breathing normally. Occasional gasps are not normal breathing.</div><ol><li value="1">Lay them on their back on a firm surface. Put your hands on the <b>centre of the chest, on the lower half of the breastbone</b>. See the depth for their age above.</li><li value="2">Push hard and fast: <b>100 to 120 compressions a minute</b>, almost 2 a second. Let the chest come all the way back up after each one.</li><li value="3">After <b>30 compressions, give 2 breaths</b>: tilt the head back, lift the chin, seal your mouth over theirs and blow for about 1 second each, until the chest rises.</li><li value="4">If you can’t or won’t give breaths, <b>keep doing compressions without stopping</b>. Compressions alone still help.</li><li value="5">Attach an <b>AED</b> as soon as one arrives and do what it says.</li><li value="6">Don’t stop to check them. Keep going until they respond or breathe normally, a paramedic or health professional takes over, or you physically can’t continue.</li></ol><ul class="notes"><li>Swap with another person every couple of minutes if you can. This is common practice rather than part of the ANZCOR guidelines.</li></ul><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/basic-life-support/guideline-6-compressions">Guideline 6, Compressions</a> and <a href="https://www.anzcor.org/home/basic-life-support/guideline-8-cardiopulmonary-resuscitation-cpr">Guideline 8, CPR</a> (both approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="choking"><p class="tag">Life-threatening</p><h3>Choking</h3><div class="when"><strong>Can cough, talk or cry?</strong> Encourage them to keep coughing and stay with them. Call 000 if it doesn’t clear. The steps below are for when they <strong>can’t</strong> cough, breathe or speak.</div><h4>Adult or child</h4><ol><li value="1"><b>Call 000.</b></li><li value="2">Give <b>up to 5 sharp back blows</b> between the shoulder blades with the heel of your hand. Check after each one. Stop as soon as it clears.</li><li value="3">Still blocked: give <b>up to 5 chest thrusts</b> on the same spot as CPR compressions. Make them sharper and slower than compressions. Check after each one.</li><li value="4">Keep <b>alternating 5 back blows and 5 chest thrusts</b> until it clears or help arrives.</li><li value="5">If they stop responding, start <a href="#cpr">CPR</a>.</li></ol><h4>Baby under 1</h4><ol><li value="6"><b>Back blows:</b> lay the baby face down across your lap, head lower than the body, supporting the head. Up to 5 back blows.</li><li value="7"><b>Chest thrusts:</b> turn the baby onto their back, head down along your thigh. Use two fingers on the CPR spot. Up to 5 thrusts. Keep alternating.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t use abdominal thrusts (the Heimlich). ANZCOR doesn’t recommend them because of the risk of serious injury.</li><li>Don’t sweep blindly inside the mouth. Only remove something you can see.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/basic-life-support/guideline-4-airway">Guideline 4, Airway</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="bleeding"><p class="tag">Life-threatening</p><h3>Severe bleeding</h3><div class="when"><strong>Call 000</strong> if bleeding won’t stop with pressure, or the person looks pale, sweaty, confused or drowsy.</div><h4>Heavy bleeding</h4><ol><li value="1">Press <b>firmly and directly on the wound</b> with your hands or a pad. This stops most bleeding.</li><li value="2">Still bleeding: add a second pad and bandage more firmly. Make sure the pad sits right over the bleeding point. One or two pads press harder than a thick stack.</li><li value="3">Something stuck in the wound? <b>Leave it in.</b> Put pads on each side of it and press on the pads.</li><li value="4"><b>Tourniquet</b>, only for life-threatening bleeding from an arm or leg that pressure can’t stop, and only if you have one and know how to use it. Put it above the wound (5 cm above if there are no instructions), tighten until the bleeding stops, <b>write down the time</b> and tell the paramedics. Don’t cover it.</li></ol><h4>Nosebleed</h4><ol><li value="5">Sit them up and lean them forward. Pinch the soft part of the nose, below the bony bridge, for <b>at least 10 minutes</b> (20 on a hot day or after exercise). Spit out blood rather than swallow it. Get medical help if it bleeds for more than 20 minutes.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t rely on raising the limb. There’s no evidence it controls bleeding.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding">Guideline 9.1.1, Bleeding</a> (approved April 2021, tourniquet advice reconfirmed July 2025).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="anaphylaxis"><p class="tag">Life-threatening</p><h3>Anaphylaxis</h3><div class="when"><strong>Signs:</strong> difficult or noisy breathing, wheeze or persistent cough, swelling of the face, tongue or throat, hoarse voice or trouble talking, dizziness or collapse, a young child going pale and floppy. Vomiting, stomach pain, hives or welts can also be signs.</div><ol><li value="1"><b>Lay them flat. Don’t let them stand or walk.</b> If breathing is hard, let them sit. Remove the trigger if you can.</li><li value="2"><b>Give their adrenaline autoinjector</b> (EpiPen or Anapen) into the outer thigh. Follow their ASCIA Action Plan if they have one.</li><li value="3"><b>Call 000.</b></li><li value="4">If they have asthma, give their reliever puffer for breathing symptoms, <b>after</b> the adrenaline.</li><li value="5">No improvement after <b>5 minutes</b>: give a second autoinjector if one is available.</li><li value="6">If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.</li></ol><ul class="notes"><li>If someone with a known allergy and asthma suddenly has trouble breathing, ASCIA’s action plans say to give adrenaline first, then the asthma reliever.</li></ul><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-2-7-first-aid-management-of-anaphylaxis">Guideline 9.2.7, Anaphylaxis</a> (approved 2019); <a href="https://www.allergy.org.au/hp/anaphylaxis/first-aid-for-anaphylaxis">ASCIA first aid for anaphylaxis</a>.</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="heart"><p class="tag">Life-threatening</p><h3>Heart attack</h3><div class="when"><strong>Signs:</strong> pain or discomfort in the chest, neck, jaw or arms; shortness of breath; looking pale; sweating; nausea; dizziness. Women, older people, people with diabetes, and Aboriginal and Torres Strait Islander people may have mild or unusual symptoms, sometimes just breathlessness.</div><ol><li value="1"><b>Stop and rest</b> in whatever position is comfortable.</li><li value="2">If they have prescribed angina medicine (tablet or spray), help them take it as directed.</li><li value="3"><b>Call 000</b> if symptoms are severe, getting worse quickly, or have lasted more than 10 minutes. Stay with them.</li><li value="4">For an adult with chest pain not caused by an injury, offer <b>300 mg aspirin</b>, unless they’re allergic to aspirin.</li><li value="5">Find the nearest <b>AED</b> and bring it over.</li><li value="6">If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.</li></ol><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-2-1-recognition-and-first-aid-management-of-suspected-heart-attack">Guideline 9.2.1, Suspected heart attack</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="stroke"><p class="tag">Life-threatening</p><h3>Stroke</h3><div class="when"><strong>Any of these signs, call 000 now.</strong> Other signs include sudden numbness, loss of balance, loss of vision, a sudden severe headache, confusion or drowsiness.</div><h4>Check F.A.S.T.</h4><ol><li value="1"><b>Face:</b> ask them to smile. Is one side drooping?</li><li value="2"><b>Arms:</b> can they lift both arms, or is one weak?</li><li value="3"><b>Speech:</b> is it slurred, or are they confused by what you say?</li><li value="4"><b>Time:</b> call 000 now, even if the signs went away.</li></ol><h4>While you wait</h4><ol><li value="5">Unconscious but breathing: roll them onto their side and keep the airway clear.</li><li value="6">Not breathing normally: start <a href="#cpr">CPR</a>.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t give them anything to eat or drink. They may not be able to swallow safely.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-2-2-stroke">Guideline 9.2.2, Stroke</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="unconscious"><p class="tag">Needs an ambulance</p><h3>Unconscious, breathing</h3><ol><li value="1">Gently get them onto the ground and <b>roll them onto their side</b>, keeping the head tilted back so the airway stays open. Don’t leave them sitting in a chair or with their head between their knees.</li><li value="2"><b>Call 000.</b></li><li value="3">Deal with any heavy bleeding.</li><li value="4"><b>Keep checking their breathing.</b> If they stop breathing normally, roll them onto their back and start <a href="#cpr">CPR</a>.</li></ol><ul class="notes"><li>If you think they’ve hurt their neck or back, move them as little as possible, but an open airway comes first.</li></ul><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/basic-life-support/guideline-3-recognition-and-first-aid-management-of-the-unconscious-person">Guideline 3, The unconscious person</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><h2 class="nojs-cat">Bites &amp; stings</h2><section class="nojs-topic" id="snake"><p class="tag">Urgent</p><h3>Snake bite</h3><div class="when"><strong>Call 000 for any suspected snake bite</strong>, even if there’s no pain or visible mark. Bites can show as a single scratch.</div><ol><li value="1"><b>Keep them still and calm.</b> Don’t let them walk. Bring the ambulance to them.</li><li value="2"><b>Bandage the bite firmly.</b> Use a broad elastic or crepe bandage (10 to 15 cm wide is ideal; clothing or towels will do). Wrap it directly over the bite, firm enough that you can’t easily slide a finger under it.</li><li value="3"><b>Then bandage the whole limb.</b> Start at the fingers or toes and wrap upwards as far as you can go. Go over clothing rather than removing it.</li><li value="4"><b>Splint the limb</b> so the joints either side of the bite can’t move. For an arm, add a sling. Leave the bandages and splint on until they’re assessed in hospital.</li><li value="5">Watch closely. If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>. CPR won’t expose you to the venom.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t wash, cut or suck the bite.</li><li>Don’t use a tourniquet.</li><li>Don’t try to catch or kill the snake. Take a photo only if it’s safe.</li></ul></section><ul class="notes"><li>Bite on the body, head or neck: press firmly on the bite, but don’t restrict breathing or press on the neck or head.</li><li>Warning signs include headache, vomiting, blurred or double vision, drooping eyelids, trouble speaking, swallowing or breathing, and weakness. Collapse can happen 10 to 60 minutes after a bite. After some brown snake bites, a person collapses and then seems to recover. They still need hospital.</li><li>The same bandaging is used for funnel-web spider bites, blue-ringed octopus and cone shell stings.</li></ul><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-4-1-first-aid-management-of-australian-snake-bite">Guideline 9.4.1, Snake bite</a> (approved April 2021) and <a href="https://www.anzcor.org/home/first-aid/guideline-9-4-8-envenomation-pressure-immobilisation-technique">Guideline 9.4.8, Pressure immobilisation</a>.</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="marine"><p class="tag">Urgent in the tropics</p><h3>Jellyfish and marine stings</h3><div class="when"><strong>Tropical waters (Bundaberg north, across the Top End to Geraldton WA)</strong> have box jellyfish and Irukandji, which can kill. If you can’t be sure a sting is from a harmless jellyfish or a bluebottle, treat it as dangerous and watch the person closely.</div><h4>Box jellyfish and Irukandji</h4><ol><li value="1"><b>Get them out of the water.</b> Get a lifeguard if there is one.</li><li value="2"><b>Call 000</b> if there’s more than one small sting, or they look or feel unwell.</li><li value="3">If they stop responding and aren’t breathing normally, start <a href="#cpr">CPR</a>.</li><li value="4"><b>Pour vinegar on the sting for 30 seconds</b>, then pick off any tentacles. Picking them off is safe for you.</li><li value="5">No vinegar? Pick off the tentacles and rinse with sea water. <b>Never fresh water</b>, which can make remaining stingers fire.</li><li value="6">Use a cold pack, or ice in a dry plastic bag, for pain.</li><li value="7"><b>Stay with them.</b> Irukandji symptoms can start 5 to 40 minutes after a sting that seemed minor. Severe pain, sweating, vomiting or trouble breathing means call 000.</li></ol><h4>Bluebottle</h4><ol><li value="8">Only if you’re sure it’s a bluebottle, the sting is small and the person is well. Pick off tentacles and rinse with sea water. <b>No vinegar</b>, and don’t rub.</li><li value="9">Soak the area in <b>hot water, about 45°C, for 20 minutes</b>. Use water the person can tolerate without it burning them. No hot water, or it doesn’t help: use a cold pack.</li><li value="10"><b>Call 000</b> if pain spreads or won’t settle, the sting covers half a limb or more, or it’s near the eye.</li></ol><h4>Stonefish and stingray</h4><ol><li value="11"><b>Call 000.</b></li><li value="12">Don’t pull out a barb or spine. Pad around it and press on the padding. A stingray wound to the chest or stomach can cause hidden bleeding: keep them still.</li><li value="13">For a limb, soak it in hot water, no hotter than you could comfortably keep your own hand in.</li></ol><h4>Blue-ringed octopus and cone shell</h4><ol><li value="14"><b>Call 000.</b> Apply the pressure bandage and splint as for a <a href="#snake">snake bite</a>, and keep them still.</li><li value="15">The bite may be painless. Watch for numb lips and tongue and weakening breathing.</li><li value="16">They may stop breathing yet still hear you. Reassure them and keep up CPR until paramedics take over, even for a long time.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t use fresh water on a jellyfish sting.</li><li>Don’t use vinegar on a bluebottle sting.</li><li>Don’t use a pressure bandage for stonefish or stingray.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-4-5-first-aid-management-of-marine-envenomation">Guideline 9.4.5, Marine envenomation</a> (approved June 2025); Irukandji warning signs from <a href="https://www.healthdirect.gov.au/jellyfish-stings">healthdirect, Jellyfish stings</a>.</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="spider"><p class="tag">Usually not urgent</p><h3>Spider bite</h3><h4>Funnel-web</h4><ol><li value="1">Big black spider, mainly NSW and south-east Queensland. <b>Call 000 straight away.</b> Effects can start within 10 minutes.</li><li value="2">Apply the pressure bandage and splint as for a <a href="#snake">snake bite</a>, and keep them still.</li></ol><h4>Redback and all others</h4><ol><li value="3">Use an ice or cold pack for pain, for <b>no more than 20 minutes</b> at a time.</li><li value="4"><b>No pressure bandage.</b> It makes redback pain worse.</li><li value="5">Get medical help if it’s a young child, the pain is severe, or they become unwell or collapse.</li></ol><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-4-2-first-aid-management-of-spider-bite">Guideline 9.4.2, Spider bite</a> (approved April 2021).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><h2 class="nojs-cat">Injuries &amp; burns</h2><section class="nojs-topic" id="burns"><p class="tag">Urgent</p><h3>Burns and scalds</h3><div class="when"><strong>Call 000</strong> for large or deep burns; burns to the face, hands, feet, genitals or a major joint; burns that go all the way round a limb; smoke, chemical or electrical burns; or burns on a baby or elderly person. <strong>Every burn on a child should be seen by a doctor.</strong></div><h4>Heat burns</h4><ol><li value="1"><b>Stop the burning.</b> On fire: stop, drop, cover your face and roll, or smother the flames with a blanket.</li><li value="2"><b>Cool the burn under cool running water for 20 minutes.</b> It still helps up to 3 hours after the burn.</li><li value="3">Take off rings, watches and wet or loose clothing near the burn, unless they’re stuck to it.</li><li value="4"><b>Cover loosely</b> with cling film or a non-stick dressing. Lay it on; don’t wrap it round a limb, and don’t use it on the face.</li><li value="5">Keep the rest of them warm, especially small children, who chill quickly.</li></ol><h4>Chemical burns</h4><ol><li value="6">Brush off any powder, then flush with running water for <b>at least 20 minutes</b>. Call the Poisons Information Centre on <b>13 11 26</b>.</li></ol><h4>Electrical burns</h4><ol><li value="7"><b>Turn off the power</b> before touching them. Stay at least 10 metres from fallen power lines.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t use ice or iced water.</li><li>Don’t put on creams, butter, ointments or powders.</li><li>Don’t break blisters or peel off anything stuck to the burn.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-1-3-first-aid-for-burns">Guideline 9.1.3, Burns</a> (approved March 2023).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><h2 class="nojs-cat">Medical</h2><section class="nojs-topic" id="asthma"><p class="tag">Urgent</p><h3>Asthma attack</h3><div class="when"><strong>Call 000 straight away</strong> if they can only say one or two words per breath, are gasping, have blue lips, are pale and sweaty, are getting drowsy, or the puffer isn’t helping. Then keep doing the steps.</div><ol><li value="1"><b>Sit them upright.</b> Stay calm and stay with them.</li><li value="2">Give <b>4 separate puffs</b> of a blue/grey reliever (like Ventolin or Asmol). Shake it, put 1 puff into a spacer, and have them take 4 breaths from the spacer. Repeat until 4 puffs are done. No spacer: use the puffer directly.</li><li value="3"><b>Wait 4 minutes.</b> Not better: give 4 more puffs.</li><li value="4">Still not better: <b>call 000</b> and keep giving 4 puffs every 4 minutes until help arrives.</li></ol><ul class="notes"><li>Use their own puffer if possible, otherwise one from a first aid kit or borrowed from someone. If they have an Asthma Action Plan, follow that.</li></ul><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-2-5-first-aid-for-asthma">Guideline 9.2.5, Asthma</a> (approved July 2023).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="seizure"><p class="tag">Urgent</p><h3>Seizure</h3><div class="when"><strong>Call 000</strong> if the seizure lasts more than 5 minutes, another one starts, they don’t wake within 5 minutes, it happened in water, they’re injured or may be pregnant, it’s their first seizure, you don’t know them, or it’s different from their usual seizures.</div><ol><li value="1">Ease their fall if you can and <b>move hard or sharp things away</b>. Put something soft and flat under their head, like a folded jumper. Follow their seizure plan if they have one.</li><li value="2"><b>Time the seizure.</b></li><li value="3">Roll them onto their side when you can. When it stops, if they’re unresponsive but breathing, keep them in the <a href="#unconscious">recovery position</a> and reassure them as they come round.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t hold them down, unless it’s needed to stop an injury.</li><li>Don’t put anything in their mouth or force it open.</li><li>Don’t put a child in a bath to cool them.</li><li>No food or drink until they’re fully awake.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/9-2-4-first-aid-management-of-a-seizure">Guideline 9.2.4, Seizure</a> (approved June 2024).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="heat"><p class="tag">Urgent</p><h3>Heat illness</h3><div class="when"><strong>Call 000 early</strong> if they’re confused, very drowsy, having a seizure, have hot dry skin, or aren’t improving quickly. Don’t wait to cool them first. Early signs: hot, sweaty, breathless, dizzy or faint, nausea, can’t keep going.</div><ol><li value="1"><b>Move them into shade</b> or somewhere cool. Loosen or remove extra clothing.</li><li value="2"><b>Cool them fast.</b> Best for anyone over 5: lie them in cold water up to the neck for 15 minutes.</li><li value="3">No cold water bath? Wet them with a hose or shower, put ice packs on the groin, armpits, cheeks, palms and soles, keep wetting the skin and fan them non-stop.</li><li value="4">Children 5 and under: sponge them in a lukewarm bath, or keep wetting the skin and fanning.</li><li value="5">Fully awake and able to swallow: give cool water, or a sports drink after hard exercise.</li><li value="6">Keep checking they’re conscious and breathing. Not breathing normally: start <a href="#cpr">CPR</a>.</li></ol><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-3-4-heat-induced-illness-hyperthermia">Guideline 9.3.4, Heat induced illness</a> (approved September 2020).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section><section class="nojs-topic" id="poison"><p class="tag">Urgent</p><h3>Poisoning</h3><div class="when"><strong>Poisons Information Centre: 13 11 26</strong>, 24 hours, for advice. <strong>Call 000</strong> if they’re drowsy, having trouble breathing, or you’re worried.</div><h4>Poisons</h4><ol><li value="1">If it’s safe, move them away from the poison or the poison away from them.</li><li value="2"><b>Swallowed:</b> have them rinse their mouth with water.</li><li value="3"><b>On the skin:</b> remove contaminated clothing and flush with running water.</li><li value="4"><b>In the eye:</b> hold the eyelids open and flush with cold water for 15 minutes.</li><li value="5"><b>Breathed in:</b> get them into fresh air without breathing it yourself.</li><li value="6">Find out what, how much and when. <b>Take the container</b> to hospital with them.</li></ol><h4>Button battery</h4><ol><li value="7">Suspect it if a device’s battery cover is open, or a child is drooling, vomiting or has chest pain. <b>Go to an emergency department or call 000 immediately.</b></li><li value="8">On the way, if they can breathe and swallow without trouble: <b>over 1 year</b>, 2 teaspoons (10 mL) of honey every 10 minutes. Use jam if there’s no honey.</li><li value="9"><b>Under 1 year:</b> 2 teaspoons of jam every 10 minutes. <b>Never honey</b> for a baby. Nothing else by mouth, and don’t delay getting help to do this.</li></ol><section class="dont"><h4>Don’t</h4><ul><li>Don’t make them vomit.</li><li>Don’t give anything to “neutralise” a chemical.</li></ul></section><p class="src">Source: ANZCOR <a href="https://www.anzcor.org/home/first-aid/guideline-9-5-1-first-aid-management-of-poisoning">Guideline 9.5.1, Poisoning</a> (approved June 2025, amended July 2026).</p><p class="rstatus">Review status: Not yet reviewed by a qualified first aid trainer or clinician.</p></section></div></noscript>
+
 </main>
 
 <div class="updbar" id="updBar" role="status" hidden><span>A new version of the guide is ready.</span><button type="button" id="updBtn">Reload</button></div>
@@ -903,6 +1009,40 @@ var ART = (function(){
     return '<svg class="art" viewBox="0 0 240 160" aria-hidden="true" focusable="false">' + f(arg) + '</svg>';
   }
   return { svg: svg, keys: Object.keys(A) };
+})();
+
+/* Illustration slots.
+   The page asks for a picture by topic and step, not by a drawing's internal
+   style. A slot id is "<topicId>:<stepIndex>" (stepIndex is "icon" for the
+   topic's own symbol).
+   Illustrate.use(fn) adds a renderer. A renderer receives the slot and returns
+   an HTML string, or "" to decline. The last renderer to return HTML wins.
+   The built-in renderer draws whatever ART.svg currently is, so the reviewed
+   drawings stay in place until a clinical change replaces them. */
+var Illustrate = (function(){
+  var layers = [];
+  function parts(spec){
+    if (Array.isArray(spec)) return { key: spec[0], label: spec[1] == null ? '' : String(spec[1]) };
+    return { key: spec, label: '' };
+  }
+  function slot(topicId, stepIndex, spec){
+    var p = parts(spec);
+    return { id: topicId + ':' + stepIndex, topic: topicId, step: stepIndex, key: p.key, label: p.label, spec: spec };
+  }
+  function use(fn){ layers.push(fn); }
+  function render(s){
+    var html = '';
+    for (var i = 0; i < layers.length; i++){
+      var next = layers[i](s);
+      if (next) html = next;
+    }
+    return html;
+  }
+  use(function(s){
+    if (typeof ART === 'undefined' || !ART.svg) return '';
+    return ART.svg(s.spec);
+  });
+  return { slot: slot, use: use, render: render };
 })();
 
 /* 3D "where on the body" viewer.
@@ -1406,6 +1546,37 @@ var FLOW = {
   r_other: { end: true, call: true, h: 'If you’re worried, call 000', p: 'Describe what you can see and the call-taker will tell you what to do. If they stop responding and aren’t breathing normally, start CPR.', topic: 'collapse' }
 };
 
+/* Menu symbols for topic tiles and the command palette.
+   Original 24px drawings: 2px round strokes and a faint duotone fill,
+   in the manner of Health Icons (healthicons.org, CC0). These paths were
+   drawn for this guide; they are not copied from that set.
+   They are not step illustrations. Step drawings live in src/art.js and
+   are not modified here. */
+var MARKS = (function(){
+  function wrap(inner){
+    return '<svg class="marksvg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + inner + '</svg>';
+  }
+  var I = {
+    collapse: '<circle class="duo" cx="12" cy="7" r="2.6"/><path class="duo" d="M8.2 19v-1.5C8.2 15 9.8 13.4 12 13.4s3.8 1.6 3.8 4.1V19z"/><g class="line"><circle cx="12" cy="7" r="2.6"/><path d="M8.2 19v-1.5C8.2 15 9.8 13.4 12 13.4s3.8 1.6 3.8 4.1V19"/></g>',
+    cpr: '<circle class="duo" cx="12" cy="14.5" r="4.2"/><g class="line"><circle cx="12" cy="14.5" r="4.2"/><path d="M12 3.2v5.2M9.2 6.2 12 8.8l2.8-2.6"/></g>',
+    choking: '<circle class="duo" cx="8.5" cy="7.2" r="2.4"/><path class="duo" d="M13.2 9.6c1.6.9 2.6 2.2 2.6 3.8 0 1.8-1.4 3.2-3.2 3.2"/><g class="line"><circle cx="8.5" cy="7.2" r="2.4"/><path d="M6 19v-1.3C6 15.2 7.2 14 9.2 14h.8"/><path d="M13.2 9.6c1.6.9 2.6 2.2 2.6 3.8 0 1.8-1.4 3.2-3.2 3.2"/></g>',
+    bleeding: '<path class="duo" d="M12 3.4S17.2 8.8 17.2 12.2a5.2 5.2 0 0 1-10.4 0C6.8 8.8 12 3.4 12 3.4z"/><path class="line" d="M12 3.4S17.2 8.8 17.2 12.2a5.2 5.2 0 0 1-10.4 0C6.8 8.8 12 3.4 12 3.4z"/>',
+    anaphylaxis: '<path class="duo" d="M10 6.2h4V17h-4z"/><g class="line"><rect x="9" y="2.4" width="6" height="3.2" rx="1"/><rect x="10" y="5.6" width="4" height="11.2" rx="1"/><path d="M12 16.8v3.4"/></g>',
+    heart: '<path class="duo" d="M12 18.6s-5.6-3.4-5.6-7.1A3.3 3.3 0 0 1 12 8.2a3.3 3.3 0 0 1 5.6 3.3c0 3.7-5.6 7.1-5.6 7.1z"/><path class="line" d="M12 18.6s-5.6-3.4-5.6-7.1A3.3 3.3 0 0 1 12 8.2a3.3 3.3 0 0 1 5.6 3.3c0 3.7-5.6 7.1-5.6 7.1z"/>',
+    stroke: '<circle class="duo" cx="12" cy="12" r="7.2"/><g class="line"><circle cx="12" cy="12" r="7.2"/><path d="M9 10.2h.01M15 10.2h.01"/><path d="M8.8 15.2c.9.9 2 1.3 3.2 1.3"/><path d="M15.2 14.4c-.5.4-1 .5-1.5.5"/></g>',
+    unconscious: '<circle class="duo" cx="6.2" cy="14.2" r="2.3"/><path class="duo" d="M8.4 14.2h6.8c2 0 3.6 1.2 4.2 2.8H10.2c-.2-1.2-.6-2-1.8-2.8z"/><g class="line"><circle cx="6.2" cy="14.2" r="2.3"/><path d="M8.4 14.2h6.8c2.2 0 4 1.3 4.6 3.2"/><path d="M10.2 14.2c.7 1.5.5 2.8-.6 3.8"/></g>',
+    snake: '<path class="duo" d="M4 8.2c2.2-2.6 4.8-2.6 7 0s4.8 2.6 7 0c.4 1.2.2 2.2-.4 3-2.2 2.6-4.8 2.6-7 0s-4.8-2.6-7 0c-.6-.8-.8-1.8-.6-3z"/><g class="line"><path d="M4 8.6c2.2-2.8 5-2.8 7.2 0s5 2.8 7.2 0"/><path d="M4 14.8c2.2-2.8 5-2.8 7.2 0s5 2.8 7.2 0"/></g>',
+    marine: '<path class="duo" d="M7 12.2a5 5 0 0 1 10 0H7z"/><g class="line"><path d="M7 12.2a5 5 0 0 1 10 0"/><path d="M8.2 12.2v4.8M12 12.2v6.4M15.8 12.2v4.8"/></g>',
+    spider: '<circle class="duo" cx="12" cy="12" r="3"/><g class="line"><circle cx="12" cy="12" r="3"/><path d="M12 9 9.2 5.2M12 9l2.8-3.8M12 15l-2.8 3.8M12 15l2.8 3.8M9 12H4.6M15 12h4.4M9.6 10.2 6.2 7.2M14.4 10.2l3.4-3M9.6 13.8 6.2 16.8M14.4 13.8l3.4 3"/></g>',
+    burns: '<path class="duo" d="M12 3.2c1.8 2.6 1.4 4-.2 5.4 2 .3 3.6 2 3.6 4.1A4.2 4.2 0 0 1 12 16.8a4.2 4.2 0 0 1-4.2-4.1c0-1.5.7-2.7 1.8-3.5.2 1.3 1.3 1.7 1.5.2.4-2 .8-3.6 1-6.2z"/><path class="line" d="M12 3.2c1.8 2.6 1.4 4-.2 5.4 2 .3 3.6 2 3.6 4.1A4.2 4.2 0 0 1 12 16.8a4.2 4.2 0 0 1-4.2-4.1c0-1.5.7-2.7 1.8-3.5.2 1.3 1.3 1.7 1.5.2.4-2 .8-3.6 1-6.2z"/>',
+    asthma: '<path class="duo" d="M8.2 11.2c-1.6.4-2.8 2-2.8 4 0 2.2 1.4 3.8 3.2 3.8 1.2 0 2-.8 2.4-2.2V11l-2.8.2zm7.6 0c1.6.4 2.8 2 2.8 4 0 2.2-1.4 3.8-3.2 3.8-1.2 0-2-.8-2.4-2.2V11l2.8.2z"/><g class="line"><path d="M12 4.2v6.2"/><path d="M12 10.4c-1 0-4.2.8-4.6 4.6-.2 2.4 1.2 4 2.8 4 1.4 0 2.2-1.2 2.4-3.2"/><path d="M12 10.4c1 0 4.2.8 4.6 4.6.2 2.4-1.2 4-2.8 4-1.4 0-2.2-1.2-2.4-3.2"/></g>',
+    seizure: '<circle class="duo" cx="12" cy="12" r="8"/><path class="line" d="M3.5 14.5 7 8.2l3.1 6.6 2.8-7.2 2.8 6.4L20.5 9"/>',
+    heat: '<circle class="duo" cx="12" cy="12" r="3.4"/><g class="line"><circle cx="12" cy="12" r="3.4"/><path d="M12 2.8v2.3M12 18.9V21.2M2.8 12h2.3M18.9 12h2.3M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2 17.2 6.8M6.8 17.2 5.2 18.8"/></g>',
+    poison: '<path class="duo" d="M9.2 8.2h5.6V16a2 2 0 0 1-2 2h-1.6a2 2 0 0 1-2-2z"/><g class="line"><path d="M10 2.6h4V5h-4z"/><path d="M9 5h6l.8 2.6V16a2 2 0 0 1-2 2h-3.6a2 2 0 0 1-2-2V7.6z"/><path d="M12 10.2v4.2M10.4 12.3h3.2"/></g>'
+  };
+  return { svg: function(id){ return wrap(I[id] || I.cpr); }, ids: Object.keys(I) };
+})();
+
 /* Generated by build.py from data/topic-reviews.json */
 var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"cpr":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"choking":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"bleeding":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"anaphylaxis":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"heart":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"stroke":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"unconscious":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"snake":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"marine":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"asthma":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"burns":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"seizure":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"heat":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"poison":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"spider":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"question-flow":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"3d-captions":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null},"illustrations":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null}};
 (function(){
@@ -1418,11 +1589,26 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     var d = document.createElement('div');
     d.innerHTML = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>' +
       rad('skin', 'skin') + rad('skind', 'skin-d') + lin('pt', 'pt') + lin('water', 'water') + lin('ice', 'ice') +
-      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber') + '</defs></svg>';
+      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber-fill') + '</defs></svg>';
     document.body.insertBefore(d.firstChild, document.body.firstChild);
   })();
   var N = TOPICS.length;
   var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
+  /* Navigation only. Does not add or change a first-aid instruction. */
+  var CATS = [
+    ['Life-threatening', ['collapse','cpr','choking','bleeding','anaphylaxis','heart','stroke','unconscious']],
+    ['Bites & stings', ['snake','marine','spider']],
+    ['Injuries & burns', ['burns']],
+    ['Medical', ['asthma','seizure','heat','poison']]
+  ];
+  (function(){
+    var seen = {};
+    CATS.forEach(function(c){ c[1].forEach(function(id){
+      if (!byId[id] || seen[id]) throw new Error('topic map ' + id);
+      seen[id] = 1;
+    }); });
+    if (Object.keys(seen).length !== N) throw new Error('topic map is missing a topic');
+  })();
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function(id){ return document.getElementById(id); };
   var home = $('home'), view = $('topic');
@@ -1435,7 +1621,7 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     b.type = 'button';
     b.className = 'tcard ' + t.sev;
     b.setAttribute('data-i', i);
-    b.innerHTML = ART.svg(t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
+    b.innerHTML = picture(t.id, 'icon', t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
     b.addEventListener('click', function(){
       if (dragged) return;
       if (reduce || i === active) go(t.id); else setActive(i);
@@ -1525,14 +1711,17 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     el.addEventListener('pointercancel', function(){ x0 = null; });
   }
 
-  /* ---------- Home: search and chips ---------- */
-  var groups = [['Life-threatening', function(t){ return t.sev === 'crit'; }], ['Urgent and other', function(t){ return t.sev !== 'crit'; }]];
+  /* ---------- Home: search and category tiles ---------- */
   var idx = $('chipsWrap');
-  groups.forEach(function(g){
+  CATS.forEach(function(g){
     var d = document.createElement('div'); d.className = 'group';
-    d.innerHTML = '<h2>' + g[0] + '</h2><div class="chips">' + TOPICS.filter(g[1]).map(function(t){
-      return '<a class="' + (t.sev === 'crit' ? 'crit' : '') + '" href="#' + t.id + '" data-k="' + (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '') + '">' + t.title + '</a>';
-    }).join('') + '</div>';
+    var links = g[1].map(function(id){
+      var t = byId[id];
+      var dk = (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '');
+      var tag = String(t.tag).replace(/"/g, '');
+      return '<a class="tile ' + t.sev + '" href="#' + t.id + '" data-tag="' + tag + '" data-k="' + dk + '">' + MARKS.svg(t.id) + '<span class="tile-title">' + t.title + '</span></a>';
+    }).join('');
+    d.innerHTML = '<h2>' + g[0] + '</h2><div class="chips">' + links + '</div>';
     idx.appendChild(d);
   });
   var chips = [].slice.call(idx.querySelectorAll('a'));
@@ -1579,12 +1768,17 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     var gs = [];
     t.steps.forEach(function(s){ if (s.g && gs.indexOf(s.g) < 0) gs.push(s.g); });
     if (gs.length > 1) h += '<div class="gchips" id="gchips" role="group" aria-label="Jump to">' + gs.map(function(g){ return '<button type="button" data-g="' + g + '" aria-pressed="false">' + g + '</button>'; }).join('') + '</div>';
-    h += '<section class="player" id="player" aria-label="Steps" aria-roledescription="step cards">' +
+    h += '<div class="deck-row"><div class="deck-main">';
+    h += '<section class="player" id="player" tabindex="0" aria-label="Steps" aria-roledescription="step cards" aria-describedby="deckHint">' +
+      '<div class="rail" id="rail" role="progressbar" aria-valuemin="1" aria-valuemax="' + t.steps.length + '" aria-valuenow="1" aria-label="Progress through the steps"><span id="railFill"></span></div>' +
+      '<p class="sr-only" id="deckHint">Arrow keys move between steps. You can also swipe the drawing.</p>' +
       '<div class="pmeta"><span class="pg" id="pg"></span><span id="pc"></span></div>' +
       '<div class="pview" id="pview"><div class="pcard" id="pcard" aria-live="polite"></div></div>' +
       '<div class="pctl"><button type="button" class="pbtn" id="pPrev">← Back</button><div class="dots" id="dots"></div><button type="button" class="pbtn next" id="pNext">Next →</button></div></section>';
     h += '<ol class="list" id="list" hidden>' + listHtml(t) + '</ol>';
     h += '<button type="button" class="toggle" id="toggle" aria-expanded="false">Show all steps as a list</button>';
+    h += '<p class="inkey"><span><i class="swatch pt"></i>Person</span><span><i class="swatch rs"></i>Helper</span></p>';
+    h += '</div>';
     if (t.body) h += '<section class="v3d" id="v3d" aria-labelledby="v3dh">' +
       '<div class="v3d-head"><h2 id="v3dh">' + t.body.title + '</h2><span class="v3d-badge">3D</span></div>' +
       '<p class="v3d-cap">' + t.body.caption + '</p>' +
@@ -1592,6 +1786,7 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
       '<div class="v3d-tools" hidden><button type="button" data-v="front">Front</button><button type="button" data-v="side">Side</button><button type="button" data-v="whole">Whole body</button></div>' +
       '<p class="v3d-status" aria-live="polite">Loads a body model of about 0.5 MB.</p>' +
       '<p class="v3d-credit">Anatomy: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, \u00a9 The Database Center for Life Science, CC BY 4.0, simplified from Human Atlas. The explanation is general anatomy, not part of the ANZCOR guidelines.</p></section>';
+    h += '</div>';
     if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
@@ -1608,9 +1803,18 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     $('pPrev').addEventListener('click', function(){ show(step - 1, -1); });
     $('pNext').addEventListener('click', function(){ show(step + 1, 1); });
     $('player').addEventListener('keydown', function(e){
-      if (e.target.tagName === 'A') return;
-      if (e.key === 'ArrowLeft') show(step - 1, -1);
-      if (e.key === 'ArrowRight') show(step + 1, 1);
+      if (e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+      if (e.key === 'ArrowLeft'){ show(step - 1, -1); e.preventDefault(); }
+      if (e.key === 'ArrowRight'){ show(step + 1, 1); e.preventDefault(); }
+      if (e.key === 'Home'){ show(0, -1); e.preventDefault(); }
+      if (e.key === 'End'){ show(t.steps.length - 1, 1); e.preventDefault(); }
+    });
+    $('rail').addEventListener('click', function(e){
+      var rect = this.getBoundingClientRect();
+      if (!rect.width) return;
+      var ratio = (e.clientX - rect.left) / rect.width;
+      var i = Math.min(t.steps.length - 1, Math.max(0, Math.floor(ratio * t.steps.length)));
+      show(i, i > step ? 1 : -1);
     });
     swipe($('pview'), function(dir){ show(step + dir, dir); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){
@@ -1638,7 +1842,7 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     var out = '', lastG = null;
     t.steps.forEach(function(s, i){
       if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
-      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
+      out += '<li class="li">' + picture(t.id, i, s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
     });
     return out;
   }
@@ -1649,7 +1853,7 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     step = i;
     var s = t.steps[i], c = $('pcard');
     c.className = 'pcard';
-    c.innerHTML = ART.svg(s.a) + '<div><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
+    c.innerHTML = picture(t.id, i, s.a) + '<div class="pbody"><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
     if (dir){ void c.offsetWidth; c.className = 'pcard ' + (dir > 0 ? 'in-next' : 'in-prev'); }
     $('pg').textContent = s.g || t.title;
     $('pc').textContent = (i+1) + ' / ' + t.steps.length;
@@ -1658,6 +1862,12 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     $('pNext').disabled = last;
     $('pNext').textContent = last ? 'Last step' : 'Next →';
     if ($('progBar')) $('progBar').style.width = ((i+1) / t.steps.length * 100) + '%';
+    var rail = $('rail'), fill = $('railFill');
+    if (rail && fill){
+      rail.setAttribute('aria-valuenow', String(i + 1));
+      rail.setAttribute('aria-valuetext', 'Step ' + (i + 1) + ' of ' + t.steps.length);
+      fill.style.width = ((i + 1) / t.steps.length * 100) + '%';
+    }
     else [].forEach.call($('dots').children, function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
   }
@@ -1715,8 +1925,15 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
   }
   function focusFlow(){ window.scrollTo(0, 0); var q = help.querySelector('.fq'); if (q){ q.tabIndex = -1; q.focus({preventScroll:true}); } }
 
+  /* A step picture. The slot id is the contract; the markup around it is layout. */
+  function picture(topicId, stepIndex, spec){
+    var s = Illustrate.slot(topicId, stepIndex, spec);
+    return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+  }
+
   /* ---------- Routing ---------- */
   function route(){
+    if (typeof closePalette === 'function') closePalette(true);
     var id = location.hash.replace('#', '');
     var t = byId[id];
     if (id === 'help'){
@@ -1783,6 +2000,147 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
       timer = setInterval(tick, INTERVAL);
     });
   }
+
+  /* ---------- Command palette ---------- */
+  var palette = $('palette'), pQ = $('paletteQ'), pList = $('paletteList'), pEmpty = $('paletteEmpty');
+  var jumpBtn = $('jumpBtn');
+  var options = [], visible = [], closeToken = 0;
+
+  function fuzzy(q, hay){
+    q = q.toLowerCase().trim();
+    if (!q) return 1;
+    var at = hay.indexOf(q);
+    if (at === 0) return 120;
+    if (at > 0) return 90 - Math.min(at, 30);
+    var qi = 0, score = 0, prev = -2, run = 0;
+    for (var n = 0; n < hay.length && qi < q.length; n++){
+      if (hay[n] === q[qi]){
+        run = (n === prev + 1) ? run + 1 : 1;
+        score += 2 + run;
+        if (n === 0 || hay[n - 1] === ' ') score += 3;
+        prev = n; qi++;
+      }
+    }
+    return qi === q.length ? score : 0;
+  }
+  CATS.forEach(function(g){
+    var group = document.createElement('li');
+    group.className = 'palette-group';
+    group.setAttribute('role', 'presentation');
+    var hid = 'cat-' + g[0].toLowerCase().replace(/[^a-z]+/g, '');
+    group.innerHTML = '<div class="palette-cat" id="' + hid + '">' + g[0] + '</div><ul role="group" aria-labelledby="' + hid + '"></ul>';
+    var ul = group.querySelector('ul');
+    g[1].forEach(function(id){
+      var t = byId[id];
+      var li = document.createElement('li');
+      li.id = 'opt-' + t.id;
+      li.className = 'opt ' + t.sev;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', 'false');
+      li.dataset.id = t.id;
+      li.innerHTML = MARKS.svg(t.id) + '<span class="opt-copy"><span class="opt-title"></span><span class="opt-short"></span></span>';
+      li.querySelector('.opt-title').textContent = t.title;
+      li.querySelector('.opt-short').textContent = t.short;
+      ul.appendChild(li);
+      options.push({ el: li, group: group, t: t, hay: (t.title + ' ' + t.short + ' ' + t.tag + ' ' + t.k + ' ' + t.id).toLowerCase() });
+    });
+    pList.appendChild(group);
+  });
+  function setActiveOpt(o){
+    options.forEach(function(x){
+      var on = x === o;
+      x.el.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    pQ.setAttribute('aria-activedescendant', o ? o.el.id : '');
+    if (o) o.el.scrollIntoView({ block: 'nearest' });
+  }
+  function applyFilter(q){
+    var best = null, bestS = -1, shown = 0;
+    options.forEach(function(o){
+      var s = fuzzy(q, o.hay);
+      o.el.hidden = !s;
+      if (s){ shown++; if (s > bestS){ bestS = s; best = o; } }
+    });
+    [].forEach.call(pList.children, function(g){
+      g.hidden = ![].some.call(g.querySelectorAll('[role="option"]'), function(o){ return !o.hidden; });
+    });
+    pEmpty.hidden = shown > 0;
+    visible = options.filter(function(o){ return !o.el.hidden; });
+    setActiveOpt((q.trim() && best) ? best : (visible[0] || null));
+  }
+  function moveOpt(d){
+    if (!visible.length) return;
+    var i = 0;
+    visible.forEach(function(o, k){ if (o.el.getAttribute('aria-selected') === 'true') i = k; });
+    setActiveOpt(visible[(i + d + visible.length) % visible.length]);
+  }
+  function chosen(){
+    for (var i = 0; i < visible.length; i++) if (visible[i].el.getAttribute('aria-selected') === 'true') return visible[i];
+    return null;
+  }
+  function goActive(){
+    var o = chosen(); if (!o) return;
+    closePalette(true);
+    if (location.hash === '#' + o.t.id) route();
+    else location.hash = o.t.id;
+  }
+  function typingTarget(el){
+    if (!el || !el.tagName) return false;
+    var tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
+  }
+  function openPalette(){
+    closeToken++;
+    palette.hidden = false;
+    document.body.classList.add('palette-open');
+    jumpBtn.setAttribute('aria-expanded', 'true');
+    pQ.setAttribute('aria-expanded', 'true');
+    pQ.value = '';
+    applyFilter('');
+    requestAnimationFrame(function(){ palette.classList.add('open'); });
+    pQ.focus();
+  }
+  function closePalette(silent){
+    if (!palette || (palette.hidden && !palette.classList.contains('open'))) return;
+    var token = ++closeToken;
+    palette.classList.remove('open');
+    document.body.classList.remove('palette-open');
+    jumpBtn.setAttribute('aria-expanded', 'false');
+    pQ.setAttribute('aria-expanded', 'false');
+    var finish = function(){ if (token === closeToken) palette.hidden = true; };
+    if (reduce) finish(); else setTimeout(finish, 240);
+    if (!silent) jumpBtn.focus();
+  }
+  jumpBtn.addEventListener('click', function(){ palette.hidden ? openPalette() : closePalette(); });
+  $('paletteClose').addEventListener('click', function(){ closePalette(); });
+  $('paletteScrim').addEventListener('click', function(){ closePalette(); });
+  pQ.addEventListener('input', function(){ applyFilter(pQ.value); });
+  pQ.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown'){ e.preventDefault(); moveOpt(1); }
+    else if (e.key === 'ArrowUp'){ e.preventDefault(); moveOpt(-1); }
+    else if (e.key === 'Home'){ e.preventDefault(); setActiveOpt(visible[0] || null); }
+    else if (e.key === 'End'){ e.preventDefault(); setActiveOpt(visible[visible.length - 1] || null); }
+    else if (e.key === 'Enter'){ e.preventDefault(); goActive(); }
+    else if (e.key === 'Escape'){ e.preventDefault(); closePalette(); }
+  });
+  pList.addEventListener('click', function(e){
+    var li = e.target.closest('[role="option"]');
+    if (!li || li.hidden) return;
+    closePalette(true);
+    if (location.hash === '#' + li.dataset.id) route();
+    else location.hash = li.dataset.id;
+  });
+  pList.addEventListener('mousemove', function(e){
+    var li = e.target.closest('[role="option"]');
+    if (!li || li.hidden) return;
+    for (var i = 0; i < options.length; i++) if (options[i].el === li){ setActiveOpt(options[i]); break; }
+  });
+  document.addEventListener('keydown', function(e){
+    var k = e.key.toLowerCase();
+    if ((e.metaKey || e.ctrlKey) && k === 'k'){ e.preventDefault(); palette.hidden ? openPalette() : closePalette(); return; }
+    if (e.key === '/' && palette.hidden && !typingTarget(e.target)){ e.preventDefault(); openPalette(); }
+    else if (e.key === 'Escape' && !palette.hidden){ closePalette(); }
+  });
 
   fixNumbers(document.body);
   setActive(0);
