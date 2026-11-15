@@ -30,7 +30,11 @@
     cards.forEach(function(c, i){
       var d = ((i - active) % N + N + Math.floor(N/2)) % N - Math.floor(N/2);
       var a = Math.abs(d);
-      c.style.transform = 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
+      // Active card: lifted 40px towards the viewer, plus the tilt/lean variables
+      // set by the pointer handlers below (0 when idle). Others recede and turn.
+      c.style.transform = d === 0
+        ? 'translateZ(40px) translateX(var(--dx,0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))'
+        : 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
       c.style.opacity = a > 2 ? 0 : (1 - a * 0.22);
       c.style.visibility = a > 2 ? 'hidden' : 'visible';
       c.style.zIndex = 10 - a;
@@ -53,6 +57,36 @@
   });
   var dragged = false;
   swipe(stage, function(dir){ if (!reduce) setActive(active + dir); });
+
+  /* Tactile hooks (skipped under reduced motion). They only set CSS variables
+     on the active card; the transform and the spring transition live in CSS.
+     Mouse: tilt towards the pointer, up to about 5 degrees.
+     Touch: lean with the drag, so a swipe has weight before it turns the deck. */
+  function tilt(rx, ry, dx){
+    var c = cards[active];
+    c.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+    c.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    c.style.setProperty('--dx', dx.toFixed(1) + 'px');
+  }
+  function untilt(){ stage.classList.remove('tilting', 'dragging'); cards.forEach(function(c){ c.style.removeProperty('--rx'); c.style.removeProperty('--ry'); c.style.removeProperty('--dx'); }); }
+  if (!reduce){
+    var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var tx0 = null;
+    stage.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse') tx0 = e.clientX; });
+    stage.addEventListener('pointermove', function(e){
+      if (e.pointerType === 'mouse'){
+        if (!fine) return;
+        var r = cards[active].getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        if (Math.abs(px) > 0.6 || Math.abs(py) > 0.6){ untilt(); return; }
+        stage.classList.add('tilting'); tilt(-py * 8, px * 10, 0);
+      } else if (tx0 !== null){
+        var dx = Math.max(-120, Math.min(120, e.clientX - tx0));
+        stage.classList.add('dragging'); tilt(0, dx * 0.08, dx * 0.3);
+      }
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(ev){ stage.addEventListener(ev, function(){ tx0 = null; untilt(); }); });
+  }
   window.addEventListener('resize', layout);
 
   function swipe(el, cb){
@@ -182,7 +216,7 @@
     var out = '', lastG = null;
     t.steps.forEach(function(s, i){
       if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
-      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '.</span>' + s.t + '</p></li>';
+      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
     });
     return out;
   }

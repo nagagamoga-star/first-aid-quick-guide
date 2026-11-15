@@ -158,6 +158,9 @@ var Anatomy = (function(){
       controls.update(); renderer.render(scene, camera);
     })();
     status.textContent = 'Drag to turn, pinch or scroll to zoom.';
+    // View pills stay pressed in for the current view.
+    var pills = [].slice.call(host.querySelectorAll('.v3d-tools button'));
+    pills.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', function(){ pills.forEach(function(o){ o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); }); }); });
     host.querySelector('.v3d-tools').hidden = false;
   }
 
