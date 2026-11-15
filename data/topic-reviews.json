@@ -651,7 +651,8 @@
         "confirmedBy": null
       },
       "openFindings": [
-        "F40"
+        "F40",
+        "F41"
       ],
       "review": {
         "reviewer": null,
@@ -672,6 +673,12 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Stage 2 setup",
           "note": "Source check done by AI-assisted comparison; awaiting qualified review."
+        },
+        {
+          "date": "2026-11-15",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Illustration redraw PR",
+          "note": "Six drawings redrawn (F41). Awaiting qualified review with the rest of the drawings."
         }
       ]
     }

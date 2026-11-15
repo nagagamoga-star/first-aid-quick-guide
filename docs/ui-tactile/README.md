@@ -61,3 +61,9 @@ After: no contrast or target-size violations in light or dark, mobile or desktop
 - **Drawings stay `aria-hidden`:** each sits next to the step text it illustrates. Giving them `role="img"` and a title would make screen readers read every step twice.
 
 ![Drawing lighting, before and after](drawing-lighting.png)
+
+## Six drawings redrawn (clinical change, waits for review)
+
+Recovery position, head tilt, CPR compressions, adult back blows, infant back blows and the pressure bandage were redrawn as flat side or front views (no isometric projection, so angles stay exact). The label text on each is unchanged. Recorded as finding **F41** for the reviewer; the review pack now shows the new drawings. The release gate blocks this from reaching `main` until the drawings are approved.
+
+![Six redrawn drawings, before and after](redraw-six.png)
