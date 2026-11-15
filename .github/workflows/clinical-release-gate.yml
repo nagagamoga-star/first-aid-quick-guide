@@ -27,9 +27,9 @@ jobs:
       - name: Detect clinical content changes
         id: scope
         env:
-          EVENT_NAME: \${{ github.event_name }}
-          BASE_SHA: \${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: \${{ github.event.pull_request.head.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         shell: bash
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
