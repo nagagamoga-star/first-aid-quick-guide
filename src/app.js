@@ -1,4 +1,16 @@
 (function(){
+  /* Lighting for the drawings (see "Illustration lighting" in style.css): one
+     hidden set of gradients, shared by every drawing on the page. Stop colours
+     come from CSS variables, so they follow light and dark mode. */
+  (function(){
+    function lin(id, v){ return '<linearGradient id="fa-g-' + id + '" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".5" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></linearGradient>'; }
+    function rad(id, v){ return '<radialGradient id="fa-g-' + id + '" cx=".36" cy=".3" r=".78"><stop offset="0" style="stop-color:var(--' + v + '-hi)"/><stop offset=".55" style="stop-color:var(--' + v + ')"/><stop offset="1" style="stop-color:var(--' + v + '-lo)"/></radialGradient>'; }
+    var d = document.createElement('div');
+    d.innerHTML = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>' +
+      rad('skin', 'skin') + rad('skind', 'skin-d') + lin('pt', 'pt') + lin('water', 'water') + lin('ice', 'ice') +
+      lin('wood', 'wood') + lin('band', 'bandage') + lin('act', 'act') + lin('amber', 'amber') + '</defs></svg>';
+    document.body.insertBefore(d.firstChild, document.body.firstChild);
+  })();
   var N = TOPICS.length;
   var byId = {}; TOPICS.forEach(function(t, i){ t.i = i; byId[t.id] = t; });
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -30,7 +42,11 @@
     cards.forEach(function(c, i){
       var d = ((i - active) % N + N + Math.floor(N/2)) % N - Math.floor(N/2);
       var a = Math.abs(d);
-      c.style.transform = 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
+      // Active card: lifted 40px towards the viewer, plus the tilt/lean variables
+      // set by the pointer handlers below (0 when idle). Others recede and turn.
+      c.style.transform = d === 0
+        ? 'translateZ(40px) translateX(var(--dx,0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))'
+        : 'translateX(' + (d * spread) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (d * -40) + 'deg)';
       c.style.opacity = a > 2 ? 0 : (1 - a * 0.22);
       c.style.visibility = a > 2 ? 'hidden' : 'visible';
       c.style.zIndex = 10 - a;
@@ -53,6 +69,36 @@
   });
   var dragged = false;
   swipe(stage, function(dir){ if (!reduce) setActive(active + dir); });
+
+  /* Tactile hooks (skipped under reduced motion). They only set CSS variables
+     on the active card; the transform and the spring transition live in CSS.
+     Mouse: tilt towards the pointer, up to about 5 degrees.
+     Touch: lean with the drag, so a swipe has weight before it turns the deck. */
+  function tilt(rx, ry, dx){
+    var c = cards[active];
+    c.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+    c.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    c.style.setProperty('--dx', dx.toFixed(1) + 'px');
+  }
+  function untilt(){ stage.classList.remove('tilting', 'dragging'); cards.forEach(function(c){ c.style.removeProperty('--rx'); c.style.removeProperty('--ry'); c.style.removeProperty('--dx'); }); }
+  if (!reduce){
+    var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var tx0 = null;
+    stage.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse') tx0 = e.clientX; });
+    stage.addEventListener('pointermove', function(e){
+      if (e.pointerType === 'mouse'){
+        if (!fine) return;
+        var r = cards[active].getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        if (Math.abs(px) > 0.6 || Math.abs(py) > 0.6){ untilt(); return; }
+        stage.classList.add('tilting'); tilt(-py * 8, px * 10, 0);
+      } else if (tx0 !== null){
+        var dx = Math.max(-120, Math.min(120, e.clientX - tx0));
+        stage.classList.add('dragging'); tilt(0, dx * 0.08, dx * 0.3);
+      }
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(ev){ stage.addEventListener(ev, function(){ tx0 = null; untilt(); }); });
+  }
   window.addEventListener('resize', layout);
 
   function swipe(el, cb){
@@ -94,6 +140,20 @@
     if (q && first) setActive(byId[first].i);
   });
 
+
+  /* Clinical review status (from data/topic-reviews.json via build.py). */
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function monthYear(d){ var p = (d || '').split('-'); return p.length > 1 ? MONTHS[+p[1] - 1] + ' ' + p[0] : (d || ''); }
+  function reviewLine(id){
+    var r = (typeof REVIEWS !== 'undefined' && REVIEWS[id]) || null; if (!r) return '';
+    var txt, cls = 'pending';
+    if (r.status === 'APPROVED FOR PUBLICATION'){ txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + '. Next review due ' + monthYear(r.nextReview) + '.'; cls = 'ok'; }
+    else if (r.status === 'CLINICALLY REVIEWED') txt = 'Reviewed by a ' + r.qualification + ' in ' + monthYear(r.reviewedAt) + ', awaiting publication sign-off.';
+    else if (r.status === 'REVIEW OVERDUE') txt = 'Review overdue. Last reviewed ' + monthYear(r.reviewedAt) + '.';
+    else txt = 'Not yet reviewed by a qualified first aid trainer or clinician.';
+    return '<p class="rstatus ' + cls + '">Review status: ' + txt + '</p>';
+  }
+
   /* ---------- Topic view ---------- */
   var cur = null, step = 0;
   function go(id){ location.hash = id; }
@@ -126,6 +186,7 @@
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
     h += '<p class="src">Source: ' + t.src + '</p>';
+    h += reviewLine(t.id);
     var prev = TOPICS[(t.i - 1 + N) % N], next = TOPICS[(t.i + 1) % N];
     h += '<nav class="nexttopic" aria-label="More topics"><a href="#' + prev.id + '">← ' + prev.title + '</a><a href="#' + next.id + '">' + next.title + ' →</a></nav>';
     view.innerHTML = h;
@@ -167,7 +228,7 @@
     var out = '', lastG = null;
     t.steps.forEach(function(s, i){
       if (s.g && s.g !== lastG){ out += '<li><h3 data-g="' + s.g + '">' + s.g + '</h3></li>'; lastG = s.g; }
-      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '.</span>' + s.t + '</p></li>';
+      out += '<li class="li">' + ART.svg(s.a) + '<p><span class="n">' + (i+1) + '</span>' + s.t + '</p></li>';
     });
     return out;
   }
@@ -234,6 +295,7 @@
     h += '</section><div class="fnav">' + (hist.length ? '<button type="button" class="pbtn" id="fBack">\u2190 Previous question</button>' : '') +
       (id !== 'start' ? '<button type="button" class="pbtn" id="fRestart">Start again</button>' : '') + '</div>';
     h += '<p class="src">These questions follow the ANZCOR first-steps sequence (DRSABCD). Each answer leads to the full steps and their sources.</p>';
+    h += reviewLine('question-flow');
     help.innerHTML = h; fixNumbers(help);
     [].forEach.call(help.querySelectorAll('.fbtn'), function(b){
       b.addEventListener('click', function(){ hist.push(id); renderFlow(n.a[+b.getAttribute('data-i')].go); focusFlow(); });
