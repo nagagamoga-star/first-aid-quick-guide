@@ -21,8 +21,10 @@ var Media = (function(){
   });
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
   function link(href, text){ return href ? '<a href="' + esc(href) + '">' + esc(text) + '</a>' : esc(text); }
-  function shortCredit(it){ return esc(it.author || 'Unknown author') + ', ' + esc(it.licence); }
+  function gen(it){ return it.origin === 'generated'; }
+  function shortCredit(it){ return gen(it) ? 'AI-generated picture' : esc(it.author || 'Unknown author') + ', ' + esc(it.licence); }
   function fullCredit(it){
+    if (gen(it)) return esc(it.caption) + ': AI-generated picture supplied by the site owner.';
     return link(it.sourceUrl, it.commons.replace(/^File:/, '')) + ' by ' + esc(it.author || 'unknown author') +
       ', ' + link(it.licenceUrl, it.licence) + ', via Wikimedia Commons.' + (it.credit && /Resized/.test(it.credit) ? ' Resized and converted to WebP.' : '');
   }
@@ -85,8 +87,12 @@ var Media = (function(){
     if (!host || !items.length || document.getElementById('dgCredits')) return;
     var sec = document.createElement('div');
     sec.id = 'dgCredits';
-    sec.innerHTML = '<h3>Diagrams</h3><p>These diagrams are from Wikimedia Commons, used under the licence shown, and stored with this guide so they work offline. Where no diagram fits Australian guidance, the guide keeps its own drawing.</p><ul>' +
-      items.map(function(it){ return '<li>' + fullCredit(it) + '</li>'; }).join('') + '</ul>';
+    var commons = items.filter(function(it){ return !gen(it); }), made = items.filter(gen);
+    sec.innerHTML = '<h3>Pictures</h3>' +
+      (made.length ? '<p>' + made.length + ' step pictures are AI-generated images supplied by the site owner. A generated picture is not evidence of correct technique; the step text is the instruction. None has been clinically reviewed yet.</p>' : '') +
+      (commons.length ? '<p>These diagrams are from Wikimedia Commons, used under the licence shown, and stored with this guide so they work offline.</p><ul>' +
+        commons.map(function(it){ return '<li>' + fullCredit(it) + '</li>'; }).join('') + '</ul>' : '') +
+      '<p>Where no picture fits Australian guidance, the guide keeps its own drawing or shows text only.</p>';
     host.appendChild(sec);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', credits); else credits();

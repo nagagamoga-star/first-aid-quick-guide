@@ -511,6 +511,18 @@
       "proposal": "Reviewer to approve or reject each diagram for the steps listed in docs/clinical-review/commons-review.html. A rejected diagram is removed by setting its decision to 'rejected' in data/media.json; the drawing returns.",
       "status": "open",
       "basis": "judgement"
+    },
+    {
+      "id": "F44",
+      "topic": "illustrations",
+      "item": "20 generated pictures: 16 drawing types plus 5 single steps (data/media.json, origin \"generated\")",
+      "severity": "HIGH",
+      "type": "not-in-source",
+      "source": null,
+      "finding": "On the owner's instruction, AI-generated photo-style pictures (ChatGPT, supplied by the owner) replace the Commons diagrams for compressions, recovery position, back blows, AED pads and spacer, and the drawings for 11 more drawing types and 5 single steps. Generated pictures are not evidence of correct technique and the repository's own plan (docs/MIXED_MEDICAL_ILLUSTRATION_LIBRARY_PLAN.md) says not to publish them before review. Most carry English text inside the picture; one repeats a figure with an open finding (vinegar 30 seconds, F16). An AI checked each against the app step only. 9 were held back for visible conflicts with the step text (infant head position x2, injector held flat, nosebleed pinch point, airway hand position, chemical burn minutes, button battery wording, spider \"wash\", injector inset). Source files are 378 x 250 or 617 x 617 pixels, so they look soft on high-density phone screens.",
+      "proposal": "Reviewer to approve, change or reject each generated picture (docs/clinical-review/generated-review.html). Prefer versions with no text in the picture, so captions stay editable. A rejected picture is removed by setting its decision to \"rejected\" in data/media.json.",
+      "status": "open",
+      "basis": "judgement"
     }
   ],
   "basis": {

@@ -92,6 +92,15 @@ for it in _media['items']:
         else: media_items.append({'id': it['id'], 'keys': it.get('keys') or [], 'slots': it.get('slots') or [], 'decision': 'hidden'})
         continue
     if it['decision'] != 'accepted': continue
+    if it.get('origin') == 'generated':
+        # AI-generated picture supplied by the site owner: no licence to verify,
+        # but the file, hash, alt text and author are still required.
+        path = os.path.join(ROOT, it.get('file') or '')
+        if not it.get('file') or not os.path.isfile(path): fail(f"media {it['id']}: file missing"); continue
+        if hashlib.sha256(open(path, 'rb').read()).hexdigest() != it.get('sha256'): fail(f"media {it['id']}: file does not match its recorded sha256"); continue
+        if not it.get('alt') or not it.get('author') or not it.get('caption'): fail(f"media {it['id']}: alt text, caption and author are required"); continue
+        media_items.append({'decision': 'accepted', **{k: it.get(k) for k in ('id', 'keys', 'slots', 'file', 'width', 'height', 'alt', 'caption', 'author', 'origin')}})
+        continue
     lic = (it.get('licence') or '').upper() + ' '
     path = os.path.join(ROOT, it.get('file') or '')
     if not it.get('licence') or not lic.startswith(ALLOW) or ' NC' in lic or ' ND' in lic: fail(f"media {it['id']}: licence '{it.get('licence')}' not verified or not allowed"); continue
@@ -144,7 +153,7 @@ pre_bytes = len(html.encode()) + sum(size(p) for p in PRECACHE if p not in ('./'
 print(f'index.html  {len(html.encode()) / 1024:.0f} KB')
 print(f'sw.js       core {core_v}, 3D {lazy_v}')
 print(f'precache    {len(PRECACHE)} entries, about {pre_bytes / 1024:.0f} KB')
-print(f'diagrams    {sum(i["decision"] == "accepted" for i in media_items)} from Wikimedia Commons; hidden drawings: {", ".join(k for i in media_items if i["decision"] == "hidden" for k in i["keys"]) or "none"}')
+print(f'diagrams    {sum(i["decision"] == "accepted" and i.get("origin") != "generated" for i in media_items)} from Wikimedia Commons, {sum(i.get("origin") == "generated" for i in media_items)} generated (owner-supplied); hidden drawings: {", ".join(k for i in media_items if i["decision"] == "hidden" for k in i["keys"]) or "none"}')
 print(f'3D on use   {len(LAZY)} files, {sum(size(p) for p in LAZY) / 1024:.0f} KB')
 print(f'structure   {structure}')
 print(f'{governance}')

@@ -44,3 +44,14 @@ A working, responsive **42-image review gallery** is provided in the conversatio
 The gallery is a **separate local review application**, not a public first-aid page. It intentionally does not add unverified generated images to `data/media.json` or the deployed `index.html`. The GitHub connector used for this update only supports UTF-8 file creation, so the binary WebP package was not uploaded to the repository. To bring it into the repository, upload the ZIP or its extracted files through a Git checkout, then keep it on a review-only branch until clinical sign-off.
 
 Do not treat selecting “Approve proposal” in the gallery as final publication approval. A named qualified reviewer, current source check, correction of any unsafe artwork, and owner publication approval remain necessary. Existing accepted licensed diagrams remain in use.
+
+
+## Owner decision: generated pictures in the app (17 November 2026)
+
+The site owner instructed that these pictures be used in the app, before clinical review. This overrides the "review-only" status above for the pictures listed as accepted in `data/media.json` (origin `generated`). Record: finding F44; review sheet `docs/clinical-review/generated-review.html`.
+
+- **20 used**, replacing five Commons diagrams (compressions, recovery position, adult back blows, AED pads, spacer) and drawings for 11 more drawing types and 5 single steps.
+- **9 held back** for visible conflicts with the step text (both infant back-blow pictures, injector held flat, injector inset, nosebleed pinch point, airway hand position, chemical burn minutes, button battery wording, spider "wash"). The owner can overrule any of them.
+- **13 not used**: duplicates or no matching step.
+- The Commons airway, nosebleed and injection-site diagrams stay. Infant back blows, infant chest thrusts, "keep still" and adult chest thrusts stay text only.
+- Each picture still says it has not been clinically reviewed. A qualified reviewer must approve, change or reject each one.
