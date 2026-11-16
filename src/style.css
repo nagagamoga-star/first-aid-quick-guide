@@ -674,3 +674,5 @@ body.palette-open{overflow:hidden}
   .key-swatch{border:2px solid CanvasText}
   .diagram-heading-mark{background:Highlight}
 }
+/* Photos and diagrams (figure.dg) have no person/helper colour coding: hide the drawing key there. */
+.step-illustration:has(.dg) .diagram-key{display:none}
