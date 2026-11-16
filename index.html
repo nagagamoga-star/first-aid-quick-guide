@@ -2148,26 +2148,28 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     view.innerHTML = h;
     fixNumbers(view);
 
-    if (t.steps.length <= 10) $('dots').innerHTML = t.steps.map(function(s, i){ return '<button type="button" aria-label="Step ' + (i+1) + '"></button>'; }).join('');
-    else $('dots').innerHTML = '<div class="prog" style="width:100%" aria-hidden="true"><span id="progBar"></span></div>';
-    if (!$('progBar')) [].forEach.call($('dots').children, function(b, i){ b.addEventListener('click', function(){ show(i, i > step ? 1 : -1); }); });
-    $('pPrev').addEventListener('click', function(){ show(step - 1, -1); });
-    $('pNext').addEventListener('click', function(){ show(step + 1, 1); });
+    $('dots').addEventListener('click', function(e){
+      var b = e.target.closest && e.target.closest('button[data-i]');
+      if (b){ var i = +b.getAttribute('data-i'); show(i, i > step ? 1 : -1); }
+    });
+    $('pPrev').addEventListener('click', function(){ nav(-1); });
+    $('pNext').addEventListener('click', function(){ nav(1); });
     $('player').addEventListener('keydown', function(e){
       if (e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
-      if (e.key === 'ArrowLeft'){ show(step - 1, -1); e.preventDefault(); }
-      if (e.key === 'ArrowRight'){ show(step + 1, 1); e.preventDefault(); }
-      if (e.key === 'Home'){ show(0, -1); e.preventDefault(); }
-      if (e.key === 'End'){ show(t.steps.length - 1, 1); e.preventDefault(); }
+      var r = range(step);
+      if (e.key === 'ArrowLeft'){ nav(-1); e.preventDefault(); }
+      if (e.key === 'ArrowRight'){ nav(1); e.preventDefault(); }
+      if (e.key === 'Home'){ show(r[0], -1); e.preventDefault(); }
+      if (e.key === 'End'){ show(r[1], 1); e.preventDefault(); }
     });
     $('rail').addEventListener('click', function(e){
       var rect = this.getBoundingClientRect();
       if (!rect.width) return;
-      var ratio = (e.clientX - rect.left) / rect.width;
-      var i = Math.min(t.steps.length - 1, Math.max(0, Math.floor(ratio * t.steps.length)));
+      var r = range(step), n = r[1] - r[0] + 1;
+      var i = r[0] + Math.min(n - 1, Math.max(0, Math.floor((e.clientX - rect.left) / rect.width * n)));
       show(i, i > step ? 1 : -1);
     });
-    swipe($('pview'), function(dir){ show(step + dir, dir); });
+    swipe($('pview'), function(dir){ nav(dir); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){
       b.addEventListener('click', function(){
         var g = b.getAttribute('data-g');
@@ -2198,28 +2200,56 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     return out;
   }
 
+  /* Grouped topics (marine: box jellyfish, bluebottle, stonefish ...) are
+     separate emergencies, so the player stays inside the chosen group: Next stops
+     at the group's last step instead of running into the next emergency. The
+     chips switch group; the list view still shows every group. Topics whose
+     groups are phases of one emergency (stroke: check F.A.S.T., then while you
+     wait) run straight through. Layout only: no step text changes. */
+  var SEQUENTIAL = { stroke: 1 };
+  function range(i){
+    var t = cur, g = t.steps[i] && t.steps[i].g;
+    if (!g || SEQUENTIAL[t.id]) return [0, t.steps.length - 1];
+    var a = i, b = i;
+    while (a > 0 && t.steps[a - 1].g === g) a--;
+    while (b < t.steps.length - 1 && t.steps[b + 1].g === g) b++;
+    return [a, b];
+  }
+  function nav(d){
+    var r = range(step), i = step + d;
+    if (i >= r[0] && i <= r[1]) show(i, d);
+  }
+
   function show(i, dir){
     var t = cur; if (!t) return;
     if (i < 0 || i >= t.steps.length) return;
     step = i;
+    var r = range(i), n = r[1] - r[0] + 1, k = i - r[0] + 1;
     var s = t.steps[i], c = $('pcard');
     c.className = 'pcard';
-    c.innerHTML = picture(t.id, i, s.a) + '<div class="pbody"><p class="pnum">Step ' + (i+1) + ' of ' + t.steps.length + '</p><p class="ptext">' + s.t + '</p></div>';
+    c.innerHTML = picture(t.id, i, s.a) + '<div class="pbody"><p class="pnum">Step ' + k + ' of ' + n + '</p><p class="ptext">' + s.t + '</p></div>';
     if (dir){ void c.offsetWidth; c.className = 'pcard ' + (dir > 0 ? 'in-next' : 'in-prev'); }
     $('pg').textContent = s.g || t.title;
-    $('pc').textContent = (i+1) + ' / ' + t.steps.length;
-    $('pPrev').disabled = i === 0;
-    var last = i === t.steps.length - 1;
+    $('pc').textContent = k + ' / ' + n;
+    $('pPrev').disabled = i === r[0];
+    var last = i === r[1];
     $('pNext').disabled = last;
     $('pNext').textContent = last ? 'Last step' : 'Next →';
-    if ($('progBar')) $('progBar').style.width = ((i+1) / t.steps.length * 100) + '%';
+    var dots = $('dots');
+    if (dots.getAttribute('data-r') !== r.join('-')){
+      dots.setAttribute('data-r', r.join('-'));
+      dots.innerHTML = n <= 10 ? Array.apply(null, Array(n)).map(function(_, j){ return '<button type="button" data-i="' + (r[0] + j) + '" aria-label="Step ' + (j + 1) + '"></button>'; }).join('')
+        : '<div class="prog" style="width:100%" aria-hidden="true"><span id="progBar"></span></div>';
+    }
+    if ($('progBar')) $('progBar').style.width = (k / n * 100) + '%';
     var rail = $('rail'), fill = $('railFill');
     if (rail && fill){
-      rail.setAttribute('aria-valuenow', String(i + 1));
-      rail.setAttribute('aria-valuetext', 'Step ' + (i + 1) + ' of ' + t.steps.length);
-      fill.style.width = ((i + 1) / t.steps.length * 100) + '%';
+      rail.setAttribute('aria-valuemax', String(n));
+      rail.setAttribute('aria-valuenow', String(k));
+      rail.setAttribute('aria-valuetext', 'Step ' + k + ' of ' + n);
+      fill.style.width = (k / n * 100) + '%';
     }
-    else [].forEach.call($('dots').children, function(b, k){ b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    else [].forEach.call(dots.children, function(b){ b.setAttribute('aria-current', +b.getAttribute('data-i') === i ? 'true' : 'false'); });
     if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
   }
 

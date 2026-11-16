@@ -77,6 +77,13 @@ with sync_playwright() as p:
             for _ in range(n - 1): pg.click('#pNext')
             if not pg.is_disabled('#pNext'): bad.append(t)
         rec('core', 'All 16 topics open and step to the last card', not bad, ','.join(bad))
+        pg.goto(BASE + '#marine'); pg.wait_for_timeout(150)
+        pg.click('#gchips button[data-g="Bluebottle"]'); pg.wait_for_timeout(100)
+        seen = [pg.inner_text('#pc')]
+        while not pg.is_disabled('#pNext'): pg.click('#pNext'); seen.append(pg.inner_text('#pc'))
+        rec('core', 'Grouped steps stop at the end of the chosen group (Bluebottle: 3 steps)', seen == ['1 / 3', '2 / 3', '3 / 3'] and pg.inner_text('#pg') == 'Bluebottle', str(seen))
+        pg.goto(BASE + '#stroke'); pg.wait_for_timeout(150)
+        rec('core', 'Stroke runs F.A.S.T. straight into "While you wait"', pg.inner_text('#pc') == '1 / 6')
         pg.goto(BASE + '#marine'); pg.wait_for_timeout(150); pg.click('#toggle')
         rec('core', 'List view shows all steps', pg.locator('#list .li').count() == 16)
         pg.goto(BASE + '#snake'); pg.reload(); pg.wait_for_timeout(300)
