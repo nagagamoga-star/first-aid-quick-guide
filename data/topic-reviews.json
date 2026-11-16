@@ -653,7 +653,8 @@
       "openFindings": [
         "F40",
         "F41",
-        "F42"
+        "F42",
+        "F44"
       ],
       "review": {
         "reviewer": null,
@@ -704,14 +705,20 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Naga Gamoga (project owner)",
           "note": "Owner override renewed for PR #12 (previous 0e9cdefe670ec9d0). Status unchanged."
+        },
+        {
+          "date": "2026-11-17",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Naga Gamoga (project owner)",
+          "note": "Owner override renewed for PR #17, 28 generated pictures (previous 356a7f81cc905fdb). Status unchanged."
         }
       ],
       "ownerOverride": {
         "by": "Naga Gamoga (project owner)",
-        "at": "2026-11-16",
-        "reason": "Owner decision: add the Commons adrenaline injection-site diagram. Published before clinical review; F01, F40, F41 and F42 remain open.",
-        "scope": "PR #12 (adrenaline injection site), on top of PRs #9 and #10",
-        "contentHash": "356a7f81cc905fdb"
+        "at": "2026-11-17",
+        "reason": "Owner decision: publish the 28 AI-generated pictures (ChatGPT, owner-supplied) to main as a single build for the owner's own inspection on a phone before booking a clinical reviewer. Each is captioned \"AI-generated picture\" and \"published by the site owner before clinical review\". Published before clinical review; F01, F40, F41, F42 and F44 remain open.",
+        "scope": "PR #17 (generated pictures), on top of PRs #9, #10 and #12",
+        "contentHash": "cc3d5bfbe4f2d2bb"
       }
     }
   ]
