@@ -1,0 +1,231 @@
+{
+  "note": "Home-screen flip cards. WebP is what the app loads. assets/cards/source/*.jpg are the originals and are not in the service worker. Cached on first view, not in the install precache, so the offline steps stay lean. Alt text is from the written steps. Unreviewed.",
+  "cards": [
+    {
+      "id": "cover",
+      "topic": null,
+      "title": "First Aid Quick Guide",
+      "file": "assets/cards/cover.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "76cb6781307d38a09b10d83fc0bc482ed383b36709a3f56533dc99cb3e9de044",
+      "alt": "Cover of the First Aid Quick Guide. A helper gives chest compressions to a person lying on their back. The written steps are the instruction, not this picture.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "collapse",
+      "topic": "collapse",
+      "title": "Someone has collapsed",
+      "file": "assets/cards/collapse.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "64c2c957db8148418dc185ed1062a24def2dc72ef951ac30b59c9d1bfa8aba94",
+      "alt": "Someone has collapsed. Check it is safe, check for a response, call 000, open the airway, look listen and feel for breathing, start CPR if they are not breathing normally, and use an AED when one arrives.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "cpr",
+      "topic": "cpr",
+      "title": "CPR",
+      "file": "assets/cards/cpr.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "dcc6e275d4f73dc14d04f9f1e9e33222378c2a134b6e8df860895480ce9a40b4",
+      "alt": "CPR. Lay them on their back on a firm surface. Hands on the centre of the chest, on the lower half of the breastbone. Push hard and fast, 100 to 120 times a minute, then 2 breaths. Keep going.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "choking",
+      "topic": "choking",
+      "title": "Choking",
+      "file": "assets/cards/choking.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "cf58b0a5951fa2648e23218d94a4f7c81bd717f65602027c0c4154c9bdc847e0",
+      "alt": "Choking, when they cannot cough, breathe or speak. Call 000. Up to 5 back blows between the shoulder blades, then up to 5 chest thrusts. For a baby, lay them face down with the head lower than the body.",
+      "reviewNotes": [
+        "The infant panel does not clearly show the head lower than the body.",
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "bleeding",
+      "topic": "bleeding",
+      "title": "Severe bleeding",
+      "file": "assets/cards/bleeding.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "428de9d73e9fec436f49879e11dcda92f13acd511d34832124a31c7bf10d0d71",
+      "alt": "Severe bleeding. Press firmly and directly on the wound. Leave anything stuck in the wound and press beside it. A tourniquet is only for life-threatening bleeding from an arm or leg that pressure cannot stop.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "anaphylaxis",
+      "topic": "anaphylaxis",
+      "title": "Anaphylaxis",
+      "file": "assets/cards/anaphylaxis.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "76d2fefe78483db0b94efecf89f3563598f34ddede38b94a6c8bb14f3eebb174",
+      "alt": "Anaphylaxis. Lay them flat and do not let them stand or walk. Give their adrenaline autoinjector into the outer thigh, then call 000.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "heart",
+      "topic": "heart",
+      "title": "Heart attack",
+      "file": "assets/cards/heart.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "899348a3f6e2cefc7f68c1e9e15b9fc46fbe630ddb3610db842531f3bbf8d603",
+      "alt": "Heart attack. Help them rest, help with their own angina medicine, call 000, and for an adult offer 300 mg aspirin unless they are allergic. Bring an AED.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "stroke",
+      "topic": "stroke",
+      "title": "Stroke",
+      "file": "assets/cards/stroke.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "b73c0af3f6e5a946ffc523e468bbd8141b415d543eac1b12a9e9c7874a557cde",
+      "alt": "Stroke. Face: is one side drooping? Arms: is one weak? Speech: is it slurred? Time: call 000 now. Do not give them anything to eat or drink.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "unconscious",
+      "topic": "unconscious",
+      "title": "Unconscious, breathing",
+      "file": "assets/cards/unconscious.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "052850302b046ee9ceaa551ad1db7e2cc7d0fe7ca3cf24e527d573d58b75089f",
+      "alt": "Unconscious but breathing. Roll them onto their side, head tilted back so the airway stays open, and call 000. Keep checking their breathing.",
+      "reviewNotes": [
+        "The recovery position does not clearly show the top knee bent forward.",
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "snake",
+      "topic": "snake",
+      "title": "Snake bite",
+      "file": "assets/cards/snake.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "f66810b74fd977f2639fce082410bd15ebb2338d92b4a5515a8898428c9f5d12",
+      "alt": "Snake bite. Keep them still. Bandage firmly over the bite, then bandage the whole limb from the fingers or toes upward, and splint it. Do not use a tourniquet. Call 000.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "marine",
+      "topic": "marine",
+      "title": "Jellyfish and marine stings",
+      "file": "assets/cards/marine.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "d2fc1e82a19b8b1395e43469047718425b06e7853f26547000de6440665d35ee",
+      "alt": "Jellyfish and marine stings. For box jellyfish and Irukandji, pour vinegar on the sting for 30 seconds. For a bluebottle, rinse with sea water and soak in hot water, not vinegar. For a blue-ringed octopus or cone shell, use the pressure bandage and splint, as for a snake bite.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "spider",
+      "topic": "spider",
+      "title": "Spider bite",
+      "file": "assets/cards/spider.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "739506e6c7a8489dd1259b92de7f466f51e929844213ac9b7ff005cedb0a2ef2",
+      "alt": "Spider bite. Funnel-web: call 000 and apply the pressure bandage and splint, as for a snake bite. Redback and other spiders: a cold pack for pain, and no pressure bandage.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "burns",
+      "topic": "burns",
+      "title": "Burns and scalds",
+      "file": "assets/cards/burns.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "e23414f7146a287493e5455e1b9becec000f84c656bdacdafd928287dbda18fd",
+      "alt": "Burns and scalds. Cool the burn under cool running water for 20 minutes. Cover it loosely. Keep the rest of the person warm.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "asthma",
+      "topic": "asthma",
+      "title": "Asthma attack",
+      "file": "assets/cards/asthma.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "435f7be5191bcd24e64aab7ea35b0487be5a655a5245d093be441ab20e0e6d0d",
+      "alt": "Asthma attack. Sit them upright. Give 4 separate puffs of their blue or grey reliever, one puff at a time into a spacer with 4 breaths from the spacer. Wait 4 minutes. If they are not better, call 000 and keep giving 4 puffs every 4 minutes.",
+      "reviewNotes": [
+        "The spacer is drawn small.",
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "seizure",
+      "topic": "seizure",
+      "title": "Seizure",
+      "file": "assets/cards/seizure.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "f1ee9f1946ec683965ab58237b9c581a9d00e523b3a734823d5ce4555c81bff0",
+      "alt": "Seizure. Move hard or sharp things away, put something soft under their head, and time the seizure. When it stops, roll them onto their side. Do not hold them down or put anything in their mouth.",
+      "reviewNotes": [
+        "Step 2 shows the rescuer touching the leg while timing the seizure.",
+        "Step 3, the recovery position, does not clearly show the top knee bent.",
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "heat",
+      "topic": "heat",
+      "title": "Heat illness",
+      "file": "assets/cards/heat.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "27d10a5d3f3269d71712a6f18f30d640c0d215d84910e6c0df066a70a9feec58",
+      "alt": "Heat illness. Move them into the shade, loosen extra clothing, and cool them fast. Call 000 if they are confused, very drowsy, or not improving quickly.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "poison",
+      "topic": "poison",
+      "title": "Poisoning",
+      "file": "assets/cards/poison.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "2c6ce5f487530ebe2e9716536a8b10470fbc9eb707196faf43b3cf208833f1f1",
+      "alt": "Poisoning, including button batteries. Call the Poisons Information Centre on 13 11 26, and call 000 if they are drowsy or having trouble breathing. Do not make them vomit. A swallowed button battery needs an emergency department straight away.",
+      "reviewNotes": [
+        "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    }
+  ]
+}

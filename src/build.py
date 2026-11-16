@@ -16,7 +16,7 @@ import hashlib, json, os, re, shutil, subprocess, sys, tempfile
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC)
-SCRIPTS = ['art.js', 'illustrate.js', 'media.js', 'viewer.js', 'topics.js', 'flow.js', 'marks.js', 'app.js', 'pwa.js']  # order matters
+SCRIPTS = ['art.js', 'illustrate.js', 'media.js', 'viewer.js', 'topics.js', 'flow.js', 'marks.js', 'app.js', 'cards.js', 'pwa.js']  # order matters
 FONTS = sorted(f for f in os.listdir(os.path.join(ROOT, 'fonts')) if f.endswith('.woff2')) if os.path.isdir(os.path.join(ROOT, 'fonts')) else []
 # Precached as one unit (CORE). './' and 'index.html' are the app page.
 PRECACHE = ['./', 'index.html', 'manifest.webmanifest', 'favicon.svg',
@@ -27,17 +27,30 @@ MEDIA_FILES = [i['file'] for i in _media['items'] if i['decision'] == 'accepted'
 PRECACHE += MEDIA_FILES
 # Cached on first use (3D).
 LAZY = ['vendor/three/three.min.js', 'vendor/three/OrbitControls.js', 'models/anatomy.b64.txt']
+# Topic-card photographs. Not precached: the offline core stays the steps,
+# fonts and accepted diagrams. The service worker saves each card the first
+# time the home screen asks for it. Originals under assets/cards/source/ are
+# not referenced by the app.
+_cards_doc = json.load(open(os.path.join(ROOT, 'data', 'topic-cards.json'), encoding='utf-8'))
+CARD_FILES = [c['file'] for c in _cards_doc['cards']]
 
 errors, warnings = [], []
 def fail(msg): errors.append(msg)
 def read(*p): return open(os.path.join(*p), encoding='utf-8').read()
 
 # 1. required files
-required = [os.path.join('src', f) for f in ['shell.html', 'style.css', 'sw.js', 'noscript.mjs'] + SCRIPTS] + ['data/clinical-sources.json', 'data/topic-reviews.json', 'data/source-findings.json', 'data/media.json']
+required = [os.path.join('src', f) for f in ['shell.html', 'style.css', 'sw.js', 'noscript.mjs'] + SCRIPTS] + ['data/clinical-sources.json', 'data/topic-reviews.json', 'data/source-findings.json', 'data/media.json', 'data/topic-cards.json']
+required += CARD_FILES
 required += [p for p in PRECACHE + LAZY if p not in ('./', 'index.html')]
 for rel in required:
     if not os.path.isfile(os.path.join(ROOT, rel)): fail(f'missing file: {rel}')
 if len(FONTS) < 7: fail(f'expected 7 font files in fonts/, found {len(FONTS)}')
+if len(_cards_doc.get('cards') or []) != 17: fail('expected 17 topic cards')
+for c in _cards_doc['cards']:
+    path = os.path.join(ROOT, c['file'])
+    if not os.path.isfile(path): fail(f"topic card {c['id']}: file missing"); continue
+    if hashlib.sha256(open(path, 'rb').read()).hexdigest() != c.get('sha256'): fail(f"topic card {c['id']}: file does not match its recorded sha256")
+    if not c.get('alt') or not c.get('title'): fail(f"topic card {c['id']}: title and alt text are required")
 dupes = {p for p in PRECACHE if PRECACHE.count(p) > 1}
 if dupes: fail(f'duplicate precache entries: {sorted(dupes)}')
 if errors: print('\n'.join('FAIL ' + e for e in errors)); sys.exit(1)
@@ -68,6 +81,27 @@ shell = read(SRC, 'shell.html')
 for marker in ('/*CSS*/', '/*JS*/'):
     if shell.count(marker) != 1: fail(f'shell.html must contain {marker} exactly once')
 if shell.count('<!--NOJS-->') != 1: fail('shell.html must contain <!--NOJS--> exactly once')
+if shell.count('<!--DECK-->') != 1: fail('shell.html must contain <!--DECK--> exactly once')
+def esc(s):
+    return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+deck = ['<section class="deck" aria-labelledby="deckH">',
+        '<div class="deck-head"><h2 id="deckH">Flip through</h2>',
+        '<p class="deck-note">These pictures have not been clinically reviewed. Follow the written steps.</p></div>',
+        '<div class="deck-scroller" id="deckScroller" tabindex="0" aria-label="Illustrated topic cards. Arrow keys move between cards.">']
+for c in _cards_doc['cards']:
+    img = '<img src="%s" alt="%s" width="%s" height="%s" decoding="async">' % (esc(c['file']), esc(c['alt']), c['width'], c['height'])
+    cap = '<span class="deck-title">%s</span><span class="deck-review">Picture not yet clinically reviewed.</span>' % (esc(c['title']),)
+    if c.get('topic'):
+        deck.append('<a class="deck-card" href="#%s">%s<span class="deck-meta">%s</span></a>' % (esc(c['topic']), img, cap))
+    else:
+        deck.append('<figure class="deck-card deck-cover">%s<figcaption>%s</figcaption></figure>' % (img, cap))
+deck += ['</div>',
+         '<div class="deck-nav">',
+         '<button type="button" class="round" id="deckPrev" aria-label="Previous card">&#8249;</button>',
+         '<button type="button" class="round" id="deckNext" aria-label="Next card">&#8250;</button>',
+         '</div></section>']
+shell = shell.replace('<!--DECK-->', ''.join(deck))
+if '<!--DECK-->' in shell: fail('topic card deck was not inserted')
 if node:
     r = subprocess.run([node, os.path.join(SRC, 'noscript.mjs')], capture_output=True, text=True)
     if r.returncode: fail('no-JavaScript guide failed:\n' + (r.stderr or r.stdout).strip())
@@ -122,8 +156,9 @@ def digest(paths, extra=b''):
 core_v = digest([p for p in PRECACHE if p not in ('./', 'index.html')], html.encode('utf-8'))
 lazy_v = digest(LAZY)
 sw = read(SRC, 'sw.js')
-sw = (sw.replace('__CORE_VERSION__', core_v).replace('__3D_VERSION__', lazy_v)
-        .replace('__PRECACHE__', json.dumps(PRECACHE)).replace('__LAZY__', json.dumps(LAZY)))
+cards_v = digest(CARD_FILES) if CARD_FILES else 'none'
+sw = (sw.replace('__CORE_VERSION__', core_v).replace('__3D_VERSION__', lazy_v).replace('__CARDS_VERSION__', cards_v)
+        .replace('__PRECACHE__', json.dumps(PRECACHE)).replace('__LAZY__', json.dumps(LAZY)).replace('__CARDS__', json.dumps(CARD_FILES)))
 
 # 5. output checks
 if re.search(r'/\*(CSS|JS)\*/', html): fail('index.html has an unreplaced marker')
@@ -155,6 +190,7 @@ print(f'sw.js       core {core_v}, 3D {lazy_v}')
 print(f'precache    {len(PRECACHE)} entries, about {pre_bytes / 1024:.0f} KB')
 print(f'diagrams    {sum(i["decision"] == "accepted" and i.get("origin") != "generated" for i in media_items)} from Wikimedia Commons, {sum(i.get("origin") == "generated" for i in media_items)} generated (owner-supplied); hidden drawings: {", ".join(k for i in media_items if i["decision"] == "hidden" for k in i["keys"]) or "none"}')
 print(f'3D on use   {len(LAZY)} files, {sum(size(p) for p in LAZY) / 1024:.0f} KB')
+print(f'topic cards {len(CARD_FILES)} files, {sum(size(p) for p in CARD_FILES) / 1024:.0f} KB, cached on first view, not in the precache')
 print(f'structure   {structure}')
 print(f'{governance}')
 for w in warnings: print('WARN ' + w)
