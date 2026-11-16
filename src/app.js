@@ -183,7 +183,8 @@
     var h = '<a class="back" href="#">← All topics</a>';
     h += '<header class="thead ' + t.sev + '"><span class="tag">' + t.tag + '</span><h1 id="tTitle" tabindex="-1">' + t.title + '</h1></header>';
     if (t.when) h += '<p class="when' + (t.sev !== 'calm' ? ' crit-when' : '') + '">' + t.when + '</p>';
-    if (t.extra === 'cpr') h += $('tplAges').innerHTML;
+    // The step cards come straight after the "when" line; reference panels such
+    // as the CPR depth-by-age cards follow the steps instead of pushing them down.
     var gs = [];
     t.steps.forEach(function(s){ if (s.g && gs.indexOf(s.g) < 0) gs.push(s.g); });
     if (gs.length > 1) h += '<div class="gchips" id="gchips" role="group" aria-label="Jump to">' + gs.map(function(g){ return '<button type="button" data-g="' + g + '" aria-pressed="false">' + g + '</button>'; }).join('') + '</div>';
@@ -206,6 +207,7 @@
       '<p class="v3d-status" aria-live="polite">Loads a body model of about 0.5 MB.</p>' +
       '<p class="v3d-credit">Anatomy: <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html">BodyParts3D</a>, \u00a9 The Database Center for Life Science, CC BY 4.0, simplified from Human Atlas. The explanation is general anatomy, not part of the ANZCOR guidelines.</p></section>';
     h += '</div>';
+    if (t.extra === 'cpr') h += $('tplAges').innerHTML;
     if (t.extra === 'cpr') h += $('tplBeat').innerHTML;
     if (t.dont) h += '<section class="dont"><h2>Don’t</h2><ul>' + t.dont.map(function(d){ return '<li>' + d + '</li>'; }).join('') + '</ul></section>';
     if (t.notes) h += '<ul class="notes">' + t.notes.map(function(n){ return '<li>' + n + '</li>'; }).join('') + '</ul>';
@@ -318,7 +320,11 @@
       fill.style.width = (k / n * 100) + '%';
     }
     else [].forEach.call(dots.children, function(b){ b.setAttribute('aria-current', +b.getAttribute('data-i') === i ? 'true' : 'false'); });
-    if ($('gchips')) [].forEach.call($('gchips').children, function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-g') === s.g ? 'true' : 'false'); });
+    if ($('gchips')) [].forEach.call($('gchips').children, function(b){
+      var on = b.getAttribute('data-g') === s.g;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on && b.parentNode.scrollWidth > b.parentNode.clientWidth) b.parentNode.scrollLeft = b.offsetLeft - b.parentNode.offsetLeft - 16;
+    });
   }
 
   /* Atkinson Hyperlegible slashes its zeros, which makes 000 read badly: set phone numbers in the display face. */
