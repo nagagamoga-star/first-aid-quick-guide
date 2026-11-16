@@ -624,6 +624,77 @@ body.palette-open{overflow:hidden}
   .dock.compact .call.e{font-size:18px;min-height:46px}
   .dock.compact .net{display:none}
 }
+
+
+/* Diagram card clarity (visual-only): make the illustration its own readable panel.
+   Do not alter first-aid text, poses, SVG geometry, or the clinical review status. */
+.pcard .step-illustration{
+  box-sizing:border-box;
+  width:min(100% - 28px,620px);
+  margin:4px auto 10px;
+  padding:12px 14px 10px;
+  border:1px solid color-mix(in srgb,var(--ink) 17%,transparent);
+  border-radius:22px;
+  background:color-mix(in srgb,var(--card) 86%,var(--calm-bg) 14%);
+  box-shadow:0 6px 18px rgba(20,31,39,.08),inset 0 1px 0 rgba(255,255,255,.12);
+  overflow:hidden;
+}
+.diagram-heading{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-display);font-weight:800;
+  font-size:12px;letter-spacing:.065em;text-transform:uppercase;
+  color:var(--ink);line-height:1.4;
+}
+.diagram-heading-mark{
+  display:inline-block;width:9px;height:9px;border-radius:50%;
+  background:var(--calm);box-shadow:0 0 0 3px color-mix(in srgb,var(--calm) 18%,transparent);
+}
+.pcard .step-illustration .art{
+  display:block;width:100%;height:auto;
+  max-height:350px;
+  margin:0 auto;
+  overflow:visible;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.08));
+}
+.diagram-key{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;
+  padding:9px 4px 2px;
+  border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);
+  color:var(--ink);font-size:12px;font-weight:700;line-height:1.4;
+}
+.diagram-key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.key-swatch{display:inline-block;width:11px;height:11px;flex:none;border-radius:4px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent)}
+.key-person{background:var(--pt)}
+.key-helper{background:var(--res)}
+.key-action{background:var(--act)}
+.pcard .pbody{width:min(100% - 28px,620px);box-sizing:border-box;margin-inline:auto;padding:8px 4px 16px}
+.pcard .ptext{max-width:unset;line-height:1.55}
+.list .step-illustration{
+  margin:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;
+  background:color-mix(in srgb,var(--calm-bg) 48%,var(--card));
+}
+.list .step-illustration .diagram-heading,
+.list .step-illustration .diagram-key{display:none}
+.list .step-illustration .art{width:100%;height:auto}
+.tcard .illust{
+  margin:8px 10px 0;border-radius:12px;
+  background:color-mix(in srgb,var(--calm-bg) 40%,var(--card));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 9%,transparent);
+}
+.tcard .illust .art{padding:4px 8px;box-sizing:border-box}
+@media(max-width:640px){
+  .pcard .step-illustration{width:calc(100% - 20px);padding:9px 9px 7px;border-radius:16px}
+  .pcard .pbody{width:calc(100% - 20px);padding:8px 6px 16px}
+  .diagram-key{gap:6px 11px;font-size:11px}
+  .pcard .step-illustration .art{max-height:280px}
+}
+@media(forced-colors:active){
+  .pcard .step-illustration,.list .step-illustration,.tcard .illust{border:2px solid CanvasText}
+  .key-swatch{border:2px solid CanvasText}
+  .diagram-heading-mark{background:Highlight}
+}
+/* Photos and diagrams (figure.dg) have no person/helper colour coding: hide the drawing key there. */
+.step-illustration:has(.dg) .diagram-key{display:none}
 /* Phones: group chips in one swipeable row, so the step cards sit higher on the screen. */
 @media (max-width:639px){
   .gchips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;margin-inline:-16px;padding:4px 16px 6px;scrollbar-width:none;
@@ -2322,7 +2393,16 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
   /* A step picture. The slot id is the contract; the markup around it is layout. */
   function picture(topicId, stepIndex, spec){
     var s = Illustrate.slot(topicId, stepIndex, spec);
-    return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+    // The diagram is a visual aid, not a replacement for the written instruction.
+    // Keep the existing reviewed-content boundary: no drawing geometry or step text changes.
+    if (stepIndex === 'icon') return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+    return '<figure class="illust step-illustration" data-slot="' + s.id + '">' +
+      '<div class="diagram-heading" aria-hidden="true"><span class="diagram-heading-mark"></span>Step illustration</div>' +
+      Illustrate.render(s) +
+      '<figcaption class="diagram-key"><span><i class="key-swatch key-person"></i>Person</span>' +
+      '<span><i class="key-swatch key-helper"></i>Helper</span>' +
+      '<span><i class="key-swatch key-action"></i>Action / direction</span></figcaption>' +
+      '</figure>';
   }
 
   /* ---------- Routing ---------- */
