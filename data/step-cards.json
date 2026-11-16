@@ -1,0 +1,70 @@
+{
+  "note": "Per-step pictures, keyed by topic id and the 0-based step index in src/topics.js. WebP is what the app loads. assets/cards/source/steps/*.jpg are the originals and are not in the service worker. Cached on first view, in the same cache as the home cards, not in the install precache. Alt text is the step text with the markup removed. Unreviewed.",
+  "cards": [
+    {
+      "id": "spider-1-call",
+      "topic": "spider",
+      "step": 0,
+      "file": "assets/cards/steps/spider-1-call.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "0dbc88f69f151fabc25ef57ed9773f625d4effae4cf7830ffe0dd87fe2d17234",
+      "alt": "Big black spider, mainly NSW and south-east Queensland. Call 000 straight away. Effects can start within 10 minutes.",
+      "reviewNotes": [
+        "Funnel-web, call 000. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "spider-2-bandage-splint",
+      "topic": "spider",
+      "step": 1,
+      "file": "assets/cards/steps/spider-2-bandage-splint.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "0a4bf286538698a2276e2a1ec2c4a2156e1eaf0b55912ec0239f29ac4b8844aa",
+      "alt": "Apply the pressure bandage and splint as for a snake bite, and keep them still.",
+      "reviewNotes": [
+        "Funnel-web pressure bandage and splint. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "spider-3-coldpack",
+      "topic": "spider",
+      "step": 2,
+      "file": "assets/cards/steps/spider-3-coldpack.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "70bf44a1de8ce020b6c188d49e3f6973b49153c8e8dcf5612ad562eda2b3aef3",
+      "alt": "Use an ice or cold pack for pain, for no more than 20 minutes at a time.",
+      "reviewNotes": [
+        "Redback and other spiders, cold pack. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "spider-4-no-bandage",
+      "topic": "spider",
+      "step": 3,
+      "file": "assets/cards/steps/spider-4-no-bandage.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "bbaaa9a2b865e4fb8da0a46f3c9cea42b0428257606d3caf3df69126aa2c8442",
+      "alt": "No pressure bandage. It makes redback pain worse.",
+      "reviewNotes": [
+        "No pressure bandage for redback. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "spider-5-medical-help",
+      "topic": "spider",
+      "step": 4,
+      "file": "assets/cards/steps/spider-5-medical-help.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "836a14fa7536988823901389f680ef5cb8c3f551beb222c9f6ca1b012e36e266",
+      "alt": "Get medical help if it’s a young child, the pain is severe, or they become unwell or collapse.",
+      "reviewNotes": [
+        "When to get medical help. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    }
+  ]
+}

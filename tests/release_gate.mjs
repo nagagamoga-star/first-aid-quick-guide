@@ -55,7 +55,20 @@ function contentHashes(read) {
     const m = JSON.parse(read('data/media.json'));
     media = JSON.stringify(m.items.filter(i => i.decision === 'accepted' || i.decision === 'hidden').map(i => [i.id, i.decision, i.keys, i.slots, i.file, i.sha256, i.alt, i.caption]));
   } catch { /* no manifest at this ref */ }
-  content['illustrations'] = read('src/art.js') + (media && media !== '[]' ? '|' + media : '');
+  // Home-screen topic cards (file hash and alt text). Swapping a card is a
+  // clinical change, the same as swapping a step picture.
+  let cards = '';
+  try {
+    const c = JSON.parse(read('data/topic-cards.json'));
+    cards = JSON.stringify((c.cards || []).map(x => [x.id, x.file, x.sha256, x.alt]));
+  } catch { /* no topic cards at this ref */ }
+  // Per-step photographs, keyed by topic and step index.
+  let steps = '';
+  try {
+    const s = JSON.parse(read('data/step-cards.json'));
+    steps = JSON.stringify((s.cards || []).map(x => [x.id, x.topic, x.step, x.file, x.sha256, x.alt]));
+  } catch { /* no step cards at this ref */ }
+  content['illustrations'] = read('src/art.js') + (media && media !== '[]' ? '|' + media : '') + (cards ? '|' + cards : '') + (steps ? '|' + steps : '');
   return Object.fromEntries(Object.entries(content).map(([k, v]) => [k, sha(v)]));
 }
 const hashes = contentHashes(text);

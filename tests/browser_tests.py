@@ -88,6 +88,23 @@ with sync_playwright() as p:
         rec('core', 'List view shows all steps', pg.locator('#list .li').count() == 16)
         pg.goto(BASE + '#snake'); pg.reload(); pg.wait_for_timeout(300)
         rec('core', 'Refresh on a topic URL reopens that topic', pg.is_visible('#topic') and 'Snake' in pg.inner_text('#tTitle'))
+        pg.goto(BASE + '#spider'); pg.wait_for_timeout(200)
+        names = ['spider-1-call', 'spider-2-bandage-splint', 'spider-3-coldpack', 'spider-4-no-bandage', 'spider-5-medical-help']
+        bits = ['Call 000', 'pressure bandage', '20 minutes', 'No pressure bandage', 'medical help']
+        srcs, alts, caps = [], [], []
+        for n in range(5):
+            pg.wait_for_function("() => { const i = document.querySelector('#pcard .step-photo img'); return !!(i && i.complete && i.naturalWidth > 0); }", timeout=8000)
+            srcs.append(pg.get_attribute('#pcard .step-photo img', 'src') or '')
+            alts.append(pg.get_attribute('#pcard .step-photo img', 'alt') or '')
+            caps.append(pg.inner_text('#pcard .dg-review'))
+            # Funnel-web is steps 1-2; the player stays in its group, so switch to Redback with its chip.
+            if n == 1: pg.click('#gchips button[data-g="Redback and all others"]')
+            elif n < 4: pg.click('#pNext')
+        shown = pg.evaluate("() => !document.querySelector('#pcard img[src*=\"gen-spider-coldpack\"]')")
+        ok = all(names[i] in srcs[i] and bits[i] in alts[i] and caps[i] == 'Picture not yet clinically reviewed.' for i in range(5)) and shown
+        pg.click('#toggle')
+        listed = pg.locator('#list .step-photo').count() == 5
+        rec('core', 'Spider steps show the unreviewed step pictures', ok and listed, ' | '.join(os.path.basename(s.split('?')[0]) for s in srcs))
     safe('core', 'topics', t_topics)
 
     def t_flow():
@@ -135,6 +152,12 @@ with sync_playwright() as p:
             rec('pwa', 'Service worker controls the page, scoped to /first-aid-quick-guide/', bool(ctl) and ctl.endswith('/first-aid-quick-guide/sw.js'), ctl or '')
             # warm the 3D cache once online
             pg.goto(BASE + '#cpr'); pg.wait_for_timeout(200); pg.click('.v3d-load'); pg.wait_for_timeout(4000)
+            # Step photographs are saved on first view, not in the install precache.
+            pg.goto(BASE + '#spider')
+            for n in range(5):
+                pg.wait_for_function("() => { const i = document.querySelector('#pcard .step-photo img'); return !!(i && i.complete && i.naturalWidth > 0); }", timeout=8000)
+                if n == 1: pg.click('#gchips button[data-g="Redback and all others"]')
+                elif n < 4: pg.click('#pNext')
             ctx.set_offline(True)
             pg.goto(BASE); pg.wait_for_timeout(600)
             rec('pwa', 'Opens with no network (airplane mode)', pg.is_visible('#stage'))

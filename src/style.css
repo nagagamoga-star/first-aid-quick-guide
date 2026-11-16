@@ -153,6 +153,36 @@ main{max-width:1040px;margin:0 auto;padding:16px 16px 64px}
 .panic-copy{color:var(--muted);font-size:16px}
 .panic:active{transform:translateY(2px);box-shadow:var(--shadow-pressed),inset 4px 0 0 var(--alarm)}
 
+/* Home flip deck. The pictures are the cards themselves, so the frame stays
+   quiet: a soft radius and a solid caption, never text over the drawing. */
+.deck{display:grid;gap:8px}
+.deck-head{display:grid;gap:4px}
+.deck-head h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.deck-note{color:var(--muted);font-size:15px;max-width:62ch}
+.deck-scroller{
+  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-padding-inline:8px;padding:2px 2px 10px;overscroll-behavior-x:contain;
+  touch-action:pan-x pan-y;
+}
+.deck-card{
+  flex:0 0 min(78vw,300px);scroll-snap-align:center;display:flex;flex-direction:column;
+  margin:0;text-decoration:none;color:inherit;background:var(--card);
+  border-radius:28px;overflow:hidden;box-shadow:0 14px 36px rgba(28,24,18,.1);
+}
+.deck-card img{display:block;width:100%;height:auto}
+.deck-meta,.deck-card figcaption{display:grid;gap:2px;padding:10px 14px 12px;background:var(--card)}
+.deck-title{font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--ink)}
+.deck-review{color:var(--muted);font-size:13px;font-style:italic}
+.deck-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+@media (prefers-reduced-motion:no-preference){
+  .deck-card{transition:transform .16s var(--ease)}
+}
+.deck-card:active{transform:translateY(2px)}
+@media (prefers-reduced-motion:reduce){
+  .deck-scroller{scroll-snap-type:x proximity}
+  .deck-card:active{transform:none}
+}
+
 .intro{display:grid;gap:12px}
 .intro h1{font-size:clamp(32px,6vw,48px)}
 .intro p{max-width:62ch;color:var(--muted)}
@@ -174,7 +204,7 @@ html:not(.js) .carousel,html:not(.js) .index{display:none}
   background:var(--card);color:var(--ink);box-shadow:var(--well);
 }
 .find input:focus,.index input:focus{outline:none;box-shadow:var(--well),0 0 0 3px var(--focus)}
-.group{display:grid;gap:8px}
+.group{display:grid;gap:8px;scroll-margin-top:150px}
 .group h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
 .chips{display:grid;gap:8px}
 @media (min-width:720px){.chips{grid-template-columns:1fr 1fr}}
@@ -676,6 +706,12 @@ body.palette-open{overflow:hidden}
 }
 /* Photos and diagrams (figure.dg) have no person/helper colour coding: hide the drawing key there. */
 .step-illustration:has(.dg) .diagram-key{display:none}
+/* Per-step photographs are portrait cards. In the player they can be taller than
+   a diagram. In the list they stay a thumbnail. The person/helper key is for drawings. */
+.pcard .step-photo .dg-zoom{padding:0;overflow:hidden}
+.pcard .step-photo .dg-zoom img{width:100%;max-height:min(52vh,520px);object-fit:contain;background:#fff}
+.list .step-photo .dg-zoom img{max-height:220px;object-fit:contain;background:#fff}
+.deck-main:has(#pcard .step-photo) .inkey{display:none}
 /* Phones: group chips in one swipeable row, so the step cards sit higher on the screen. */
 @media (max-width:639px){
   .gchips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;margin-inline:-16px;padding:4px 16px 6px;scrollbar-width:none;
