@@ -132,8 +132,10 @@
 
   /* ---------- Home: search and category tiles ---------- */
   var idx = $('chipsWrap');
+  var CAT_ID = { 'Bites & stings': 'bites', 'Medical': 'medical', 'Injuries & burns': 'injuries', 'Life-threatening': 'life' };
   CATS.forEach(function(g){
     var d = document.createElement('div'); d.className = 'group';
+    if (CAT_ID[g[0]]) d.id = CAT_ID[g[0]];
     var links = g[1].map(function(id){
       var t = byId[id];
       var dk = (t.title + ' ' + t.k).toLowerCase().replace(/"/g, '');
@@ -385,6 +387,8 @@
       view.hidden = true; home.hidden = false; cur = null; view.innerHTML = '';
       document.title = 'First Aid Quick Guide';
       layout();
+      var anchor = id && document.getElementById(id);
+      if (anchor && home.contains(anchor)) anchor.scrollIntoView({ block: 'start' });
     }
   }
   window.addEventListener('hashchange', route);

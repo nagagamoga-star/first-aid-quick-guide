@@ -116,6 +116,16 @@ CARDS = [
     'alt': 'Poisoning, including button batteries. Call the Poisons Information Centre on 13 11 26, and call 000 if they are drowsy or having trouble breathing. Do not make them vomit. A swallowed button battery needs an emergency department straight away.',
     'reviewNotes': ['AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
   },
+  {
+    'id': 'extra-bites-stings', 'topic': 'bites', 'title': 'Bites and stings', 'source': 'extra-bites-stings.jpg',
+    'alt': 'Bites and stings. Snake bite: keep them still, bandage firmly over the bite, then the whole limb from the fingers or toes upward, and splint. No tourniquet. Box jellyfish: vinegar for 30 seconds. A bluebottle: sea water and hot water, not vinegar. Funnel-web spider: the same pressure bandage and splint as a snake bite. Other spiders: a cold pack, and no pressure bandage.',
+    'reviewNotes': ['Summary card for bites and stings. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+  {
+    'id': 'extra-medical', 'topic': 'medical', 'title': 'Heart, asthma, anaphylaxis', 'source': 'extra-medical.jpg',
+    'alt': 'Heart attack, asthma and anaphylaxis. Heart attack: rest, help with their own angina medicine, call 000, and offer 300 mg aspirin to an adult who is not allergic. Asthma: sit upright and give 4 puffs of reliever through a spacer, 4 breaths each puff, then wait 4 minutes. Anaphylaxis: lay them flat and give their adrenaline autoinjector into the outer thigh, then call 000.',
+    'reviewNotes': ['Summary card for heart attack, asthma and anaphylaxis. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
 ]
 
 os.makedirs(OUT, exist_ok=True)
@@ -123,11 +133,13 @@ out_cards = []
 total = 0
 for c in CARDS:
     src = os.path.join(SRC, c['source'])
-    im = Image.open(src).convert('RGB')
-    im.thumbnail((MAX_W, MAX_W * 2), Image.Resampling.LANCZOS)
     name = c['id'] + '.webp'
     dest = os.path.join(OUT, name)
-    im.save(dest, 'WEBP', quality=QUALITY, method=6)
+    if not os.path.isfile(dest):
+        im = Image.open(src).convert('RGB')
+        im.thumbnail((MAX_W, MAX_W * 2), Image.Resampling.LANCZOS)
+        im.save(dest, 'WEBP', quality=QUALITY, method=6)
+    im = Image.open(dest)
     raw = open(dest, 'rb').read()
     total += len(raw)
     out_cards.append({

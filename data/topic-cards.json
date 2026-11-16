@@ -226,6 +226,32 @@
       "reviewNotes": [
         "AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
       ]
+    },
+    {
+      "id": "extra-bites-stings",
+      "topic": "bites",
+      "title": "Bites and stings",
+      "file": "assets/cards/extra-bites-stings.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "7161cfac8741a750eea2c8b98c086ff91315b4cbdde52f3d68012adb498ffd10",
+      "alt": "Bites and stings. Snake bite: keep them still, bandage firmly over the bite, then the whole limb from the fingers or toes upward, and splint. No tourniquet. Box jellyfish: vinegar for 30 seconds. A bluebottle: sea water and hot water, not vinegar. Funnel-web spider: the same pressure bandage and splint as a snake bite. Other spiders: a cold pack, and no pressure bandage.",
+      "reviewNotes": [
+        "Summary card for bites and stings. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
+    },
+    {
+      "id": "extra-medical",
+      "topic": "medical",
+      "title": "Heart, asthma, anaphylaxis",
+      "file": "assets/cards/extra-medical.webp",
+      "width": 640,
+      "height": 853,
+      "sha256": "a0bb137e5b412ba6b6deb205442c3e551140579c6655a9b12e705de76563acee",
+      "alt": "Heart attack, asthma and anaphylaxis. Heart attack: rest, help with their own angina medicine, call 000, and offer 300 mg aspirin to an adult who is not allergic. Asthma: sit upright and give 4 puffs of reliever through a spacer, 4 breaths each puff, then wait 4 minutes. Anaphylaxis: lay them flat and give their adrenaline autoinjector into the outer thigh, then call 000.",
+      "reviewNotes": [
+        "Summary card for heart attack, asthma and anaphylaxis. AI-generated. Needs clinical sign-off before the unreviewed label can be removed."
+      ]
     }
   ]
 }

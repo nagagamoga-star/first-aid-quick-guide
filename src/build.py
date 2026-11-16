@@ -45,7 +45,7 @@ required += [p for p in PRECACHE + LAZY if p not in ('./', 'index.html')]
 for rel in required:
     if not os.path.isfile(os.path.join(ROOT, rel)): fail(f'missing file: {rel}')
 if len(FONTS) < 7: fail(f'expected 7 font files in fonts/, found {len(FONTS)}')
-if len(_cards_doc.get('cards') or []) != 17: fail('expected 17 topic cards')
+if len(_cards_doc.get('cards') or []) < 17: fail('expected at least 17 topic cards')
 for c in _cards_doc['cards']:
     path = os.path.join(ROOT, c['file'])
     if not os.path.isfile(path): fail(f"topic card {c['id']}: file missing"); continue
