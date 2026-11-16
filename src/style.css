@@ -712,3 +712,10 @@ body.palette-open{overflow:hidden}
 .pcard .step-photo .dg-zoom img{width:100%;max-height:min(52vh,520px);object-fit:contain;background:#fff}
 .list .step-photo .dg-zoom img{max-height:220px;object-fit:contain;background:#fff}
 .deck-main:has(#pcard .step-photo) .inkey{display:none}
+/* Phones: group chips in one swipeable row, so the step cards sit higher on the screen. */
+@media (max-width:639px){
+  .gchips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;margin-inline:-16px;padding:4px 16px 6px;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .gchips::-webkit-scrollbar{display:none}
+  .gchips button{flex:none;scroll-snap-align:start;white-space:nowrap}
+}

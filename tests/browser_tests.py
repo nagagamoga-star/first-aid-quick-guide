@@ -77,6 +77,13 @@ with sync_playwright() as p:
             for _ in range(n - 1): pg.click('#pNext')
             if not pg.is_disabled('#pNext'): bad.append(t)
         rec('core', 'All 16 topics open and step to the last card', not bad, ','.join(bad))
+        pg.goto(BASE + '#marine'); pg.wait_for_timeout(150)
+        pg.click('#gchips button[data-g="Bluebottle"]'); pg.wait_for_timeout(100)
+        seen = [pg.inner_text('#pc')]
+        while not pg.is_disabled('#pNext'): pg.click('#pNext'); seen.append(pg.inner_text('#pc'))
+        rec('core', 'Grouped steps stop at the end of the chosen group (Bluebottle: 3 steps)', seen == ['1 / 3', '2 / 3', '3 / 3'] and pg.inner_text('#pg') == 'Bluebottle', str(seen))
+        pg.goto(BASE + '#stroke'); pg.wait_for_timeout(150)
+        rec('core', 'Stroke runs F.A.S.T. straight into "While you wait"', pg.inner_text('#pc') == '1 / 6')
         pg.goto(BASE + '#marine'); pg.wait_for_timeout(150); pg.click('#toggle')
         rec('core', 'List view shows all steps', pg.locator('#list .li').count() == 16)
         pg.goto(BASE + '#snake'); pg.reload(); pg.wait_for_timeout(300)
@@ -90,7 +97,9 @@ with sync_playwright() as p:
             srcs.append(pg.get_attribute('#pcard .step-photo img', 'src') or '')
             alts.append(pg.get_attribute('#pcard .step-photo img', 'alt') or '')
             caps.append(pg.inner_text('#pcard .dg-review'))
-            if n < 4: pg.click('#pNext')
+            # Funnel-web is steps 1-2; the player stays in its group, so switch to Redback with its chip.
+            if n == 1: pg.click('#gchips button[data-g="Redback and all others"]')
+            elif n < 4: pg.click('#pNext')
         shown = pg.evaluate("() => !document.querySelector('#pcard img[src*=\"gen-spider-coldpack\"]')")
         ok = all(names[i] in srcs[i] and bits[i] in alts[i] and caps[i] == 'Picture not yet clinically reviewed.' for i in range(5)) and shown
         pg.click('#toggle')
@@ -147,7 +156,8 @@ with sync_playwright() as p:
             pg.goto(BASE + '#spider')
             for n in range(5):
                 pg.wait_for_function("() => { const i = document.querySelector('#pcard .step-photo img'); return !!(i && i.complete && i.naturalWidth > 0); }", timeout=8000)
-                if n < 4: pg.click('#pNext')
+                if n == 1: pg.click('#gchips button[data-g="Redback and all others"]')
+                elif n < 4: pg.click('#pNext')
             ctx.set_offline(True)
             pg.goto(BASE); pg.wait_for_timeout(600)
             rec('pwa', 'Opens with no network (airplane mode)', pg.is_visible('#stage'))
