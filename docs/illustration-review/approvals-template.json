@@ -1,0 +1,18 @@
+{
+  "approvals": [
+    {
+      "id": "REPLACE_WITH_MANIFEST_ID",
+      "decision": "PENDING",
+      "sha256": "",
+      "reviewer": "",
+      "qualification": "",
+      "reviewedAt": "",
+      "sourceConfirmedBy": "",
+      "ownerApprovedBy": "",
+      "ownerApprovedAt": "",
+      "stepKey": "",
+      "alt": "",
+      "caption": ""
+    }
+  ]
+}
