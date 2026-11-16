@@ -24,3 +24,14 @@ The batch is packaged with a JSON manifest and hashes in `first_aid_illustration
 - **F:** Remaining topics and emergency question-flow visuals.
 
 Every draft must be assessed individually. Do not infer that the AI-generated artwork is anatomically correct.
+
+
+## Batch B–F draft image cards (17 November 2026)
+
+A further **38 original image-card candidates** have been produced, cropped to individual WebP cards and packaged with SHA-256 hashes in `first_aid_illustration_batches_B_F.zip` in the associated ChatGPT deliverables. These are **not** uploaded to GitHub, clinically approved, or connected to `data/media.json`.
+
+Coverage includes emergency calls, airway and breathing, AED, adult/infant choking, severe bleeding, embedded objects, bandages, splints, tourniquets, anaphylaxis, asthma, burns, poisoning, button batteries, snake bites, spiders, marine stings, nosebleeds and chest pain.
+
+**Important clinical risks:** The AI-generated drafts are not reliable evidence of correct technique. Some may be inaccurate or unsafe, particularly for infant choking, anaphylaxis devices, poisoning/button batteries, marine stings, AED pad placement, chemical burns and embedded objects. Do not publish these drafts merely because they look realistic. A qualified reviewer must compare each candidate against the relevant current Australian guidance, reject misleading images, and approve the final image and its accessible caption. Some drafts contain baked-in text; final production images should use separate HTML captions and alt text.
+
+**Implementation status:** Draft image creation and export complete; licence handling for the existing accepted Commons media is unchanged. Clinical review, production artwork selection, repo asset upload, manifest integration, offline rebuild, tests and owner approval remain outstanding.
