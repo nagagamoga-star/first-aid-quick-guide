@@ -35,3 +35,12 @@ Coverage includes emergency calls, airway and breathing, AED, adult/infant choki
 **Important clinical risks:** The AI-generated drafts are not reliable evidence of correct technique. Some may be inaccurate or unsafe, particularly for infant choking, anaphylaxis devices, poisoning/button batteries, marine stings, AED pad placement, chemical burns and embedded objects. Do not publish these drafts merely because they look realistic. A qualified reviewer must compare each candidate against the relevant current Australian guidance, reject misleading images, and approve the final image and its accessible caption. Some drafts contain baked-in text; final production images should use separate HTML captions and alt text.
 
 **Implementation status:** Draft image creation and export complete; licence handling for the existing accepted Commons media is unchanged. Clinical review, production artwork selection, repo asset upload, manifest integration, offline rebuild, tests and owner approval remain outstanding.
+
+
+## Review gallery implementation (17 November 2026)
+
+A working, responsive **42-image review gallery** is provided in the conversation deliverable `first_aid_illustration_review_implementation.zip`. It combines four Batch A images and 38 Batch B–F images, verifies the original SHA-256 hashes, and provides a per-image decision selector, notes and JSON export for a qualified reviewer.
+
+The gallery is a **separate local review application**, not a public first-aid page. It intentionally does not add unverified generated images to `data/media.json` or the deployed `index.html`. The GitHub connector used for this update only supports UTF-8 file creation, so the binary WebP package was not uploaded to the repository. To bring it into the repository, upload the ZIP or its extracted files through a Git checkout, then keep it on a review-only branch until clinical sign-off.
+
+Do not treat selecting “Approve proposal” in the gallery as final publication approval. A named qualified reviewer, current source check, correction of any unsafe artwork, and owner publication approval remain necessary. Existing accepted licensed diagrams remain in use.
