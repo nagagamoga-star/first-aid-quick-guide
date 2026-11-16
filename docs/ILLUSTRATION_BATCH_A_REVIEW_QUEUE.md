@@ -55,3 +55,5 @@ The site owner instructed that these pictures be used in the app, before clinica
 - **13 not used**: duplicates or no matching step.
 - The Commons airway, nosebleed and injection-site diagrams stay. Infant back blows, infant chest thrusts, "keep still" and adult chest thrusts stay text only.
 - Each picture still says it has not been clinically reviewed. A qualified reviewer must approve, change or reject each one.
+
+**Update 17 November 2026:** the owner asked for the whole set in one build for inspection. The 9 held-back pictures are now shown too (one infant back-blow alternative stays a candidate, as only one picture fits that step), replacing the Commons airway, nosebleed and injection-site diagrams. 28 generated pictures in the app; 14 not used (duplicates or no matching step).
