@@ -81,7 +81,7 @@ for (const t of TOPICS){
 let cardsHtml = '';
 try {
   const cards = JSON.parse(fs.readFileSync(root + 'data/topic-cards.json', 'utf8')).cards || [];
-  cardsHtml = '<h2>Topic cards, not reviewed</h2><p>These 17 pictures are the home-screen flip deck. They are AI-generated. The words in the alt text are taken from the written steps in src/topics.js. Text drawn on the picture is not the instruction. None of these cards is clinically approved.</p>';
+  cardsHtml = '<h2>Topic cards, not reviewed</h2><p>These ' + cards.length + ' pictures are the home-screen flip deck. They are AI-generated. The words in the alt text are taken from the written steps in src/topics.js. Text drawn on the picture is not the instruction. None of these cards is clinically approved.</p>';
   for (const c of cards) {
     const notes = (c.reviewNotes || []).map(x => '<li>' + x + '</li>').join('');
     cardsHtml += '<article class="pair"><div class="step"><p class="meta">' + c.id + (c.topic ? ' · #' + c.topic : ' · cover') + '</p><p>' + c.alt + '</p>' +
@@ -91,13 +91,26 @@ try {
   }
 } catch (e) { cardsHtml = ''; }
 
+let stepsHtml = '';
+try {
+  const steps = JSON.parse(fs.readFileSync(root + 'data/step-cards.json', 'utf8')).cards || [];
+  stepsHtml = '<h2>Step pictures, not reviewed</h2><p>These ' + steps.length + ' pictures replace the drawing on one step. They are AI-generated. The alt text is that step’s text, with the markup removed. Text drawn on the picture is not the instruction. None of these pictures is clinically approved.</p>';
+  for (const c of steps) {
+    const notes = (c.reviewNotes || []).map(x => '<li>' + x + '</li>').join('');
+    stepsHtml += '<article class="pair"><div class="step"><p class="meta">' + c.topic + ' · step ' + (c.step + 1) + ' · ' + c.id + '</p><p>' + c.alt + '</p>' +
+      (notes ? '<ul>' + notes + '</ul>' : '') + '</div>' +
+      '<figure><figcaption>This pull request</figcaption><img class="cardpic" src="../../' + c.file + '" alt=""></figure>' +
+      '<figure><figcaption>Not approved</figcaption><p>Picture not yet clinically reviewed.</p></figure></article>';
+  }
+} catch (e) { stepsHtml = ''; }
+
 const html = '<!DOCTYPE html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Illustration review, not approved</title><style>' + css + '</style></head><body>' +
   '<p class="banner">Clinical review required. These drawings are not approved. Do not treat this page as the guide.</p>' +
   '<header><h1>Old and new illustrations</h1>' +
   '<p>Each row is one step. The words are the step text already in the guide. The left picture is the drawing on main. The right picture is this pull request. Judge the pose, the contact and the arrow. The words on the pictures are unchanged.</p>' +
   '<p class="legend"><span><i style="background:#7a5346"></i>Person</span><span><i style="background:#0e7c72"></i>Helper</span><span><i style="background:#c9a68a"></i>Skin</span><span><i style="background:#c05245"></i>Action and contact</span></p>' +
   '<p>' + n + ' rows. ' + newA.keys.length + ' symbols. Snake and funnel-web bandages are pressure immobilisation from the toes upward, not a tourniquet.</p></header><main>' +
-  body + cardsHtml + '</main></body></html>\n';
+  body + cardsHtml + stepsHtml + '</main></body></html>\n';
 
 const out = root + 'docs/clinical-review/illustration-review.html';
 fs.writeFileSync(out, html);

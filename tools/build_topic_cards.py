@@ -1,8 +1,13 @@
-"""Make the phone-sized topic cards from assets/cards/source/*.jpg.
+"""Make the phone-sized topic cards from assets/cards/source/*.jpg,
+and per-step pictures from assets/cards/source/steps/*.jpg.
 
-Writes assets/cards/<id>.webp and data/topic-cards.json (alts and review notes
-live here; the script fills width, height and sha256). Originals stay in
+Writes assets/cards/<id>.webp and data/topic-cards.json, plus
+assets/cards/steps/<id>.webp and data/step-cards.json. Alts and review notes
+live here; the script fills width, height and sha256. Originals stay in
 assets/cards/source/ and are not referenced by the app.
+
+A step picture is one row in STEPS: topic id, 0-based step index, source file.
+The page shows it for that step only.
 
 Usage: python3 tools/build_topic_cards.py
 """
@@ -128,6 +133,37 @@ CARDS = [
   },
 ]
 
+# Per-step pictures. `step` is the 0-based index in that topic's steps in
+# src/topics.js. Add a row here, drop the JPG in assets/cards/source/steps/,
+# and run this script. The page looks the picture up by topic id + step index.
+STEPS = [
+  {
+    'id': 'spider-1-call', 'topic': 'spider', 'step': 0, 'source': 'spider-1-call.jpg',
+    'alt': 'Big black spider, mainly NSW and south-east Queensland. Call 000 straight away. Effects can start within 10 minutes.',
+    'reviewNotes': ['Funnel-web, call 000. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+  {
+    'id': 'spider-2-bandage-splint', 'topic': 'spider', 'step': 1, 'source': 'spider-2-bandage-splint.jpg',
+    'alt': 'Apply the pressure bandage and splint as for a snake bite, and keep them still.',
+    'reviewNotes': ['Funnel-web pressure bandage and splint. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+  {
+    'id': 'spider-3-coldpack', 'topic': 'spider', 'step': 2, 'source': 'spider-3-coldpack.jpg',
+    'alt': 'Use an ice or cold pack for pain, for no more than 20 minutes at a time.',
+    'reviewNotes': ['Redback and other spiders, cold pack. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+  {
+    'id': 'spider-4-no-bandage', 'topic': 'spider', 'step': 3, 'source': 'spider-4-no-bandage.jpg',
+    'alt': 'No pressure bandage. It makes redback pain worse.',
+    'reviewNotes': ['No pressure bandage for redback. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+  {
+    'id': 'spider-5-medical-help', 'topic': 'spider', 'step': 4, 'source': 'spider-5-medical-help.jpg',
+    'alt': 'Get medical help if it’s a young child, the pain is severe, or they become unwell or collapse.',
+    'reviewNotes': ['When to get medical help. AI-generated. Needs clinical sign-off before the unreviewed label can be removed.']
+  },
+]
+
 os.makedirs(OUT, exist_ok=True)
 out_cards = []
 total = 0
@@ -163,3 +199,46 @@ path = os.path.join(ROOT, 'data', 'topic-cards.json')
 json.dump(doc, open(path, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
 open(path, 'a', encoding='utf-8').write('\n')
 print(f'total webp {total/1024:.0f} KB')
+
+STEP_SRC = os.path.join(SRC, 'steps')
+STEP_OUT = os.path.join(OUT, 'steps')
+os.makedirs(STEP_OUT, exist_ok=True)
+out_steps = []
+step_total = 0
+seen = set()
+for c in STEPS:
+    key = (c['topic'], c['step'])
+    if key in seen:
+        raise SystemExit(f"duplicate step picture {c['topic']}:{c['step']}")
+    seen.add(key)
+    src = os.path.join(STEP_SRC, c['source'])
+    name = c['id'] + '.webp'
+    dest = os.path.join(STEP_OUT, name)
+    if not os.path.isfile(dest):
+        im = Image.open(src).convert('RGB')
+        im.thumbnail((MAX_W, MAX_W * 2), Image.Resampling.LANCZOS)
+        im.save(dest, 'WEBP', quality=QUALITY, method=6)
+    im = Image.open(dest)
+    raw = open(dest, 'rb').read()
+    step_total += len(raw)
+    out_steps.append({
+        'id': c['id'],
+        'topic': c['topic'],
+        'step': c['step'],
+        'file': 'assets/cards/steps/' + name,
+        'width': im.size[0],
+        'height': im.size[1],
+        'sha256': hashlib.sha256(raw).hexdigest(),
+        'alt': c['alt'],
+        'reviewNotes': c['reviewNotes'],
+    })
+    print(f"{name:28} {im.size[0]}x{im.size[1]}  {len(raw)/1024:6.1f} KB")
+
+steps_doc = {
+    'note': 'Per-step pictures, keyed by topic id and the 0-based step index in src/topics.js. WebP is what the app loads. assets/cards/source/steps/*.jpg are the originals and are not in the service worker. Cached on first view, in the same cache as the home cards, not in the install precache. Alt text is the step text with the markup removed. Unreviewed.',
+    'cards': out_steps,
+}
+spath = os.path.join(ROOT, 'data', 'step-cards.json')
+json.dump(steps_doc, open(spath, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
+open(spath, 'a', encoding='utf-8').write('\n')
+print(f'step webp {step_total/1024:.0f} KB')

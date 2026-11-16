@@ -4,9 +4,9 @@
      Precached on install as one unit, so an update can never mix old and new parts.
    - 3D: three.js, OrbitControls and the anatomy model. Cached on first use, versioned separately,
      so app-only updates don't re-download them.
-   - CARDS: the home-screen topic photographs. Not part of the install precache, so a
-     failed or slow picture cannot block the steps. Saved the first time each one is
-     fetched, then served from that cache. */
+   - CARDS: the home-screen topic photographs and any per-step photographs.
+     Not part of the install precache, so a failed or slow picture cannot block
+     the steps. Saved the first time each one is fetched, then served from that cache. */
 var CORE = 'fa-core-__CORE_VERSION__';
 var THREE_D = 'fa-3d-__3D_VERSION__';
 var CARDS = 'fa-cards-__CARDS_VERSION__';

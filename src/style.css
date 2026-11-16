@@ -706,3 +706,9 @@ body.palette-open{overflow:hidden}
 }
 /* Photos and diagrams (figure.dg) have no person/helper colour coding: hide the drawing key there. */
 .step-illustration:has(.dg) .diagram-key{display:none}
+/* Per-step photographs are portrait cards. In the player they can be taller than
+   a diagram. In the list they stay a thumbnail. The person/helper key is for drawings. */
+.pcard .step-photo .dg-zoom{padding:0;overflow:hidden}
+.pcard .step-photo .dg-zoom img{width:100%;max-height:min(52vh,520px);object-fit:contain;background:#fff}
+.list .step-photo .dg-zoom img{max-height:220px;object-fit:contain;background:#fff}
+.deck-main:has(#pcard .step-photo) .inkey{display:none}
