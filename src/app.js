@@ -347,7 +347,16 @@
   /* A step picture. The slot id is the contract; the markup around it is layout. */
   function picture(topicId, stepIndex, spec){
     var s = Illustrate.slot(topicId, stepIndex, spec);
-    return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+    // The diagram is a visual aid, not a replacement for the written instruction.
+    // Keep the existing reviewed-content boundary: no drawing geometry or step text changes.
+    if (stepIndex === 'icon') return '<div class="illust" data-slot="' + s.id + '">' + Illustrate.render(s) + '</div>';
+    return '<figure class="illust step-illustration" data-slot="' + s.id + '">' +
+      '<div class="diagram-heading" aria-hidden="true"><span class="diagram-heading-mark"></span>Step illustration</div>' +
+      Illustrate.render(s) +
+      '<figcaption class="diagram-key"><span><i class="key-swatch key-person"></i>Person</span>' +
+      '<span><i class="key-swatch key-helper"></i>Helper</span>' +
+      '<span><i class="key-swatch key-action"></i>Action / direction</span></figcaption>' +
+      '</figure>';
   }
 
   /* ---------- Routing ---------- */
