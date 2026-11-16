@@ -711,14 +711,20 @@
           "status": "CLINICAL REVIEW REQUIRED",
           "by": "Naga Gamoga (project owner)",
           "note": "Owner override renewed for PR #17, 28 generated pictures (previous 356a7f81cc905fdb). Status unchanged."
+        },
+        {
+          "date": "2026-11-17",
+          "status": "CLINICAL REVIEW REQUIRED",
+          "by": "Naga Gamoga (project owner)",
+          "note": "Owner override renewed for PR #19, flip-through cards and spider step pictures (previous cc3d5bfbe4f2d2bb). Status unchanged."
         }
       ],
       "ownerOverride": {
         "by": "Naga Gamoga (project owner)",
         "at": "2026-11-17",
-        "reason": "Owner decision: publish the 28 AI-generated pictures (ChatGPT, owner-supplied) to main as a single build for the owner's own inspection on a phone before booking a clinical reviewer. Each is captioned \"AI-generated picture\" and \"published by the site owner before clinical review\". Published before clinical review; F01, F40, F41, F42 and F44 remain open.",
-        "scope": "PR #17 (generated pictures), on top of PRs #9, #10 and #12",
-        "contentHash": "cc3d5bfbe4f2d2bb"
+        "reason": "Owner decision: publish the illustrated flip-through topic cards (19 home cards) and the five spider step pictures, AI-generated, before clinical review. Each is captioned \"Picture not yet clinically reviewed\". F01, F40, F41, F42 and F44 remain open; known issues listed in PR #19 (recovery knee, seizure step 2, infant head position, white cross on the shirt, text inside pictures).",
+        "scope": "PR #19 (flip-through topic cards and spider step pictures), on top of PRs #9, #10, #12 and #17",
+        "contentHash": "f40ac67f1ef71079"
       }
     }
   ]
