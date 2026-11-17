@@ -1,112 +1,136 @@
 # First Aid Quick Guide
 
-An illustrated, step-by-step first aid guide for Australia, built as a single web page.
+A free, illustrated, step-by-step first aid guide for Australia. It works on a phone, installs as an app and works offline.
 
 **Live site:** https://nagagamoga-star.github.io/first-aid-quick-guide/
 
-- "What's happening?" question flow: a few questions that follow ANZCOR's first-steps sequence (DRSABCD) and lead to the right topic, with when to call 000 (`#help`)
-- A 3D carousel of 16 topics, with search and quick links for when speed matters
-- Illustrated step cards for each topic (swipe, tap or use the arrow keys), plus a list view
-- An always-visible bar with 000 and the Poisons Information Centre (13 11 26)
-- A CPR beat that beeps 110 times a minute and prompts for breaths after every 30 compressions
-- North Queensland coverage: box jellyfish and Irukandji, snake bite, heat illness
-- 3D "where on the body" views on six topics (CPR, choking, anaphylaxis, heart attack, stroke, asthma), using anatomy from BodyParts3D via the Human Atlas viewer. They load only when tapped, about 0.5 MB.
-- Styled to match Human Atlas: cool clinical neutrals, slate, anatomy system colours and teal highlights. Emergency red is kept for 000 and life-threatening items.
-- Works in light and dark mode, and falls back to a flat layout when the device is set to reduce motion
-- Works offline and installs as an app: after one visit with a connection, every topic, the question flow and the CPR beat work without signal. 3D views are saved the first time you open one. Fonts and three.js are self-hosted, so the app requests nothing from other sites.
+> **Status: in development. Not yet reviewed by a clinician or first aid trainer.**
+> The written steps are summarised from the ANZCOR guidelines and link to them, but no qualified person has checked them yet. Many pictures are AI-generated and some show technique that doesn't match the steps (see [Known issues](#known-issues)). It doesn't replace a first aid course. In an emergency, call **000**.
 
-## Topics
+## Why this exists
 
-Someone has collapsed (DRSABCD), CPR, choking, severe bleeding, anaphylaxis, heart attack, stroke, unconscious but breathing, snake bite, jellyfish and marine stings, asthma, burns, seizure, heat illness, poisoning and button batteries, spider bite.
+I'm an IT professional in Townsville, not a medical educator or an illustrator. I wanted a first aid guide that is free, quick to use on a phone, covers North Queensland risks like box jellyfish, Irukandji, snakes and heat, and still works without signal. I built it with AI tools to see whether they can help one person make something useful that otherwise wouldn't get made, with the checks that a health resource needs.
 
-## Sources
+## What it does
 
-Every step is summarised from the guidelines of ANZCOR (Australian and New Zealand Committee on Resuscitation) at [anzcor.org](https://www.anzcor.org/). The guidelines were checked in November 2026. Each topic names its guideline and approval date on the page. A few points also cite [ASCIA](https://www.allergy.org.au/) and [healthdirect](https://www.healthdirect.gov.au/).
+- **Flip through** illustrated topic cards at the top of the home page, or filter the topic list
+- **"What's happening?"** a few questions that follow ANZCOR's first steps (DRSABCD) and lead to the right topic, with when to call 000
+- **Step cards** for each topic: swipe or tap through, or show all steps as a list. Topics that cover several emergencies (for example bluebottle, stonefish and box jellyfish) keep each one separate.
+- **000 and the Poisons Information Centre (13 11 26)** always on screen
+- **CPR beat:** beeps 110 times a minute and prompts for 2 breaths after every 30 compressions
+- **3D "where on the body" views** on six topics, using BodyParts3D anatomy. They load only when tapped (about 0.5 MB).
+- **Offline:** after one visit with a connection, every topic, the question flow and the CPR beat work without signal. Fonts and three.js are self-hosted, so the app requests nothing from other sites.
+- Light and dark mode; a flat layout when the device is set to reduce motion
 
-The 3D anatomy comes from BodyParts3D, © The Database Center for Life Science, licensed under CC Attribution 4.0 International. See [models/README.md](models/README.md). The captions beside the 3D views are general anatomy, not part of the ANZCOR guidelines.
+**Topics:** someone has collapsed (DRSABCD), CPR, choking, severe bleeding, anaphylaxis, heart attack, stroke, unconscious but breathing, snake bite, jellyfish and marine stings, asthma, burns, seizure, heat illness, poisoning and button batteries, spider bite.
 
-## Review status
+## How AI was used
 
-**This guide has not been reviewed by a clinician or first aid trainer.** Each topic in the app shows its review status. How content is sourced, checked, reviewed and approved is set out in [docs/CLINICAL_GOVERNANCE.md](docs/CLINICAL_GOVERNANCE.md). The latest source check is [docs/clinical-review/SOURCE_CHECK_2026-11.md](docs/clinical-review/SOURCE_CHECK_2026-11.md), and the reviewer pack is [docs/clinical-review/REVIEW_PACK.pdf](docs/clinical-review/REVIEW_PACK.pdf).
+I'd rather say this plainly than have anyone find it.
 
- The illustrations are simplified diagrams drawn for this project, not exact technique. Have a qualified trainer check the text and the drawings before anyone relies on it, especially CPR hand position, infant back blows and the snake-bite pressure bandage.
+| Part | How it was made |
+|---|---|
+| Code | Written with AI coding assistants (Claude and Cursor), working from my briefs. I set the requirements, looked at the results on my phone and approved every merge. |
+| First aid text | Summarised from the named guidelines with AI help, then checked statement by statement against the live guideline pages. The guidelines are the source, not the AI. Every topic names its guideline and approval date. |
+| Pictures | Step pictures, topic cards and the spider step pictures were generated with ChatGPT. Each one is labelled in the app as AI-generated and not clinically reviewed. |
+| Checks | Automated tests check structure and behaviour, not medical accuracy. Medical accuracy needs a qualified person, and that review hasn't happened yet. |
 
-This is a quick reference. It doesn't replace a hands-on first aid and CPR course, and it isn't medical advice. In an emergency, call 000.
+What AI is **not** used for: deciding what the first aid steps are without a published source, or signing off its own work. Generated pictures are treated as drafts, not evidence of correct technique.
 
-## Project layout
+## Safeguards
+
+- **Sources on every topic:** ANZCOR guidelines from [anzcor.org](https://www.anzcor.org/), with a few points from [ASCIA](https://www.allergy.org.au/) and [healthdirect](https://www.healthdirect.gov.au/). Checked against the live pages in November 2026.
+- **Review status in the app:** each topic shows whether a qualified first aid trainer or clinician has reviewed it. Today none has.
+- **Findings register** (`data/source-findings.json`): every place the app differs from, goes beyond or is unclear against its source, with a proposed fix for the reviewer. 43 are open, 4 of them high.
+- **Release gate** (`tests/release_gate.mjs`): every change to medical content or pictures needs either a recorded clinical approval or a recorded owner decision before it can go live. The required GitHub check enforces it on `main`.
+- **Owner decisions are logged, not hidden:** where I published something before review (the pictures), `data/topic-reviews.json` records who, when, why and exactly which content.
+
+How content is sourced, checked and approved: [docs/CLINICAL_GOVERNANCE.md](docs/CLINICAL_GOVERNANCE.md).
+
+## Known issues
+
+- **No clinical review yet.** Every topic and picture is waiting for a qualified reviewer.
+- **High findings open:**
+  - anaphylaxis: the app names only EpiPen and Anapen, but four adrenaline devices are now approved in Australia, including a nasal spray (F01);
+  - anaphylaxis: it doesn't say "if in doubt, give adrenaline" (F02);
+  - button batteries: it misses the "nothing by mouth if there is bleeding" condition (F07);
+  - pictures: the AI-generated pictures are unreviewed (F44).
+- **Pictures that may show the wrong technique:**
+  - infant back blows: the head is not clearly lower than the body;
+  - adrenaline injector: held flat along the thigh in one picture;
+  - nosebleed: pinching the bony bridge, not the soft part;
+  - airway: no clear head tilt and chin lift;
+  - recovery position: the knee is not clearly bent.
+- **Inconsistent picture styles:** photo-style pictures, illustrated cards and older line drawings are mixed. Some pictures have words printed in them, which can't be corrected without regenerating the picture.
+
+## Feedback wanted
+
+Most useful, in this order:
+
+1. **Accuracy:** especially from first aid trainers, paramedics, nurses and doctors. Anything that is wrong, unsafe, out of date or unclear.
+2. **Accessibility:** screen readers, contrast, text size, motion, plain language.
+3. **Usability:** can you find what you need fast on a phone, under stress, with poor signal?
+
+Please [open an issue](https://github.com/nagagamoga-star/first-aid-quick-guide/issues). If you're qualified and willing to review a topic, say so in the issue.
+
+## Credits
+
+- First aid content summarised from **ANZCOR**, **ASCIA** and **healthdirect**, linked on each topic. This project isn't affiliated with or endorsed by any of them.
+- 3D anatomy: **BodyParts3D**, © The Database Center for Life Science, [CC BY 4.0](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html), simplified from the Human Atlas viewer. See [models/README.md](models/README.md).
+- Fonts: Inter and Atkinson Hyperlegible (SIL Open Font License 1.1). three.js (MIT).
+- Pictures: AI-generated with ChatGPT for this project (see `data/media.json`, `data/topic-cards.json` and `data/step-cards.json`). Earlier Wikimedia Commons diagrams are kept in `data/media.json` with their licences, but are no longer shown.
+
+**Licence:** code under the [MIT License](LICENSE); this project's first aid wording and pictures under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Third-party parts keep their own licences. Details in [LICENSE](LICENSE).
+
+---
+
+## For developers
+
+### Project layout
 
 ```
-index.html          Built page (generated by src/build.py; committed because Pages serves it)
-sw.js               Service worker (generated from src/sw.js; committed because Pages serves it)
-manifest.webmanifest
-favicon.svg
-icons/              App icons (generated by tools/make_icons.py)
-fonts/              Self-hosted Inter and Atkinson Hyperlegible (SIL OFL 1.1)
-vendor/three/       Self-hosted three.js 0.147.0 and OrbitControls (MIT)
-models/             Simplified BodyParts3D anatomy for the 3D views (CC BY 4.0)
+index.html, sw.js   Built files (generated by src/build.py; committed because GitHub Pages serves them)
 src/
   shell.html        Page markup and templates
-  style.css         Styles, colour tokens (light and dark), @font-face
-  art.js            Illustration library (inline SVG pictograms)
-  viewer.js         3D body viewer (loads three.js and the model on demand)
+  style.css         Styles and colour tokens (light and dark)
   topics.js         All first aid content and sources
-  flow.js           Question flow: questions, answers and results (each result links to a topic)
-  app.js            Carousel, step player, routing, CPR beat
-  pwa.js            Service worker registration, offline label, update bar, install option
-  sw.js             Service worker template
+  flow.js           Question flow
+  app.js            Flip-through, step player, routing, CPR beat
+  art.js            Line drawings (fallback when a picture can't load)
+  media.js          Step pictures from data/media.json
+  stepcards.js      Per-step picture cards from data/step-cards.json
+  viewer.js         3D body viewer
+  pwa.js, sw.js     Offline support, updates, install
   build.py          Checks and builds index.html and sw.js
-tests/
-  validate_structure.mjs  Topics, illustrations and question flow structure (no clinical judgement)
-  validate_governance.mjs Source and review registers (completeness and approval rules)
-  release_gate.mjs        Publication gate, not part of the build (fails until review is complete)
-.github/workflows/
-  clinical-release-gate.yml  Runs the release gate for clinical-content pull requests
-  browser_tests.py        Browser regression and offline tests
-tools/
-  build_anatomy.py  Rebuilds models/anatomy.b64.txt from Human Atlas model data
-  make_icons.py     Renders the PNG app icons
-  make_review_pack.py  Builds the clinical review pack (Markdown + PDF) from the app content
-docs/               Audit, PWA plan, acceptance report and clinical governance
-  clinical-review/   Source check, reviewer pack, reviewer scope checklist and Stage 2 record
+data/               Content registers: sources, reviews, findings, pictures, cards
+assets/             Pictures (diagrams/ and cards/)
+tests/              Structure, governance, release gate and browser tests
+tools/              Picture import, review sheets, review pack, icons, anatomy
+docs/               Governance, review packs, audits and design notes
+.github/workflows/  Release gate check; Commons diagram fetch
 ```
 
-## Editing
+### Build
 
-Change the files in `src/`, then rebuild:
+Change files in `src/` or `data/`, then:
 
 ```
 python3 src/build.py
 ```
 
-The build stops without writing anything if a file is missing, a script has a syntax error, the structure check fails, or the output refers to a missing file or an outside CDN. It needs Python 3 and, for the checks, Node.
+The build stops without writing anything if a file is missing, a check fails, or the output refers to a missing file or an outside site. Needs Python 3 (with Pillow for picture tools) and Node for the checks.
 
-## Testing
+### Test
 
 ```
-node tests/validate_structure.mjs          # structure only, a few seconds
+node tests/validate_structure.mjs          # structure
 node tests/validate_governance.mjs         # source and review records
-node tests/release_gate.mjs                # clinical publication gate (blocked until reviewed)
-# GitHub Actions also runs the clinical release gate for relevant pull requests
-python3 tests/browser_tests.py --pwa       # full browser suite, needs Playwright and Chrome
+node tests/release_gate.mjs --changed-since origin/main   # what a pull request would need
+python3 tests/browser_tests.py --pwa       # browser and offline suite (Playwright and Chrome)
 ```
 
-The browser suite serves the repo under `/first-aid-quick-guide/`, like GitHub Pages, and blocks every other host. It covers navigation, search, all 16 topics, the question flow, the CPR beat, 3D, reduced motion, and offline behaviour: airplane mode, updates, interrupted installs and cleared caches. These checks are about structure and behaviour. They don't check whether the first aid content is correct; that needs a qualified human reviewer.
+The browser suite serves the repo under `/first-aid-quick-guide/` like GitHub Pages and blocks every other host. It covers navigation, search, all 16 topics, grouped steps, the question flow, the CPR beat, 3D, reduced motion and offline behaviour. It does not check whether the first aid is correct.
 
-**Clinical content changes need a recorded review first** (see docs/CLINICAL_GOVERNANCE.md). After changing content, update the registers in `data/` and rebuild the review pack with `python3 tools/make_review_pack.py`.
+### Host
 
-Content lives in `src/topics.js`. Each step has an illustration key (`a`), the text (`t`) and an optional group (`g`). A topic's optional `body` field sets its 3D view: the groups to show (`show`), the groups to highlight (`hi`) and the caption. Each topic's `src` field names the guideline the steps come from, so update it whenever the content changes.
-
-## Hosting
-
-Serve the folder from any static host, GitHub Pages included. All paths are relative, so the app works under a subfolder like `/first-aid-quick-guide/`. Offline support needs HTTPS (or `localhost`); elsewhere, such as inside the Claude artifact preview or from `file://`, the app works as a normal web page. To try it locally, run `python3 -m http.server` in the parent folder and open http://localhost:8000/first-aid-quick-guide/.
-
-After a change reaches users, open copies show a "new version is ready" bar. The update applies when they tap Reload or next open the app with no tabs running.
-
-## Diagrams from Wikimedia Commons
-
-Some steps show a diagram from Wikimedia Commons instead of the guide's own drawing. They are listed in `data/media.json`, stored in `assets/diagrams/` and precached for offline use.
-
-- `tools/fetch_commons.py` checks each file's licence through the Commons API (public domain, CC0, CC BY or CC BY-SA only), downloads it and records author, licence and sha256. The `Fetch diagrams` workflow runs it on GitHub's servers when `data/media.json` changes on a branch.
-- A diagram is shown only when its `decision` is `accepted`. Every other step keeps its drawing from `src/art.js`, and a diagram that fails to load falls back to the drawing.
-- Credits are listed in the footer under "Diagrams". Tapping a diagram opens it full screen.
-- Diagrams are clinical content: the release gate hashes them into the `illustrations` review item. Review sheet: `node tools/commons_review.mjs` writes `docs/clinical-review/commons-review.html`.
+Any static host works; all paths are relative. Offline support needs HTTPS or `localhost`. To try it locally, run `python3 -m http.server` in the parent folder and open http://localhost:8000/first-aid-quick-guide/.
