@@ -80,7 +80,7 @@ Please [open an issue](https://github.com/nagagamoga-star/first-aid-quick-guide/
 - Fonts: Inter and Atkinson Hyperlegible (SIL Open Font License 1.1). three.js (MIT).
 - Pictures: AI-generated with ChatGPT for this project (see `data/media.json`, `data/topic-cards.json` and `data/step-cards.json`). Earlier Wikimedia Commons diagrams are kept in `data/media.json` with their licences, but are no longer shown.
 
-**Licence:** not chosen yet. Until there is one, please ask before reusing the code or pictures.
+**Licence:** code under the [MIT License](LICENSE); this project's first aid wording and pictures under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Third-party parts keep their own licences. Details in [LICENSE](LICENSE).
 
 ---
 
