@@ -153,36 +153,6 @@ main{max-width:1040px;margin:0 auto;padding:16px 16px 64px}
 .panic-copy{color:var(--muted);font-size:16px}
 .panic:active{transform:translateY(2px);box-shadow:var(--shadow-pressed),inset 4px 0 0 var(--alarm)}
 
-/* Home flip deck. The pictures are the cards themselves, so the frame stays
-   quiet: a soft radius and a solid caption, never text over the drawing. */
-.deck{display:grid;gap:8px}
-.deck-head{display:grid;gap:4px}
-.deck-head h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.deck-note{color:var(--muted);font-size:15px;max-width:62ch}
-.deck-scroller{
-  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
-  scroll-padding-inline:8px;padding:2px 2px 10px;overscroll-behavior-x:contain;
-  touch-action:pan-x pan-y;
-}
-.deck-card{
-  flex:0 0 min(78vw,300px);scroll-snap-align:center;display:flex;flex-direction:column;
-  margin:0;text-decoration:none;color:inherit;background:var(--card);
-  border-radius:28px;overflow:hidden;box-shadow:0 14px 36px rgba(28,24,18,.1);
-}
-.deck-card img{display:block;width:100%;height:auto}
-.deck-meta,.deck-card figcaption{display:grid;gap:2px;padding:10px 14px 12px;background:var(--card)}
-.deck-title{font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--ink)}
-.deck-review{color:var(--muted);font-size:13px;font-style:italic}
-.deck-nav{display:flex;align-items:center;justify-content:center;gap:12px}
-@media (prefers-reduced-motion:no-preference){
-  .deck-card{transition:transform .16s var(--ease)}
-}
-.deck-card:active{transform:translateY(2px)}
-@media (prefers-reduced-motion:reduce){
-  .deck-scroller{scroll-snap-type:x proximity}
-  .deck-card:active{transform:none}
-}
-
 .intro{display:grid;gap:12px}
 .intro h1{font-size:clamp(32px,6vw,48px)}
 .intro p{max-width:62ch;color:var(--muted)}
@@ -718,4 +688,22 @@ body.palette-open{overflow:hidden}
     -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
   .gchips::-webkit-scrollbar{display:none}
   .gchips button{flex:none;scroll-snap-align:start;white-space:nowrap}
+}
+
+/* Home flip-through with illustrated cards (data/topic-cards.json). The picture
+   is the card: its own title band names the topic, so the text body is kept
+   for screen readers only. Without the picture (not yet saved offline) the
+   drawing card shows instead. */
+.flip-note{color:var(--muted);font-size:14px;font-style:italic}
+.stage:has(.tcard-pic){height:420px}
+.tcard.tcard-pic{width:270px;height:auto;margin-left:-135px;grid-template-rows:6px auto;background:#fff}
+.tcard .tpic{display:none}
+.tcard.tcard-pic .tpic{display:block;width:100%;height:auto;max-height:384px;object-fit:contain;background:#fff}
+.tcard.tcard-pic .tfall{display:none}
+.tcard:not(.tcard-pic) .tfall{display:contents}
+.tcard.tcard-pic .tbody{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.stage.flat .tcard.tcard-pic{flex:0 0 240px}
+@media (max-width:380px){
+  .stage:has(.tcard-pic){height:380px}
+  .tcard.tcard-pic{width:240px;margin-left:-120px}
 }

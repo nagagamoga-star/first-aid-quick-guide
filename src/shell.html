@@ -59,7 +59,20 @@
 <main id="main">
   <div id="home">
     <div class="home-grid">
-      <!--DECK-->
+      <section class="carousel" aria-labelledby="flipH">
+        <h2 id="flipH">Flip through</h2>
+        <p class="flip-note">Pictures not yet clinically reviewed. Follow the written steps.</p>
+        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
+          <div class="ring" id="ring"></div>
+        </div>
+        <div class="cctl">
+          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
+          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
+          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
+        </div>
+        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
+      </section>
+
 
       <a class="panic" href="#cpr">
         <span class="panic-go">Start CPR</span>
@@ -82,19 +95,6 @@
         <div id="chipsWrap"></div>
         <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
       </nav>
-
-      <section class="carousel" aria-labelledby="flipH">
-        <h2 id="flipH">Or flip through</h2>
-        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
-          <div class="ring" id="ring"></div>
-        </div>
-        <div class="cctl">
-          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
-          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
-          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
-        </div>
-        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
-      </section>
 
       <footer>
         <h2>About this guide</h2>

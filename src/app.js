@@ -40,6 +40,15 @@
     b.type = 'button';
     b.className = 'tcard ' + t.sev;
     b.setAttribute('data-i', i);
+    var tc = (typeof TOPIC_CARDS !== 'undefined') && TOPIC_CARDS[t.id];
+    if (tc){
+      // Illustrated card. If it can't load (offline before it was saved), the drawing card shows instead.
+      b.className += ' tcard-pic';
+      b.innerHTML = '<img class="tpic" src="' + tc.file + '" alt="' + tc.alt.replace(/"/g, '&quot;') + '" width="' + tc.width + '" height="' + tc.height + '" decoding="async"' +
+        ' onerror="this.parentNode.classList.remove(\'tcard-pic\')">' +
+        '<div class="tfall">' + picture(t.id, 'icon', t.icon) + '</div>' +
+        '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
+    } else
     b.innerHTML = picture(t.id, 'icon', t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
     b.addEventListener('click', function(){
       if (dragged) return;

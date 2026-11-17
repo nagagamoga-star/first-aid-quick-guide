@@ -172,36 +172,6 @@ main{max-width:1040px;margin:0 auto;padding:16px 16px 64px}
 .panic-copy{color:var(--muted);font-size:16px}
 .panic:active{transform:translateY(2px);box-shadow:var(--shadow-pressed),inset 4px 0 0 var(--alarm)}
 
-/* Home flip deck. The pictures are the cards themselves, so the frame stays
-   quiet: a soft radius and a solid caption, never text over the drawing. */
-.deck{display:grid;gap:8px}
-.deck-head{display:grid;gap:4px}
-.deck-head h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.deck-note{color:var(--muted);font-size:15px;max-width:62ch}
-.deck-scroller{
-  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
-  scroll-padding-inline:8px;padding:2px 2px 10px;overscroll-behavior-x:contain;
-  touch-action:pan-x pan-y;
-}
-.deck-card{
-  flex:0 0 min(78vw,300px);scroll-snap-align:center;display:flex;flex-direction:column;
-  margin:0;text-decoration:none;color:inherit;background:var(--card);
-  border-radius:28px;overflow:hidden;box-shadow:0 14px 36px rgba(28,24,18,.1);
-}
-.deck-card img{display:block;width:100%;height:auto}
-.deck-meta,.deck-card figcaption{display:grid;gap:2px;padding:10px 14px 12px;background:var(--card)}
-.deck-title{font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--ink)}
-.deck-review{color:var(--muted);font-size:13px;font-style:italic}
-.deck-nav{display:flex;align-items:center;justify-content:center;gap:12px}
-@media (prefers-reduced-motion:no-preference){
-  .deck-card{transition:transform .16s var(--ease)}
-}
-.deck-card:active{transform:translateY(2px)}
-@media (prefers-reduced-motion:reduce){
-  .deck-scroller{scroll-snap-type:x proximity}
-  .deck-card:active{transform:none}
-}
-
 .intro{display:grid;gap:12px}
 .intro h1{font-size:clamp(32px,6vw,48px)}
 .intro p{max-width:62ch;color:var(--muted)}
@@ -739,6 +709,24 @@ body.palette-open{overflow:hidden}
   .gchips button{flex:none;scroll-snap-align:start;white-space:nowrap}
 }
 
+/* Home flip-through with illustrated cards (data/topic-cards.json). The picture
+   is the card: its own title band names the topic, so the text body is kept
+   for screen readers only. Without the picture (not yet saved offline) the
+   drawing card shows instead. */
+.flip-note{color:var(--muted);font-size:14px;font-style:italic}
+.stage:has(.tcard-pic){height:420px}
+.tcard.tcard-pic{width:270px;height:auto;margin-left:-135px;grid-template-rows:6px auto;background:#fff}
+.tcard .tpic{display:none}
+.tcard.tcard-pic .tpic{display:block;width:100%;height:auto;max-height:384px;object-fit:contain;background:#fff}
+.tcard.tcard-pic .tfall{display:none}
+.tcard:not(.tcard-pic) .tfall{display:contents}
+.tcard.tcard-pic .tbody{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.stage.flat .tcard.tcard-pic{flex:0 0 240px}
+@media (max-width:380px){
+  .stage:has(.tcard-pic){height:380px}
+  .tcard.tcard-pic{width:240px;margin-left:-120px}
+}
+
 </style>
 </head>
 <body>
@@ -780,7 +768,20 @@ body.palette-open{overflow:hidden}
 <main id="main">
   <div id="home">
     <div class="home-grid">
-      <section class="deck" aria-labelledby="deckH"><div class="deck-head"><h2 id="deckH">Flip through</h2><p class="deck-note">These pictures have not been clinically reviewed. Follow the written steps.</p></div><div class="deck-scroller" id="deckScroller" tabindex="0" aria-label="Illustrated topic cards. Arrow keys move between cards."><figure class="deck-card deck-cover"><img src="assets/cards/cover.webp" alt="Cover of the First Aid Quick Guide. A helper gives chest compressions to a person lying on their back. The written steps are the instruction, not this picture." width="640" height="853" decoding="async"><figcaption><span class="deck-title">First Aid Quick Guide</span><span class="deck-review">Picture not yet clinically reviewed.</span></figcaption></figure><a class="deck-card" href="#collapse"><img src="assets/cards/collapse.webp" alt="Someone has collapsed. Check it is safe, check for a response, call 000, open the airway, look listen and feel for breathing, start CPR if they are not breathing normally, and use an AED when one arrives." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Someone has collapsed</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#cpr"><img src="assets/cards/cpr.webp" alt="CPR. Lay them on their back on a firm surface. Hands on the centre of the chest, on the lower half of the breastbone. Push hard and fast, 100 to 120 times a minute, then 2 breaths. Keep going." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">CPR</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#choking"><img src="assets/cards/choking.webp" alt="Choking, when they cannot cough, breathe or speak. Call 000. Up to 5 back blows between the shoulder blades, then up to 5 chest thrusts. For a baby, lay them face down with the head lower than the body." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Choking</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#bleeding"><img src="assets/cards/bleeding.webp" alt="Severe bleeding. Press firmly and directly on the wound. Leave anything stuck in the wound and press beside it. A tourniquet is only for life-threatening bleeding from an arm or leg that pressure cannot stop." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Severe bleeding</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#anaphylaxis"><img src="assets/cards/anaphylaxis.webp" alt="Anaphylaxis. Lay them flat and do not let them stand or walk. Give their adrenaline autoinjector into the outer thigh, then call 000." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Anaphylaxis</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#heart"><img src="assets/cards/heart.webp" alt="Heart attack. Help them rest, help with their own angina medicine, call 000, and for an adult offer 300 mg aspirin unless they are allergic. Bring an AED." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Heart attack</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#stroke"><img src="assets/cards/stroke.webp" alt="Stroke. Face: is one side drooping? Arms: is one weak? Speech: is it slurred? Time: call 000 now. Do not give them anything to eat or drink." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Stroke</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#unconscious"><img src="assets/cards/unconscious.webp" alt="Unconscious but breathing. Roll them onto their side, head tilted back so the airway stays open, and call 000. Keep checking their breathing." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Unconscious, breathing</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#snake"><img src="assets/cards/snake.webp" alt="Snake bite. Keep them still. Bandage firmly over the bite, then bandage the whole limb from the fingers or toes upward, and splint it. Do not use a tourniquet. Call 000." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Snake bite</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#marine"><img src="assets/cards/marine.webp" alt="Jellyfish and marine stings. For box jellyfish and Irukandji, pour vinegar on the sting for 30 seconds. For a bluebottle, rinse with sea water and soak in hot water, not vinegar. For a blue-ringed octopus or cone shell, use the pressure bandage and splint, as for a snake bite." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Jellyfish and marine stings</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#spider"><img src="assets/cards/spider.webp" alt="Spider bite. Funnel-web: call 000 and apply the pressure bandage and splint, as for a snake bite. Redback and other spiders: a cold pack for pain, and no pressure bandage." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Spider bite</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#burns"><img src="assets/cards/burns.webp" alt="Burns and scalds. Cool the burn under cool running water for 20 minutes. Cover it loosely. Keep the rest of the person warm." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Burns and scalds</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#asthma"><img src="assets/cards/asthma.webp" alt="Asthma attack. Sit them upright. Give 4 separate puffs of their blue or grey reliever, one puff at a time into a spacer with 4 breaths from the spacer. Wait 4 minutes. If they are not better, call 000 and keep giving 4 puffs every 4 minutes." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Asthma attack</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#seizure"><img src="assets/cards/seizure.webp" alt="Seizure. Move hard or sharp things away, put something soft under their head, and time the seizure. When it stops, roll them onto their side. Do not hold them down or put anything in their mouth." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Seizure</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#heat"><img src="assets/cards/heat.webp" alt="Heat illness. Move them into the shade, loosen extra clothing, and cool them fast. Call 000 if they are confused, very drowsy, or not improving quickly." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Heat illness</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#poison"><img src="assets/cards/poison.webp" alt="Poisoning, including button batteries. Call the Poisons Information Centre on 13 11 26, and call 000 if they are drowsy or having trouble breathing. Do not make them vomit. A swallowed button battery needs an emergency department straight away." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Poisoning</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#bites"><img src="assets/cards/extra-bites-stings.webp" alt="Bites and stings. Snake bite: keep them still, bandage firmly over the bite, then the whole limb from the fingers or toes upward, and splint. No tourniquet. Box jellyfish: vinegar for 30 seconds. A bluebottle: sea water and hot water, not vinegar. Funnel-web spider: the same pressure bandage and splint as a snake bite. Other spiders: a cold pack, and no pressure bandage." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Bites and stings</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a><a class="deck-card" href="#medical"><img src="assets/cards/extra-medical.webp" alt="Heart attack, asthma and anaphylaxis. Heart attack: rest, help with their own angina medicine, call 000, and offer 300 mg aspirin to an adult who is not allergic. Asthma: sit upright and give 4 puffs of reliever through a spacer, 4 breaths each puff, then wait 4 minutes. Anaphylaxis: lay them flat and give their adrenaline autoinjector into the outer thigh, then call 000." width="640" height="853" decoding="async"><span class="deck-meta"><span class="deck-title">Heart, asthma, anaphylaxis</span><span class="deck-review">Picture not yet clinically reviewed.</span></span></a></div><div class="deck-nav"><button type="button" class="round" id="deckPrev" aria-label="Previous card">&#8249;</button><button type="button" class="round" id="deckNext" aria-label="Next card">&#8250;</button></div></section>
+      <section class="carousel" aria-labelledby="flipH">
+        <h2 id="flipH">Flip through</h2>
+        <p class="flip-note">Pictures not yet clinically reviewed. Follow the written steps.</p>
+        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
+          <div class="ring" id="ring"></div>
+        </div>
+        <div class="cctl">
+          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
+          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
+          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
+        </div>
+        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
+      </section>
+
 
       <a class="panic" href="#cpr">
         <span class="panic-go">Start CPR</span>
@@ -803,19 +804,6 @@ body.palette-open{overflow:hidden}
         <div id="chipsWrap"></div>
         <p class="nomatch" id="nomatch" hidden>No topic matches that. Try a simpler word, or call 000 and describe what's happening.</p>
       </nav>
-
-      <section class="carousel" aria-labelledby="flipH">
-        <h2 id="flipH">Or flip through</h2>
-        <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Topics. Use the left and right arrow keys to turn.">
-          <div class="ring" id="ring"></div>
-        </div>
-        <div class="cctl">
-          <button type="button" class="round" id="prevBtn" aria-label="Previous topic">&#8249;</button>
-          <span class="cpos" id="cpos" aria-live="polite">1 / 16</span>
-          <button type="button" class="round" id="nextBtn" aria-label="Next topic">&#8250;</button>
-        </div>
-        <div class="cctl"><button type="button" class="openbtn" id="openBtn">Open</button></div>
-      </section>
 
       <footer>
         <h2>About this guide</h2>
@@ -2113,6 +2101,8 @@ var MARKS = (function(){
 
 /* Generated by build.py from data/topic-reviews.json */
 var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"cpr":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"choking":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"bleeding":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"anaphylaxis":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"heart":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"stroke":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"unconscious":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"snake":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"marine":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"asthma":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"burns":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"seizure":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"heat":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"poison":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"spider":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"question-flow":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"3d-captions":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":false},"illustrations":{"status":"CLINICAL REVIEW REQUIRED","qualification":null,"reviewedAt":null,"nextReview":null,"override":true}};
+/* Generated by build.py from data/topic-cards.json. Keyed by topic id. */
+var TOPIC_CARDS = {"collapse":{"file":"assets/cards/collapse.webp","width":640,"height":853,"alt":"Someone has collapsed. Check it is safe, check for a response, call 000, open the airway, look listen and feel for breathing, start CPR if they are not breathing normally, and use an AED when one arrives."},"cpr":{"file":"assets/cards/cpr.webp","width":640,"height":853,"alt":"CPR. Lay them on their back on a firm surface. Hands on the centre of the chest, on the lower half of the breastbone. Push hard and fast, 100 to 120 times a minute, then 2 breaths. Keep going."},"choking":{"file":"assets/cards/choking.webp","width":640,"height":853,"alt":"Choking, when they cannot cough, breathe or speak. Call 000. Up to 5 back blows between the shoulder blades, then up to 5 chest thrusts. For a baby, lay them face down with the head lower than the body."},"bleeding":{"file":"assets/cards/bleeding.webp","width":640,"height":853,"alt":"Severe bleeding. Press firmly and directly on the wound. Leave anything stuck in the wound and press beside it. A tourniquet is only for life-threatening bleeding from an arm or leg that pressure cannot stop."},"anaphylaxis":{"file":"assets/cards/anaphylaxis.webp","width":640,"height":853,"alt":"Anaphylaxis. Lay them flat and do not let them stand or walk. Give their adrenaline autoinjector into the outer thigh, then call 000."},"heart":{"file":"assets/cards/heart.webp","width":640,"height":853,"alt":"Heart attack. Help them rest, help with their own angina medicine, call 000, and for an adult offer 300 mg aspirin unless they are allergic. Bring an AED."},"stroke":{"file":"assets/cards/stroke.webp","width":640,"height":853,"alt":"Stroke. Face: is one side drooping? Arms: is one weak? Speech: is it slurred? Time: call 000 now. Do not give them anything to eat or drink."},"unconscious":{"file":"assets/cards/unconscious.webp","width":640,"height":853,"alt":"Unconscious but breathing. Roll them onto their side, head tilted back so the airway stays open, and call 000. Keep checking their breathing."},"snake":{"file":"assets/cards/snake.webp","width":640,"height":853,"alt":"Snake bite. Keep them still. Bandage firmly over the bite, then bandage the whole limb from the fingers or toes upward, and splint it. Do not use a tourniquet. Call 000."},"marine":{"file":"assets/cards/marine.webp","width":640,"height":853,"alt":"Jellyfish and marine stings. For box jellyfish and Irukandji, pour vinegar on the sting for 30 seconds. For a bluebottle, rinse with sea water and soak in hot water, not vinegar. For a blue-ringed octopus or cone shell, use the pressure bandage and splint, as for a snake bite."},"spider":{"file":"assets/cards/spider.webp","width":640,"height":853,"alt":"Spider bite. Funnel-web: call 000 and apply the pressure bandage and splint, as for a snake bite. Redback and other spiders: a cold pack for pain, and no pressure bandage."},"burns":{"file":"assets/cards/burns.webp","width":640,"height":853,"alt":"Burns and scalds. Cool the burn under cool running water for 20 minutes. Cover it loosely. Keep the rest of the person warm."},"asthma":{"file":"assets/cards/asthma.webp","width":640,"height":853,"alt":"Asthma attack. Sit them upright. Give 4 separate puffs of their blue or grey reliever, one puff at a time into a spacer with 4 breaths from the spacer. Wait 4 minutes. If they are not better, call 000 and keep giving 4 puffs every 4 minutes."},"seizure":{"file":"assets/cards/seizure.webp","width":640,"height":853,"alt":"Seizure. Move hard or sharp things away, put something soft under their head, and time the seizure. When it stops, roll them onto their side. Do not hold them down or put anything in their mouth."},"heat":{"file":"assets/cards/heat.webp","width":640,"height":853,"alt":"Heat illness. Move them into the shade, loosen extra clothing, and cool them fast. Call 000 if they are confused, very drowsy, or not improving quickly."},"poison":{"file":"assets/cards/poison.webp","width":640,"height":853,"alt":"Poisoning, including button batteries. Call the Poisons Information Centre on 13 11 26, and call 000 if they are drowsy or having trouble breathing. Do not make them vomit. A swallowed button battery needs an emergency department straight away."},"bites":{"file":"assets/cards/extra-bites-stings.webp","width":640,"height":853,"alt":"Bites and stings. Snake bite: keep them still, bandage firmly over the bite, then the whole limb from the fingers or toes upward, and splint. No tourniquet. Box jellyfish: vinegar for 30 seconds. A bluebottle: sea water and hot water, not vinegar. Funnel-web spider: the same pressure bandage and splint as a snake bite. Other spiders: a cold pack, and no pressure bandage."},"medical":{"file":"assets/cards/extra-medical.webp","width":640,"height":853,"alt":"Heart attack, asthma and anaphylaxis. Heart attack: rest, help with their own angina medicine, call 000, and offer 300 mg aspirin to an adult who is not allergic. Asthma: sit upright and give 4 puffs of reliever through a spacer, 4 breaths each puff, then wait 4 minutes. Anaphylaxis: lay them flat and give their adrenaline autoinjector into the outer thigh, then call 000."}};
 (function(){
   /* Lighting for the drawings (see "Illustration lighting" in style.css): one
      hidden set of gradients, shared by every drawing on the page. Stop colours
@@ -2155,6 +2145,15 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
     b.type = 'button';
     b.className = 'tcard ' + t.sev;
     b.setAttribute('data-i', i);
+    var tc = (typeof TOPIC_CARDS !== 'undefined') && TOPIC_CARDS[t.id];
+    if (tc){
+      // Illustrated card. If it can't load (offline before it was saved), the drawing card shows instead.
+      b.className += ' tcard-pic';
+      b.innerHTML = '<img class="tpic" src="' + tc.file + '" alt="' + tc.alt.replace(/"/g, '&quot;') + '" width="' + tc.width + '" height="' + tc.height + '" decoding="async"' +
+        ' onerror="this.parentNode.classList.remove(\'tcard-pic\')">' +
+        '<div class="tfall">' + picture(t.id, 'icon', t.icon) + '</div>' +
+        '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
+    } else
     b.innerHTML = picture(t.id, 'icon', t.icon) + '<div class="tbody ' + t.sev + '"><span class="tag">' + t.tag + '</span><h2>' + t.title + '</h2><p>' + t.short + '</p><span class="go">Show me the steps →</span></div>';
     b.addEventListener('click', function(){
       if (dragged) return;
@@ -2744,40 +2743,6 @@ var REVIEWS = {"collapse":{"status":"CLINICAL REVIEW REQUIRED","qualification":n
   }
   window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
   update();
-})();
-
-/* Keyboard and buttons for the home-screen topic cards.
-   The cards themselves are in the page (built from data/topic-cards.json),
-   so they work without this script. Swipe is native scrolling. */
-(function(){
-  var sc = document.getElementById('deckScroller');
-  if (!sc) return;
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function list(){ return [].slice.call(sc.querySelectorAll('.deck-card')); }
-  function index(){
-    var mid = sc.scrollLeft + sc.clientWidth / 2, best = 0, bestD = 1e9;
-    list().forEach(function(c, i){
-      var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-      if (d < bestD){ bestD = d; best = i; }
-    });
-    return best;
-  }
-  function go(dir){
-    var items = list();
-    var n = items[Math.max(0, Math.min(items.length - 1, index() + dir))];
-    if (!n) return;
-    var left = n.offsetLeft - (sc.clientWidth - n.offsetWidth) / 2;
-    sc.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' });
-  }
-  sc.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight'){ go(1); e.preventDefault(); }
-    else if (e.key === 'ArrowLeft'){ go(-1); e.preventDefault(); }
-    else if (e.key === 'Home'){ go(-999); e.preventDefault(); }
-    else if (e.key === 'End'){ go(999); e.preventDefault(); }
-  });
-  var prev = document.getElementById('deckPrev'), next = document.getElementById('deckNext');
-  if (prev) prev.addEventListener('click', function(){ go(-1); });
-  if (next) next.addEventListener('click', function(){ go(1); });
 })();
 
 /* Offline support: service worker registration, offline label, update bar and optional install.
